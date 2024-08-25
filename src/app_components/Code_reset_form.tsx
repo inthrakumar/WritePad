@@ -30,9 +30,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 
-const formSchema = z.object({
-    email: z.string().email("This is not a valid email address"),
-});
+
 
 const resetSchema = z.object({
     code: z.string().min(6, "Code should be at least 6 numericals"),
@@ -49,7 +47,7 @@ const resetSchema = z.object({
     }
 });
 
-export default function ProfileForm({ onToggle }: { onToggle: () => void }) {
+export default function ProfileForm() {
     const { theme } = useTheme();
     const mainlogo = theme === "light" ? logo : dark_logo;
 
@@ -62,12 +60,7 @@ export default function ProfileForm({ onToggle }: { onToggle: () => void }) {
     const [error, setError] = useState("");
     const [secondFactor, setSecondFactor] = useState(false);
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            email: "",
-        },
-    });
+
 
     const resetForm = useForm<z.infer<typeof resetSchema>>({
         resolver: zodResolver(resetSchema),
@@ -83,39 +76,10 @@ export default function ProfileForm({ onToggle }: { onToggle: () => void }) {
     }
 
     if (isSignedIn) {
-        router.push("/");
+        router.push("/sign-in");
         return null;
     }
 
-    async function onSubmit(values: z.infer<typeof formSchema>) {
-        try {
-            setIsLoading(true);
-            const response = await signIn?.create({
-                strategy: "reset_password_email_code",
-                identifier: values.email,
-            });
-            if (response) {
-                toast({
-                    description: "Check your inbox or spam for the code",
-                });
-                router.push("/reset-password");
-                setError("");
-                form.reset();
-            }
-        } catch (err) {
-            if (err instanceof Error) {
-                setError(err.message);
-                toast({
-                    variant: "destructive",
-                    description: "Error in sending code",
-                });
-            } else {
-                setError("An unknown error occurred");
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    }
 
     async function onReset(values: z.infer<typeof resetSchema>) {
         const { code, password } = values;
@@ -133,11 +97,11 @@ export default function ProfileForm({ onToggle }: { onToggle: () => void }) {
                 setError("Two-factor authentication is required.");
             } else if (result?.status === "complete") {
                 toast({
-                    description: "Password reset was successful and logged in successfully",
+                    description: "Password reset was successful",
                 });
                 router.push("/");
+                window.location.reload();
                 setError("");
-                resetForm.reset();
             } else {
                 console.log(result);
             }
@@ -154,10 +118,10 @@ export default function ProfileForm({ onToggle }: { onToggle: () => void }) {
 
     return (
         <div className="grid w-full grow items-center px-4 sm:justify-center">
-            <Card className="w-full sm:w-96 shadow-none border-none max-sm:p-0 max-sm:w-[90%]">
+            <Card className="w-full sm:w-96 shadow-none border-none">
                 <CardHeader>
                     <CardTitle className="flex items-center justify-center text-nowrap max-sm:text-lg">
-                        Forgot Password{" "}
+                        Reset Password{" "}
                         <Image
                             src={mainlogo}
                             alt="mainlogo"
@@ -166,29 +130,68 @@ export default function ProfileForm({ onToggle }: { onToggle: () => void }) {
                             className="hidden max-sm:block"
                         />
                     </CardTitle>
-                    <CardDescription className="flex items-center justify-center text-nowrap max-sm:text-xs">
-                        Reset your password by entering your email below
-                    </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <Form {...form}>
+                    <Form {...resetForm}>
                         <form
-                            onSubmit={form.handleSubmit(onSubmit)}
+                            onSubmit={resetForm.handleSubmit(onReset)}
                             className="space-y-4 max-sm:space-y-2"
                         >
                             <FormField
-                                control={form.control}
-                                name="email"
-                                render={({ field }: { field: any }) => (
+                                control={resetForm.control}
+                                name="code"
+                                render={({ field }) => {
+                                    return (
+                                        <FormItem className="max-sm:space-y-1">
+                                            <FormLabel className="text-sm">
+                                                Password Reset Code
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="123-456"
+                                                    className="px-2 py-1"
+                                                    autoFocus
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )
+                                }}
+                            />
+                            <FormField
+                                control={resetForm.control}
+                                name="password"
+                                render={({ field }) => (
                                     <FormItem className="max-sm:space-y-1">
                                         <FormLabel className="text-sm">
-                                            Email for Password Retrieval
+                                            New Password
                                         </FormLabel>
                                         <FormControl>
                                             <Input
-                                                placeholder="Enter your email"
+                                                type="password"
+                                                placeholder="Enter your new password"
                                                 className="px-2 py-1"
-                                                autoFocus
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={resetForm.control}
+                                name="confirmPassword"
+                                render={({ field }) => (
+                                    <FormItem className="max-sm:space-y-1">
+                                        <FormLabel className="text-sm">
+                                            Confirm Password
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="password"
+                                                placeholder="Confirm your new password"
+                                                className="px-2 py-1"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -205,26 +208,13 @@ export default function ProfileForm({ onToggle }: { onToggle: () => void }) {
                                 {isLoading ? (
                                     <RiLoader5Line className="size-4 animate-spin" />
                                 ) : (
-                                    "Send Code"
+                                    "Reset Password"
                                 )}
                             </Button>
                         </form>
                     </Form>
                 </CardContent>
-                <CardFooter className="w-full flex items-center justify-center">
-                    <Button
-                        variant="link"
-                        size="sm"
-                        disabled={isLoading}
-                        onClick={() => {
-                            onToggle();
-                        }}
-                    >
-                        Back to Sign In?
-                    </Button>
-                </CardFooter>
             </Card>
-
         </div>
     );
 }
