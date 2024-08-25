@@ -3,7 +3,7 @@ import { IncomingHttpHeaders } from "http";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { Webhook, WebhookRequiredHeaders } from "svix";
-
+import { api } from "../../../../../convex/_generated/api";
 const webhookSecret = process.env.WEBHOOK_SECRET || "";
 
 async function handler(request: Request) {
@@ -25,10 +25,15 @@ async function handler(request: Request) {
 
     if (eventType === "user.created" || eventType === "user.updated") {
       const { id, ...attributes } = evt.data;
-      console.log(id, attributes);
+      const userid = id.toString();
+      const email = attributes.email_addresses[0].email_address;
+      const username = attributes.first_name || attributes.username || "guest";
+    
+      console.log(userid, email, username);
+      
+   
       return NextResponse.json({ success: true }, { status: 200 }); 
     } else {
-    
       return NextResponse.json({ error: "Unsupported event type" }, { status: 400 });
     }
   } catch (err) {
@@ -40,7 +45,7 @@ async function handler(request: Request) {
 type EventType = "user.created" | "user.updated" | "*";
 
 type Event = {
-  data: Record<string, string | number>;
+  data: Record<string, any>;
   object: "event";
   type: EventType;
 };
