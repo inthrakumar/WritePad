@@ -3,7 +3,6 @@ import { IncomingHttpHeaders } from "http";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { Webhook, WebhookRequiredHeaders } from "svix";
-import { api } from "../../../../../convex/_generated/api";
 const webhookSecret = process.env.WEBHOOK_SECRET || "";
 
 async function handler(request: Request) {
