@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import SignUpPage from '@/app_components/SignUp';
+import SignUpPage from '@/scenes/SignUp';
 import { Card, CardContent } from '@/components/ui/card';
 import logo from '../../../../../public/Writepad.png';
 import dark_logo from '../../../../../public/DarkMode_logo.png';

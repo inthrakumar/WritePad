@@ -1,8 +1,8 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import SignInPage from '@/app_components/SignIn';
-import ForgotPassword from '@/app_components/ForgotPassword';
+import SignInPage from '@/scenes/SignIn';
+import ForgotPassword from '@/scenes/ForgotPassword';
 import Image from 'next/image';
 import logo from '../../../../../public/Writepad.png';
 import dark_logo from '../../../../../public/DarkMode_logo.png';
