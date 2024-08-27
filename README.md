@@ -1,4 +1,4 @@
 # WritePad
 ## TextEditor 
 ## Tech used
-### Convex Nextjs Clerk Shadcn Liveblocks
+### Convex Nextjs ClerkAuth Shadcn Liveblocks 
