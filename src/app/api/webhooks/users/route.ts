@@ -4,9 +4,12 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { Webhook, WebhookRequiredHeaders } from "svix";
 const webhookSecret = process.env.WEBHOOK_SECRET || "";
-
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 async function handler(request: Request) {
   try {
+    console.log("hit request");
+    
     const payload = await request.json();
     const headersList = headers();
     const heads = {
@@ -29,6 +32,13 @@ async function handler(request: Request) {
       const username = attributes.first_name || attributes.username || "guest";
     
       console.log(userid, email, username);
+      const user = await prisma.user.create({
+  data: {
+    userid,
+    email,
+    username,
+  },
+});
       
    
       return NextResponse.json({ success: true }, { status: 200 }); 
