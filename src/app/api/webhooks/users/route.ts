@@ -8,7 +8,6 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 async function handler(request: Request) {
   try {
-    console.log("hit request");
     
     const payload = await request.json();
     const headersList = headers();
@@ -31,7 +30,6 @@ async function handler(request: Request) {
       const email = attributes.email_addresses[0].email_address;
       const username = attributes.first_name || attributes.username || "guest";
     
-      console.log(userid, email, username);
       const user = await prisma.user.create({
   data: {
     userid,
