@@ -10,21 +10,24 @@ import Link from 'next/link'
 import { useRouter } from "next/navigation";
 import { Button } from '@/components/ui/button';
 import { RiLoader5Line } from "react-icons/ri";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { useUser } from "@clerk/clerk-react";
-import { getRandomAnonymousName } from "../utils/anoymousUtils"
+import { getRandomAnonymousName } from "../utils/AnonymousUtils"
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { get } from 'http';
+
 
 function Header() {
     const user = useUser();
+
     let userName = user.user?.fullName || user.user?.firstName || user.user?.lastName;
-    if (!user.isSignedIn) userName = getRandomAnonymousName();
+    if (!user.isSignedIn)
+        userName = getRandomAnonymousName();
+
     const { signOut } = useClerk();
     const router = useRouter();
     const handleSignOut = async () => {

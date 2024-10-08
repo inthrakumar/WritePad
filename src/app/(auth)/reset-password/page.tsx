@@ -5,7 +5,7 @@ import Image from 'next/image';
 import logo from '../../../../public/Writepad.png';
 import dark_logo from '../../../../public/DarkMode_logo.png';
 import { useTheme } from 'next-themes';
-import Resetform from "@/scenes/Code_reset_form";
+import Resetform from "@/scenes/CodeResetForm";
 
 function Page() {
     const [mounted, setMounted] = useState(false);
