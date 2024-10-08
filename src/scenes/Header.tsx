@@ -34,7 +34,7 @@ function Header() {
         try {
             await signOut({ redirectUrl: '/' });
         } catch (error) {
-            console.error("Sign out error:", error);
+
         }
     };
     return (
