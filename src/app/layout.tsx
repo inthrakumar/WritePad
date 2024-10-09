@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster"
 import { cn } from "@/lib/utils"
 import Layout from '@/scenes/PageLayout';
 import './globals.css';
+import IdTokenAuthenticator from '../providers/IdTokenAuthenticationProvider'
+
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -34,11 +36,16 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ConvexClientProvider >
-            <Layout>
-              {children}
-            </Layout>
-            <Toaster />
+            <IdTokenAuthenticator>
+
+              <Layout>
+                {children}
+              </Layout>
+              <Toaster />
+            </IdTokenAuthenticator>
           </ConvexClientProvider>
+
+
 
         </ThemeProvider>
       </body>
