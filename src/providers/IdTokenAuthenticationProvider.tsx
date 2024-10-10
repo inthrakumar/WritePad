@@ -9,7 +9,6 @@ import {
 import { useUser } from "@clerk/clerk-react";
 function IdTokenAuthenticator({ children }: { children: ReactNode }) {
     const userDetails = useUser();
-    console.log(userDetails);
     return (
         <LiveblocksProvider
             authEndpoint={async () => {

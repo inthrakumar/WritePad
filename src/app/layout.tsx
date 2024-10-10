@@ -36,13 +36,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ConvexClientProvider >
-            <IdTokenAuthenticator>
 
-              <Layout>
-                {children}
-              </Layout>
-              <Toaster />
-            </IdTokenAuthenticator>
+            <Layout>
+              {children}
+            </Layout>
+            <Toaster />
           </ConvexClientProvider>
 
 

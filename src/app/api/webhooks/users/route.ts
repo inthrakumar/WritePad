@@ -3,9 +3,14 @@ import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { Webhook, WebhookRequiredHeaders } from 'svix';
 const webhookSecret = process.env.WEBHOOK_SECRET || '';
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import { ConvexHttpClient } from 'convex/browser';
+import { api } from '../../../../../convex/_generated/api';
+import { env_varaibles } from '@/config/envconfig';
+const convex_connection = new ConvexHttpClient(
+  env_varaibles.NEXT_PUBLIC_CONVEX_URL!
+);
 async function handler(request: Request) {
+  console.log('hit');
   try {
     const payload = await request.json();
     const headersList = headers();
@@ -23,19 +28,18 @@ async function handler(request: Request) {
     const eventType: EventType = evt.type;
 
     if (eventType === 'user.created' || eventType === 'user.updated') {
+      console.log('came in');
       const { id, ...attributes } = evt.data;
       const userid = id.toString();
       const email = attributes.email_addresses[0].email_address;
       const username = attributes.first_name || attributes.username || 'guest';
 
-      await prisma.user.create({
-        data: {
-          userid,
-          email,
-          username,
-        },
+      const user = await convex_connection.mutation(api.users.addUsers, {
+        username,
+        userid,
+        email,
       });
-
+      console.log(`User created: `);
       return NextResponse.json({ success: true }, { status: 200 });
     } else {
       return NextResponse.json(

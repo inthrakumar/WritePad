@@ -102,8 +102,6 @@ export default function ProfileForm() {
                 router.push("/");
                 window.location.reload();
                 setError("");
-            } else {
-                console.log(result);
             }
         } catch (err) {
             if (err instanceof Error) {

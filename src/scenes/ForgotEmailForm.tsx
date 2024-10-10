@@ -138,8 +138,6 @@ export default function ProfileForm({ onToggle }: { onToggle: () => void }) {
                 router.push("/");
                 setError("");
                 resetForm.reset();
-            } else {
-                console.log(result);
             }
         } catch (err) {
             if (err instanceof Error) {
