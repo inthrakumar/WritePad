@@ -49,3 +49,5 @@ const CreateRoom = async ({
     return null;
   }
 };
+
+export { CreateRoom };
