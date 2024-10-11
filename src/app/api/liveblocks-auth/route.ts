@@ -35,9 +35,11 @@ export async function POST(req: Request) {
     },
     {
       userInfo: {
-        name: data[0].username,
-        avatar: `https://api.dicebear.com/9.x/initials/svg?seed=${data[0].username}`,
-        colors: colorArray,
+        id: data[0].userid,
+        email: data[0].email,
+        username: data[0].username,
+        avatarUrl: `https://api.dicebear.com/9.x/initials/svg?seed=${data[0].username}`,
+        colors: colorArray.hex,
       },
     }
   );

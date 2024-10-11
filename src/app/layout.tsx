@@ -37,9 +37,11 @@ export default function RootLayout({
         >
           <ConvexClientProvider >
 
-            <Layout>
-              {children}
-            </Layout>
+            <IdTokenAuthenticator>
+              <Layout>
+                {children}
+              </Layout>
+            </IdTokenAuthenticator>
             <Toaster />
           </ConvexClientProvider>
 

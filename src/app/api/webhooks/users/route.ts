@@ -10,7 +10,6 @@ const convex_connection = new ConvexHttpClient(
   env_varaibles.NEXT_PUBLIC_CONVEX_URL!
 );
 async function handler(request: Request) {
-  console.log('hit');
   try {
     const payload = await request.json();
     const headersList = headers();
