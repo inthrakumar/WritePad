@@ -1,4 +1,5 @@
 'use client'
+
 import React from 'react'
 import DocRoom from '@/scenes/DocRoom'
 import { useParams } from 'next/navigation'
