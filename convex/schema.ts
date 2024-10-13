@@ -14,7 +14,6 @@ export default defineSchema({
     roomId: v.string(),
     roomTitle: v.string(),
     lastEdited: v.string(),
-    owner: v.string(),
     userid: v.string(),
   }).index('user_id', ['userid']),
 });

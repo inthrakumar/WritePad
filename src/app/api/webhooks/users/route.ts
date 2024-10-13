@@ -3,12 +3,8 @@ import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { Webhook, WebhookRequiredHeaders } from 'svix';
 const webhookSecret = process.env.WEBHOOK_SECRET || '';
-import { ConvexHttpClient } from 'convex/browser';
 import { api } from '../../../../../convex/_generated/api';
-import { env_varaibles } from '@/config/envconfig';
-const convex_connection = new ConvexHttpClient(
-  env_varaibles.NEXT_PUBLIC_CONVEX_URL!
-);
+import { convex_connection } from '@/config/serverconfig';
 async function handler(request: Request) {
   try {
     const payload = await request.json();

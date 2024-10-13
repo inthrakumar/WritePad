@@ -1,13 +1,10 @@
-import { Liveblocks } from '@liveblocks/node';
 import { env_varaibles } from '@/config/envconfig';
 import { getUserColors } from '@/utils/UserUtils';
-import { ConvexHttpClient } from 'convex/browser';
 import { api } from '../../../../convex/_generated/api';
-const liveblocks = new Liveblocks({
-  secret: env_varaibles.LIVEBLOCKS_SECRET_KEY!,
-});
-
-const convex = new ConvexHttpClient(env_varaibles.NEXT_PUBLIC_CONVEX_URL!);
+import {
+  liveblocks_connection,
+  convex_connection,
+} from '@/config/serverconfig';
 
 export async function POST(req: Request) {
   const req_body = await req.json();
@@ -17,7 +14,7 @@ export async function POST(req: Request) {
       headers: { 'Content-Type': 'application/json' },
     });
   }
-  const { data } = await convex.query(api.users.fetchUserDetails, {
+  const { data } = await convex_connection.query(api.users.fetchUserDetails, {
     userid: req_body.user_id,
   });
 
@@ -28,7 +25,7 @@ export async function POST(req: Request) {
     });
   }
   const colorArray = getUserColors();
-  const { status, body } = await liveblocks.identifyUser(
+  const { status, body } = await liveblocks_connection.identifyUser(
     {
       userId: data[0].userid,
       groupIds: [],
@@ -43,6 +40,7 @@ export async function POST(req: Request) {
       },
     }
   );
+
   return new Response(JSON.stringify({ message: 'User Authenticated' }), {
     status: 200,
     headers: { 'Content-Type': 'application/json' },

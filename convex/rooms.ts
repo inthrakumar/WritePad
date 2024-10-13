@@ -5,14 +5,13 @@ export const createRoom = mutation({
   args: {
     roomTitle: v.string(),
     roomId: v.string(),
-    owner: v.string(),
+
     userid: v.string(),
   },
   handler: async (ctx, args) => {
     const roomId = await ctx.db.insert('roomDetails', {
       roomTitle: args.roomTitle,
       roomId: args.roomId,
-      owner: args.owner,
       lastEdited: new Date().toISOString(),
       userid: args.userid,
     });
@@ -29,5 +28,15 @@ export const getUserRooms = query({
       .withIndex('user_id', (q) => q.eq('userid', args.userid))
       .collect();
     return { success: true, data: userRooms };
+  },
+});
+
+export const UpdateLastEdited = mutation({
+  args: { id: v.id('roomDetails') },
+  handler: async (ctx, args) => {
+    const updatedRoom = await ctx.db.patch(args.id, {
+      lastEdited: new Date().toISOString(),
+    });
+    return { success: true, data: updatedRoom };
   },
 });

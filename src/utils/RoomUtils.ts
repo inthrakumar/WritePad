@@ -1,14 +1,14 @@
 'use server';
 
-import { Liveblocks, RoomAccesses } from '@liveblocks/node';
-import { env_varaibles } from '@/config/envconfig';
+import { RoomAccesses } from '@liveblocks/node';
 import { useToast } from '@/components/ui/use-toast';
 import { nanoid } from 'nanoid';
 import { revalidatePath } from 'next/cache';
-const liveblocks = new Liveblocks({
-  secret: env_varaibles.LIVEBLOCKS_SECRET_KEY!,
-});
-
+import {
+  liveblocks_connection,
+  convex_connection,
+} from '@/config/serverconfig';
+import { api } from '../../convex/_generated/api';
 const CreateRoom = async ({
   userId,
   email,
@@ -32,10 +32,15 @@ const CreateRoom = async ({
     const usersAccesses: RoomAccesses = {
       [email]: ['room:write'],
     };
-    const roomDetails = await liveblocks.createRoom(roomId, {
+    const roomDetails = await liveblocks_connection.createRoom(roomId, {
       usersAccesses,
       defaultAccesses: [],
       metadata: data,
+    });
+    const convexRoom = await convex_connection.mutation(api.rooms.createRoom, {
+      roomTitle: title,
+      roomId,
+      userid: userId,
     });
     revalidatePath(`/`);
     toast({
