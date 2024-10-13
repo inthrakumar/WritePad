@@ -60,6 +60,7 @@ function Header() {
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger><Avatar>
+
                             {
                                 user.isSignedIn ? (<AvatarImage src={`https://api.dicebear.com/9.x/initials/svg?seed=${userName}`}></AvatarImage>) : (
                                     <AvatarImage src={`https://api.dicebear.com/9.x/initials/svg?seed=${userName}`}></AvatarImage>

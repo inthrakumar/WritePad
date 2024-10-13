@@ -9,7 +9,7 @@ function Layout({ children }: {
     const pathname = usePathname();
     const isAuthPage = ['/sign-in', '/sign-up'].includes(pathname);
     return (
-        <div className='flex items-center justify-center w-full min-h-screen'>
+        <div className='flex items-center justify-center   min-w-[100vw] w-full min-h-screen'>
             {
                 !isAuthPage && <Header />
 

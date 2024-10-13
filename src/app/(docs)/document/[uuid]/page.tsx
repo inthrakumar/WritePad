@@ -2,15 +2,18 @@
 
 import React from 'react'
 import DocRoom from '@/scenes/DocRoom'
+import CollabarativeEditor from '@/scenes/CollabarativeEditor';
+import { useRoom } from '@liveblocks/react/suspense';
+import *  as Y from 'yjs';
 import { useParams } from 'next/navigation'
 function Document() {
     const params = useParams();
     const roomId = Array.isArray(params.uuid) ? params.uuid[0] : params.uuid;
 
     return (
-        <DocRoom roomId={roomId as string}>
-            <div></div>
-        </DocRoom>
+        <DocRoom roomId={roomId as string} />
+
+
     );
 }
 

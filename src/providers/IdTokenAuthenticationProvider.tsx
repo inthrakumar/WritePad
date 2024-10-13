@@ -7,6 +7,7 @@ import {
     ClientSideSuspense,
 } from "@liveblocks/react/suspense";
 import { useUser } from "@clerk/clerk-react";
+import Spinner from "@/scenes/Spinner";
 function IdTokenAuthenticator({ children }: { children: ReactNode }) {
     const userDetails = useUser();
     return (
@@ -33,7 +34,7 @@ function IdTokenAuthenticator({ children }: { children: ReactNode }) {
                 return await response.json();
             }}
         >
-            <ClientSideSuspense fallback={<div>Loading…</div>}>
+            <ClientSideSuspense fallback={<Spinner />}>
                 {children}
             </ClientSideSuspense>
 

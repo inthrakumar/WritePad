@@ -6,7 +6,8 @@ declare global {
     // Each user's Presence, for useMyPresence, useOthers, etc.
     Presence: {
       // Example, real-time cursor coordinates
-      // cursor: { x: number; y: number } | null;
+      cursor: { x: number; y: number } | null;
+      status: 'online' | 'offline';
     };
 
     // The Storage tree for the room, for useMutation, useStorage, etc.
