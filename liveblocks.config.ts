@@ -43,9 +43,8 @@ declare global {
 
     // Custom room info set with resolveRoomsInfo, for useRoomInfo
     RoomInfo: {
-      // Example, rooms with a title and url
-      // title: string;
-      // url: string;
+      title: string;
+      creator: string;
     };
   }
 }

@@ -3,8 +3,7 @@
 import React from 'react'
 import DocRoom from '@/scenes/DocRoom'
 import CollabarativeEditor from '@/scenes/CollabarativeEditor';
-import { useRoom } from '@liveblocks/react/suspense';
-import *  as Y from 'yjs';
+
 import { useParams } from 'next/navigation'
 function Document() {
     const params = useParams();
