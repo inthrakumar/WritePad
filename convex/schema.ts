@@ -6,5 +6,15 @@ export default defineSchema({
     username: v.string(),
     userid: v.string(),
     email: v.string(),
-  }).index('by_user_id', ['userid']),
+  })
+    .index('by_user_id', ['userid'])
+    .index('by_email', ['email']),
+
+  roomDetails: defineTable({
+    roomId: v.string(),
+    roomTitle: v.string(),
+    lastEdited: v.string(),
+    owner: v.string(),
+    userid: v.string(),
+  }).index('user_id', ['userid']),
 });
