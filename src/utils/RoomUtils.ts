@@ -1,7 +1,6 @@
 'use server';
 
 import { RoomAccesses } from '@liveblocks/node';
-import { useToast } from '@/components/ui/use-toast';
 import { nanoid } from 'nanoid';
 import { revalidatePath } from 'next/cache';
 import {
@@ -18,8 +17,6 @@ const CreateRoom = async ({
   email: string;
   title: string;
 }) => {
-  const { toast } = useToast();
-
   const roomId = nanoid();
 
   try {
@@ -43,14 +40,8 @@ const CreateRoom = async ({
       userid: userId,
     });
     revalidatePath(`/`);
-    toast({
-      title: 'Room created successfully',
-    });
     return JSON.parse(JSON.stringify(roomDetails));
   } catch (error) {
-    toast({
-      title: 'Error creating room',
-    });
     return null;
   }
 };
