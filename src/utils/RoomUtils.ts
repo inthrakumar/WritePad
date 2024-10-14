@@ -8,39 +8,45 @@ import {
   convex_connection,
 } from '@/config/serverconfig';
 import { api } from '../../convex/_generated/api';
+
 const CreateRoom = async ({
   userId,
   email,
   title,
+  type,
 }: {
   userId: string;
   email: string;
   title: string;
+  type: string;
 }) => {
   const roomId = nanoid();
-
   try {
     const data = {
       owner: userId,
       email: email,
       title: title,
     };
+    let roomDetails;
+    if (type !== 'folder') {
+      const usersAccesses: RoomAccesses = {
+        [email]: ['room:write'],
+      };
+      roomDetails = await liveblocks_connection.createRoom(roomId, {
+        usersAccesses,
+        defaultAccesses: [],
+        metadata: data,
+      });
+    }
 
-    const usersAccesses: RoomAccesses = {
-      [email]: ['room:write'],
-    };
-    const roomDetails = await liveblocks_connection.createRoom(roomId, {
-      usersAccesses,
-      defaultAccesses: [],
-      metadata: data,
-    });
     const convexRoom = await convex_connection.mutation(api.rooms.createRoom, {
       roomTitle: title,
       roomId,
       userid: userId,
+      type: 'file',
     });
     revalidatePath(`/`);
-    return JSON.parse(JSON.stringify(roomDetails));
+    return JSON.parse(JSON.stringify(convexRoom));
   } catch (error) {
     return null;
   }

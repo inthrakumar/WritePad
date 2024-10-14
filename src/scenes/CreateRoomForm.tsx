@@ -12,6 +12,13 @@ import { z } from "zod";
 import { useUser, useAuth } from '@clerk/clerk-react';
 import { CreateRoom } from '@/utils/RoomUtils';
 import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import {
     Form,
     FormControl,
     FormField,
@@ -20,10 +27,13 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+
 const createRoomSchema = z.object({
     filename: z.string().min(2, {
         message: "Filename must be at least 2 characters.",
+
     }),
+    type: z.string()
 });
 
 type CreateRoomFormData = z.infer<typeof createRoomSchema>;
@@ -33,6 +43,7 @@ const CreateRoomForm = () => {
         resolver: zodResolver(createRoomSchema),
         defaultValues: {
             filename: "Untitled",
+            type: 'file'
         },
     });
     const userDetails = useUser();
@@ -42,6 +53,7 @@ const CreateRoomForm = () => {
         if (userDetails?.user) {
             room = await CreateRoom({
                 userId: userDetails.user.id,
+                type: values.type,
                 email: userDetails.user.emailAddresses[0].emailAddress,
                 title: values.filename,
             });
@@ -72,6 +84,28 @@ const CreateRoomForm = () => {
                                 </FormItem>
                             )}
                         />
+                        <FormField
+                            control={form.control}
+                            name="type"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <Select onValueChange={field.onChange}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="File or Folder" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value={'file'}>File</SelectItem>
+                                            <SelectItem value={'folder'}>Folder</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
                         <Button type="submit">Create</Button>
                     </form>
                 </Form>
