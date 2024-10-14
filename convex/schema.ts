@@ -10,11 +10,14 @@ export default defineSchema({
     .index('by_user_id', ['userid'])
     .index('by_email', ['email']),
 
-  recordDetails: defineTable({
+  userRecords: defineTable({
+    parent: v.string(),
     roomId: v.string(),
     roomTitle: v.string(),
     lastEdited: v.string(),
     userid: v.string(),
     type: v.string(),
-  }).index('user_id', ['userid']),
+  })
+    .index('user_id', ['userid'])
+    .index('parent_url', ['parent']),
 });

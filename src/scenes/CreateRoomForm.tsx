@@ -11,6 +11,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { useUser, useAuth } from '@clerk/clerk-react';
 import { CreateRoom } from '@/utils/RoomUtils';
+import { usePathname } from 'next/navigation';
 import {
     Select,
     SelectContent,
@@ -47,12 +48,13 @@ const CreateRoomForm = () => {
         },
     });
     const userDetails = useUser();
-
+    const pathname = usePathname();
     const onSubmit: SubmitHandler<CreateRoomFormData> = async (values) => {
         let room = null;
         if (userDetails?.user) {
             room = await CreateRoom({
                 userId: userDetails.user.id,
+                parent: pathname,
                 type: values.type,
                 email: userDetails.user.emailAddresses[0].emailAddress,
                 title: values.filename,

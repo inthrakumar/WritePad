@@ -14,11 +14,13 @@ const CreateRoom = async ({
   email,
   title,
   type,
+  parent,
 }: {
   userId: string;
   email: string;
   title: string;
   type: string;
+  parent: string;
 }) => {
   const roomId = nanoid();
   try {
@@ -40,6 +42,7 @@ const CreateRoom = async ({
     }
 
     const convexRoom = await convex_connection.mutation(api.rooms.createRoom, {
+      parent: parent,
       roomTitle: title,
       roomId,
       userid: userId,

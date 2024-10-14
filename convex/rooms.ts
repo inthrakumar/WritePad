@@ -3,13 +3,15 @@ import { v } from 'convex/values';
 
 export const createRoom = mutation({
   args: {
+    parent: v.string(),
     roomTitle: v.string(),
     roomId: v.string(),
     type: v.string(),
     userid: v.string(),
   },
   handler: async (ctx, args) => {
-    const roomId = await ctx.db.insert('recordDetails', {
+    const roomId = await ctx.db.insert('userRecords', {
+      parent: args.parent,
       roomTitle: args.roomTitle,
       roomId: args.roomId,
       lastEdited: new Date().toISOString(),
@@ -25,7 +27,7 @@ export const getUserRooms = query({
   args: { userid: v.string() },
   handler: async (ctx, args) => {
     const userRooms = await ctx.db
-      .query('recordDetails')
+      .query('userRecords')
       .withIndex('user_id', (q) => q.eq('userid', args.userid))
       .collect();
     return { success: true, data: userRooms };
@@ -33,7 +35,7 @@ export const getUserRooms = query({
 });
 
 export const UpdateLastEdited = mutation({
-  args: { id: v.id('recordDetails') },
+  args: { id: v.id('userRecords') },
   handler: async (ctx, args) => {
     const updatedRoom = await ctx.db.patch(args.id, {
       lastEdited: new Date().toISOString(),
