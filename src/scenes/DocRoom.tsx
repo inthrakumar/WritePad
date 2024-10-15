@@ -10,13 +10,17 @@ type Proptypes = {
 const DocRoom = ({ roomId }: Proptypes
 
 ) => {
+    console.log(roomId);
     return (
         <RoomProvider id={roomId} initialPresence={{
-            cursor: null,
+            cursor: {
+                x: 0,
+                y: 0,
+            },
             status: 'online',
         }}>
             <ClientSideSuspense fallback={<Spinner />}>
-                <CollabarativeEditor roomId={roomId} />
+                <CollabarativeEditor />
             </ClientSideSuspense>
 
         </RoomProvider>

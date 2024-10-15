@@ -4,8 +4,7 @@ import { BlockNoteView } from '@blocknote/shadcn';
 import { BlockNoteEditor } from '@blocknote/core';
 import { useCreateBlockNote } from '@blocknote/react';
 import { useSelf } from '@liveblocks/react/suspense';
-import "@blocknote/shadcn/fonts/inter.css"
-import "@blocknote/shadcn/style.css"
+
 function TextEditor({ doc, provider }: EditorProps) {
     const currentUser = useSelf((self) => self.info);
     const editor: BlockNoteEditor = useCreateBlockNote({

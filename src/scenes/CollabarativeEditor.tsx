@@ -4,10 +4,8 @@ import *  as Y from 'yjs';
 import { LiveblocksYjsProvider } from '@liveblocks/yjs'
 import TextEditor from './TextEditor';
 
-const CollabarativeEditor = ({ roomId }: {
-    roomId: string
-}) => {
-
+const CollabarativeEditor = () => {
+    console.log('room');
     const room = useRoom();
     const [doc, setDoc] = useState<Y.Doc>();
     const [docProvider, setDocProvider] = useState<LiveblocksYjsProvider>();

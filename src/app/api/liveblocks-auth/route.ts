@@ -1,29 +1,30 @@
-import { env_varaibles } from '@/config/envconfig';
 import { getUserColors } from '@/utils/UserUtils';
 import { api } from '../../../../convex/_generated/api';
 import {
   liveblocks_connection,
   convex_connection,
 } from '@/config/serverconfig';
-
+import { auth } from '@clerk/nextjs/server';
 export async function POST(req: Request) {
-  const req_body = await req.json();
-  if (!req_body.user_id) {
+  const userId = auth().userId;
+  console.log(userId);
+  if (!userId) {
     return new Response(JSON.stringify({ error: 'User ID is required' }), {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
     });
   }
-  const { data } = await convex_connection.query(api.users.fetchUserDetails, {
-    userid: req_body.user_id,
-  });
 
+  const { data } = await convex_connection.query(api.users.fetchUserDetails, {
+    userid: userId,
+  });
   if (!data) {
     return new Response(JSON.stringify({ error: 'User not authenticated' }), {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
     });
   }
+  console.log(data);
   const colorArray = getUserColors();
   const { status, body } = await liveblocks_connection.identifyUser(
     {
@@ -40,9 +41,25 @@ export async function POST(req: Request) {
       },
     }
   );
+  if (status !== 200) {
+    return new Response(
+      JSON.stringify({ error: 'Failed to authenticate user' }),
+      {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  }
 
-  return new Response(JSON.stringify({ message: 'User Authenticated' }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-  });
+  if (!body) {
+    return new Response(
+      JSON.stringify({ error: 'Authentication failed. Token missing.' }),
+      {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  }
+  console.log('you are authenticated');
+  return new Response(body, { status });
 }
