@@ -3,6 +3,7 @@
 import { RoomAccesses } from '@liveblocks/node';
 import { nanoid } from 'nanoid';
 import { revalidatePath } from 'next/cache';
+import { auth } from '@clerk/nextjs/server';
 import {
   liveblocks_connection,
   convex_connection,
@@ -22,6 +23,7 @@ const CreateRoom = async ({
   type: string;
   parent: string;
 }) => {
+  auth().protect();
   const roomId = nanoid();
   try {
     const data = {
@@ -36,7 +38,7 @@ const CreateRoom = async ({
       };
       roomDetails = await liveblocks_connection.createRoom(roomId, {
         usersAccesses,
-        defaultAccesses: [],
+        defaultAccesses: ['room:write'],
         metadata: data,
       });
     }

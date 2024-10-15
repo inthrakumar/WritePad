@@ -4,8 +4,10 @@ import { BlockNoteView } from '@blocknote/shadcn';
 import { BlockNoteEditor } from '@blocknote/core';
 import { useCreateBlockNote } from '@blocknote/react';
 import { useSelf } from '@liveblocks/react/suspense';
-
+import { Toolbar } from "./Toolbar";
+import styles from '../css/Editor.module.css'
 function TextEditor({ doc, provider }: EditorProps) {
+    console.log("hit");
     const currentUser = useSelf((self) => self.info);
     const editor: BlockNoteEditor = useCreateBlockNote({
         collaboration: {
@@ -20,6 +22,7 @@ function TextEditor({ doc, provider }: EditorProps) {
     })
     return (
         <div className='relative max-w-6xl'>
+            <Toolbar editor={editor} />
             <BlockNoteView editor={editor} className='min-h-screen' />
 
         </div>

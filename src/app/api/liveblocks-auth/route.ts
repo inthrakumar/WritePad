@@ -5,9 +5,8 @@ import {
   convex_connection,
 } from '@/config/serverconfig';
 import { auth } from '@clerk/nextjs/server';
-export async function POST(req: Request) {
+export async function POST() {
   const userId = auth().userId;
-  console.log(userId);
   if (!userId) {
     return new Response(JSON.stringify({ error: 'User ID is required' }), {
       status: 400,
@@ -24,11 +23,10 @@ export async function POST(req: Request) {
       headers: { 'Content-Type': 'application/json' },
     });
   }
-  console.log(data);
   const colorArray = getUserColors();
   const { status, body } = await liveblocks_connection.identifyUser(
     {
-      userId: data[0].userid,
+      userId: data[0].email,
       groupIds: [],
     },
     {
@@ -60,6 +58,5 @@ export async function POST(req: Request) {
       }
     );
   }
-  console.log('you are authenticated');
   return new Response(body, { status });
 }
