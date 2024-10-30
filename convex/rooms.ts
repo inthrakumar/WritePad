@@ -24,11 +24,11 @@ export const createRoom = mutation({
 });
 
 export const getUserRooms = query({
-  args: { userid: v.string() },
+  args: { roomId: v.string() },
   handler: async (ctx, args) => {
     const userRooms = await ctx.db
       .query('userRecords')
-      .withIndex('user_id', (q) => q.eq('userid', args.userid))
+      .withIndex('by_room_id', (q) => q.eq('roomId', args.roomId))
       .collect();
     return { success: true, data: userRooms };
   },

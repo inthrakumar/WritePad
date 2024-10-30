@@ -19,5 +19,6 @@ export default defineSchema({
     type: v.string(),
   })
     .index('user_id', ['userid'])
-    .index('parent_url', ['parent']),
+    .index('parent_url', ['parent'])
+    .index('by_room_id', ['roomId']),
 });

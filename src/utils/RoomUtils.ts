@@ -78,4 +78,16 @@ const UpdateTitleFn = async ({ roomId, id, title }: UpdateTitle) => {
     return null;
   }
 };
-export { CreateRoom, UpdateTitleFn };
+
+const getRoomDetails = async ({ roomId }: { roomId: string }) => {
+  auth().protect();
+  try {
+    const roomDetails = await convex_connection.query(api.rooms.getUserRooms, {
+      roomId: roomId,
+    });
+    return JSON.parse(JSON.stringify(roomDetails));
+  } catch (error) {
+    console.error(error);
+  }
+};
+export { CreateRoom, UpdateTitleFn, getRoomDetails };
