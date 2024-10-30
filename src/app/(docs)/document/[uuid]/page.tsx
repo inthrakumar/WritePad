@@ -2,7 +2,6 @@
 
 import React from 'react'
 import DocRoom from '@/scenes/DocRoom'
-import CollabarativeEditor from '@/scenes/CollabarativeEditor';
 
 import { useParams } from 'next/navigation'
 function Document() {

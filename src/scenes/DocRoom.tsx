@@ -1,7 +1,7 @@
 'use client'
 import Spinner from './Spinner'
 import React from 'react'
-import CollabarativeEditor from './CollabarativeEditor'
+import { CollaborativeEditor } from './CollabarativeEditor'
 import { ClientSideSuspense, RoomProvider } from '@liveblocks/react/suspense'
 type Proptypes = {
     roomId: string,
@@ -20,7 +20,7 @@ const DocRoom = ({ roomId }: Proptypes
             status: 'online',
         }}>
             <ClientSideSuspense fallback={<Spinner />}>
-                <CollabarativeEditor />
+                <CollaborativeEditor />
             </ClientSideSuspense>
 
         </RoomProvider>

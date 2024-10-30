@@ -1,8 +1,8 @@
-import styles from "../css/Toolbar.module.css";
-import { BlockNoteEditor } from "@blocknote/core";
+import { Editor } from "@tiptap/react";
+import styles from "../css/Toolbar.module.css"
 
 type Props = {
-    editor: BlockNoteEditor;
+    editor: Editor | null;
 };
 
 export function Toolbar({ editor }: Props) {
@@ -14,24 +14,27 @@ export function Toolbar({ editor }: Props) {
         <div className={styles.toolbar}>
             <button
                 className={styles.button}
-                onClick={() => editor.toggleStyles({ bold: true })}
-                data-active={editor.getActiveStyles().bold ? "is-active" : undefined}
+                onClick={() => editor.chain().focus().toggleBold().run()}
+                disabled={!editor.can().chain().focus().toggleBold().run()}
+                data-active={editor.isActive("bold") ? "is-active" : undefined}
                 aria-label="bold"
             >
                 <BoldIcon />
             </button>
             <button
                 className={styles.button}
-                onClick={() => editor.toggleStyles({ italic: true })}
-                data-active={editor.getActiveStyles().italic ? "is-active" : undefined}
+                onClick={() => editor.chain().focus().toggleItalic().run()}
+                disabled={!editor.can().chain().focus().toggleItalic().run()}
+                data-active={editor.isActive("italic") ? "is-active" : undefined}
                 aria-label="italic"
             >
                 <ItalicIcon />
             </button>
             <button
                 className={styles.button}
-                onClick={() => editor.toggleStyles({ strike: true })}
-                data-active={editor.getActiveStyles().strike ? "is-active" : undefined}
+                onClick={() => editor.chain().focus().toggleStrike().run()}
+                disabled={!editor.can().chain().focus().toggleStrike().run()}
+                data-active={editor.isActive("strike") ? "is-active" : undefined}
                 aria-label="strikethrough"
             >
                 <StrikethroughIcon />

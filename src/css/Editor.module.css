@@ -15,8 +15,7 @@
     align-items: center;
 }
 
-.editorContainer>[contenteditable="true"] {
-    outline: none;
+.editor {
     border-radius: inherit;
     flex-grow: 1;
     width: 100%;
