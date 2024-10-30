@@ -1,25 +1,13 @@
-"use client";
-
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Collaboration from "@tiptap/extension-collaboration";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
-import * as Y from "yjs";
-import { LiveblocksYjsProvider } from "@liveblocks/yjs";
-import { useRoom, useSelf } from "@liveblocks/react/suspense";
-import { useEffect, useState } from "react";
 import { Toolbar } from "./Toolbar";
 import styles from "../css/Editor.module.css";
+import { useSelf } from "@liveblocks/react/suspense";
 import { EditorProps } from "@/types/types";
 
-function TiptapEditor({ doc, provider }: EditorProps) {
-    const [isClient, setIsClient] = useState(false);
-
-    useEffect(() => {
-        // Set the component to client-only after mounting
-        setIsClient(true);
-    }, []);
-
+export function TiptapEditor({ doc, provider }: EditorProps) {
     // Get user info from Liveblocks authentication endpoint
     const userInfo = useSelf((me) => me.info);
 
@@ -46,12 +34,8 @@ function TiptapEditor({ doc, provider }: EditorProps) {
                 user: userInfo,
             }),
         ],
+        immediatelyRender: false
     });
-
-    // Render only after client-side check is complete
-    if (!isClient) {
-        return <div>Loading editor...</div>;
-    }
 
     return (
         <div className={styles.container}>
@@ -62,5 +46,3 @@ function TiptapEditor({ doc, provider }: EditorProps) {
         </div>
     );
 }
-
-export default TiptapEditor;

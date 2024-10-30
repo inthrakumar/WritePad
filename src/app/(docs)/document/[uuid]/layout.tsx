@@ -15,10 +15,7 @@ export default function DocLayout({
     useEffect(() => {
         const roomId = uuid.toString();
         const FetchRoomDetails = async () => {
-
             const roomDetails = await getRoomDetails({ roomId });
-            console.log(roomDetails);
-            console.log(roomDetails.data[0].roomId, roomDetails.data[0]._id, roomDetails.data[0].roomTitle);
             dispatch(setRoomDetails({
                 roomId: roomDetails.data[0].roomId,
                 roomConvexId: roomDetails.data[0]._id,
