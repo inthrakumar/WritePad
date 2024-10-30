@@ -43,3 +43,13 @@ export const UpdateLastEdited = mutation({
     return { success: true, data: updatedRoom };
   },
 });
+
+export const UpdateTitle = mutation({
+  args: { id: v.id('userRecords'), title: v.string() },
+  handler: async (ctx, args) => {
+    const updatedRoom = await ctx.db.patch(args.id, {
+      roomTitle: args.title,
+    });
+    return { success: true, data: updatedRoom };
+  },
+});

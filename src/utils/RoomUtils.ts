@@ -9,7 +9,7 @@ import {
   convex_connection,
 } from '@/config/serverconfig';
 import { api } from '../../convex/_generated/api';
-
+import { UpdateTitle } from '../types/types';
 const CreateRoom = async ({
   userId,
   email,
@@ -57,4 +57,25 @@ const CreateRoom = async ({
   }
 };
 
-export { CreateRoom };
+const UpdateTitleFn = async ({ roomId, id, title }: UpdateTitle) => {
+  auth().protect();
+  try {
+    await liveblocks_connection.updateRoom(roomId, {
+      metadata: {
+        title,
+      },
+    });
+    const updatedRoom = await convex_connection.mutation(
+      api.rooms.UpdateTitle,
+      {
+        id: id,
+        title: title,
+      }
+    );
+    revalidatePath(`/`);
+    return JSON.parse(JSON.stringify(updatedRoom));
+  } catch (error) {
+    return null;
+  }
+};
+export { CreateRoom, UpdateTitleFn };
