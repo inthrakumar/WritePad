@@ -35,7 +35,7 @@ const RoomTitle = () => {
                 type="text"
                 value={title}
                 onChange={handleChange}
-                disabled={isdisabled}
+                disabled={false}
                 onClick={() => {
                     setIsDisabled(false);
                 }}

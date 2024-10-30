@@ -31,7 +31,10 @@ export function CollaborativeEditor() {
         return null;
     }
 
-    return <TiptapEditor doc={doc} provider={provider} />;
+    return <div className="flex flex-col items-center justify-center gap-3">
+        <RoomTitle />
+        <TiptapEditor doc={doc} provider={provider} />
+    </div>;
 }
 
 type EditorProps = {
