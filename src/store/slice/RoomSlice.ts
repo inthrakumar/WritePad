@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Id } from '../../../convex/_generated/dataModel';
 
-// Define a type for the slice state
 interface RoomState {
   roomId: string | null;
   roomConvexId: Id<'userRecords'> | null;
@@ -17,7 +16,6 @@ const initialState: RoomState = {
 
 export const RoomSlice = createSlice({
   name: 'roomSlice',
-  // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
     setRoomDetails: (state, action: PayloadAction<RoomState>) => {
@@ -25,9 +23,12 @@ export const RoomSlice = createSlice({
       state.roomConvexId = action.payload.roomConvexId;
       state.title = action.payload.title;
     },
+    setTitle: (state, action: PayloadAction<string>) => {
+      state.title = action.payload;
+    },
   },
 });
 
-export const { setRoomDetails } = RoomSlice.actions;
+export const { setRoomDetails, setTitle } = RoomSlice.actions;
 
 export default RoomSlice.reducer;

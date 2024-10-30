@@ -5,7 +5,7 @@ import * as Y from "yjs";
 import { LiveblocksYjsProvider } from "@liveblocks/yjs";
 import { useRoom, useSelf } from "@liveblocks/react/suspense";
 import { useEffect, useState } from "react";
-
+import RoomTitle from "./RoomTitle";
 import { TiptapEditor } from "./TextEditor";
 
 // Collaborative text editor with simple rich text, live cursors, and live avatars

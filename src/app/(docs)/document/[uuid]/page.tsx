@@ -7,7 +7,6 @@ import { useParams } from 'next/navigation'
 function Document() {
     const params = useParams();
     const roomId = Array.isArray(params.uuid) ? params.uuid[0] : params.uuid;
-
     return (
         <DocRoom roomId={roomId as string} />
 
