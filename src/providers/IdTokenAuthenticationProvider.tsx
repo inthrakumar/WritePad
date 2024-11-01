@@ -11,6 +11,7 @@ function IdTokenAuthenticator({ children }: { children: ReactNode }) {
     return (
         <LiveblocksProvider
             authEndpoint={'/api/liveblocks-auth'}
+            backgroundKeepAliveTimeout={15 * 60 * 1000}
         >
             <ClientSideSuspense fallback={<Spinner />}>
                 {children}

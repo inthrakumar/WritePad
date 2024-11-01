@@ -16,6 +16,7 @@ import type {
 } from "convex/server";
 import type * as documents from "../documents.js";
 import type * as rooms from "../rooms.js";
+import type * as sharedrooms from "../sharedrooms.js";
 import type * as users from "../users.js";
 
 /**
@@ -29,6 +30,7 @@ import type * as users from "../users.js";
 declare const fullApi: ApiFromModules<{
   documents: typeof documents;
   rooms: typeof rooms;
+  sharedrooms: typeof sharedrooms;
   users: typeof users;
 }>;
 export declare const api: FilterApi<

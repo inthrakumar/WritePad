@@ -27,7 +27,7 @@ const DocRoom = ({ roomId, children }: Proptypes) => {
             }}
         >
             <ClientSideSuspense fallback={<Spinner />}>
-                <CollaborativeEditor />
+
                 {children}
             </ClientSideSuspense>
         </RoomProvider>
