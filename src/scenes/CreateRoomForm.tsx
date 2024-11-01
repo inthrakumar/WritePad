@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react'
+import { Plus, File, Folder } from 'lucide-react'
 import {
     Dialog,
     DialogContent,
@@ -9,16 +9,17 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
-import { useUser, useAuth } from '@clerk/clerk-react';
+import { useUser } from '@clerk/clerk-react';
 import { CreateRoom } from '@/utils/RoomUtils';
 import { usePathname } from 'next/navigation';
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 import {
     Form,
     FormControl,
@@ -34,17 +35,27 @@ const createRoomSchema = z.object({
         message: "Filename must be at least 2 characters.",
 
     }),
-    type: z.string()
+
 });
 
 type CreateRoomFormData = z.infer<typeof createRoomSchema>;
+
+
+const createFolderSchema = z.object({
+    foldername: z.string().min(2, {
+        message: "Filename must be at least 2 characters.",
+
+    }),
+
+});
+
+type CreateFolderData = z.infer<typeof createFolderSchema>;
 
 const CreateRoomForm = () => {
     const form = useForm<CreateRoomFormData>({
         resolver: zodResolver(createRoomSchema),
         defaultValues: {
             filename: "Untitled",
-            type: 'file'
         },
     });
     const userDetails = useUser();
@@ -55,7 +66,7 @@ const CreateRoomForm = () => {
             room = await CreateRoom({
                 userId: userDetails.user.id,
                 parent: pathname,
-                type: values.type,
+                type: 'file',
                 email: userDetails.user.emailAddresses[0].emailAddress,
                 title: values.filename,
             });
@@ -67,7 +78,7 @@ const CreateRoomForm = () => {
         <Dialog>
             <DialogTrigger className=''>
                 <div className='w-full flex flex-row-reverse'>
-                    <Button variant={'link'} className='shadow-sm bg-gray-100'><Plus size={15} color='#FF0000' /></Button>
+                    <Button variant={'link'} className='flex gap-1'><File size={15} /> New File</Button>
                 </div>
             </DialogTrigger>
             <DialogContent>
@@ -86,27 +97,62 @@ const CreateRoomForm = () => {
                                 </FormItem>
                             )}
                         />
+
+
+                        <Button type="submit">Create</Button>
+                    </form>
+                </Form>
+            </DialogContent>
+        </Dialog>
+    );
+};
+const CreateFolderForm = () => {
+    const form = useForm<CreateFolderData>({
+        resolver: zodResolver(createFolderSchema),
+        defaultValues: {
+            foldername: "Untitled",
+        },
+    });
+    const userDetails = useUser();
+    const pathname = usePathname();
+    const onSubmit: SubmitHandler<CreateFolderData> = async (values) => {
+        let room = null;
+        if (userDetails?.user) {
+            room = await CreateRoom({
+                userId: userDetails.user.id,
+                parent: pathname,
+                type: 'folder',
+                email: userDetails.user.emailAddresses[0].emailAddress,
+                title: values.foldername,
+            });
+        }
+
+    };
+
+    return (
+        <Dialog>
+            <DialogTrigger className=''>
+                <div className='w-full flex flex-row-reverse'>
+                    <Button variant={'link'} className='flex gap-1'><Folder size={15} /> New Folder</Button>
+                </div>
+            </DialogTrigger>
+            <DialogContent>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                         <FormField
                             control={form.control}
-                            name="type"
+                            name="foldername"
                             render={({ field }) => (
                                 <FormItem>
-                                    <Select onValueChange={field.onChange}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="File or Folder" />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value={'file'}>File</SelectItem>
-                                            <SelectItem value={'folder'}>Folder</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-
+                                    <FormLabel>Foldername</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Untitled" {...field} />
+                                    </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
+
 
                         <Button type="submit">Create</Button>
                     </form>
@@ -116,4 +162,16 @@ const CreateRoomForm = () => {
     );
 };
 
-export default CreateRoomForm;
+const NewCreation = () => {
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger className='!p-0  !h-fit'><span className='hover:bg-slate-100 p-2'><Plus size={20} color='red' /></span></DropdownMenuTrigger>
+            <DropdownMenuContent>
+                <DropdownMenuLabel><CreateRoomForm /></DropdownMenuLabel>
+                <DropdownMenuLabel><CreateFolderForm /></DropdownMenuLabel>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    )
+
+}
+export default NewCreation;

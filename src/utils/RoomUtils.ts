@@ -30,6 +30,7 @@ const CreateRoom = async ({
       owner: userId,
       email: email,
       title: title,
+      isAlive: 'true',
     };
     let roomDetails;
     if (type !== 'folder') {
