@@ -8,7 +8,6 @@ import { setTitle } from '@/store/slice/RoomSlice';
 const RoomTitle = () => {
     const roomDetails = useSelector((state: RootState) => state.roomDetails);
     const [title, setTitleState] = useState(roomDetails.title || '');
-    const [isdisabled, setIsDisabled] = useState(true);
     const dispatch = useDispatch();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,9 +35,6 @@ const RoomTitle = () => {
                 value={title}
                 onChange={handleChange}
                 disabled={false}
-                onClick={() => {
-                    setIsDisabled(false);
-                }}
                 className='w-[30vw] max-w-[30vw]'
             />
         </div>
