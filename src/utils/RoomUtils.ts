@@ -39,7 +39,7 @@ const CreateRoom = async ({
       };
       roomDetails = await liveblocks_connection.createRoom(roomId, {
         usersAccesses,
-        defaultAccesses: ['room:write'],
+        defaultAccesses: [],
         metadata: data,
       });
     }
@@ -103,4 +103,40 @@ const getRoom = async ({ roomId }: { roomId: string }) => {
     console.error(error);
   }
 };
-export { CreateRoom, UpdateTitleFn, getOwnerRooms, getRoom };
+
+const updateUserAccess = async ({
+  emailList,
+  roomId,
+  accessType,
+}: {
+  emailList: string[];
+  roomId: string;
+  accessType: 'write' | 'read';
+}) => {
+  auth().protect();
+
+  try {
+    const roomDetails = await liveblocks_connection.getRoom(roomId);
+
+    const usersAccesses = roomDetails.usersAccesses;
+
+    emailList.forEach((email) => {
+      usersAccesses[email] =
+        accessType === 'write'
+          ? ['room:write']
+          : ['room:read', 'room:presence:write'];
+    });
+    await liveblocks_connection.updateRoom(roomId, {
+      usersAccesses,
+    });
+
+    revalidatePath(`/`);
+
+    return usersAccesses;
+  } catch (error) {
+    console.error('Failed to update user access:', error);
+    throw new Error('Error updating user access');
+  }
+};
+
+export { CreateRoom, UpdateTitleFn, getOwnerRooms, getRoom, updateUserAccess };

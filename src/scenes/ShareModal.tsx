@@ -1,12 +1,11 @@
 import { RootState } from '@/store/store';
 import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
     Dialog,
     DialogTrigger,
     DialogContent,
     DialogHeader,
-    DialogFooter,
     DialogTitle,
     DialogDescription,
 } from '@/components/ui/dialog';
@@ -14,22 +13,31 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ArrowRight, X } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import { updateUserAccess } from '@/utils/RoomUtils';
+import { setLiveBlocksRoomUserAccess } from '@/store/slice/LiveBlocksRoomSlice';
 import {
     Select,
     SelectContent,
     SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
+
 function ShareModal() {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const [emailList, setEmailList] = useState<string[]>([]);
-    const [accessType, setaccessType] = useState<string | null>(null);
+    const [editemailList, setEditemailList] = useState<string[]>([]);
+    const [editaccessType, seteditAccessType] = useState<'write' | 'read'>('read');
+
+    const [accessType, setAccessType] = useState<'write' | 'read' | null>(null);
+    const dispatch = useDispatch();
     const ref = useRef<HTMLInputElement>(null);
     const toast = useToast();
-    const roomDetails = useSelector((state: RootState) => state.liveblocksDetails.LiveBlocksRoomData);
+    const liveBlocksRoom = useSelector((state: RootState) => state.liveblocksDetails);
+    const users = liveBlocksRoom.LiveBlocksRoomData?.usersAccesses
+        ? Object.keys(liveBlocksRoom.LiveBlocksRoomData.usersAccesses)
+        : [];
 
     const addEmailToList = () => {
         const email = ref.current?.value;
@@ -56,15 +64,62 @@ function ShareModal() {
         };
     }, []);
 
-    function handleUserAccess(): void {
+    async function handleUserAccess(): Promise<void> {
+        if (!accessType || emailList.length === 0 || !liveBlocksRoom.LiveBlocksRoomData) {
+            toast.toast({
+                title: "Please select access type and add at least one email.",
+            });
+            return;
+        }
+
         try {
+            const userAccesses = await updateUserAccess({
+                emailList,
+                roomId: liveBlocksRoom.LiveBlocksRoomData.id!,
+                accessType,
+            });
 
+            dispatch(setLiveBlocksRoomUserAccess(userAccesses));
+            setEmailList([]);
+            setEditemailList([]);
+            toast.toast({
+                title: "User Access Updated Successfully",
+            });
         } catch (error) {
-            throw new Error('Function not implemented.');
-
+            toast.toast({
+                title: "Error updating user access.",
+                description: (error as Error).message,
+            });
         }
     }
+    async function editUserAccess(): Promise<void> {
+        if (!editaccessType || editemailList.length === 0 || !liveBlocksRoom.LiveBlocksRoomData) {
+            toast.toast({
+                title: "Please select access type and add at least one email.",
+            });
+            return;
+        }
 
+        try {
+            const userAccesses = await updateUserAccess({
+                emailList: editemailList,
+                roomId: liveBlocksRoom.LiveBlocksRoomData.id!,
+                accessType: editaccessType,
+            });
+
+            dispatch(setLiveBlocksRoomUserAccess(userAccesses));
+            setEmailList([]);
+            setEditemailList([]);
+            toast.toast({
+                title: "User Access Updated Successfully",
+            });
+        } catch (error) {
+            toast.toast({
+                title: "Error updating user access.",
+                description: (error as Error).message,
+            });
+        }
+    }
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -75,7 +130,7 @@ function ShareModal() {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Edit User Access</DialogTitle>
+                    <DialogTitle>Add Users</DialogTitle>
                     <DialogDescription>
                         Share this room with your team members to allow them to collaborate and view the document.
                     </DialogDescription>
@@ -109,26 +164,68 @@ function ShareModal() {
                             pattern={emailRegex.source}
                             placeholder="Enter email address"
                         />
-                        <div className='flex gap-3'>
+                        <div className='flex gap-3 items-center justify-center'>
                             <Select onValueChange={(value) => {
-                                setaccessType(value);
+                                setAccessType(value as 'write' | 'read');
                             }}>
                                 <SelectTrigger className="w-[180px]">
                                     <SelectValue placeholder="Access" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectGroup>
-                                        <SelectItem value="edit">can edit</SelectItem>
-                                        <SelectItem value="view">can view</SelectItem>
+                                        <SelectItem value="write">can edit</SelectItem>
+                                        <SelectItem value="read">can view</SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
 
-                            <Button onClick={() => {
-                                handleUserAccess()
-                            }}>
+                            <Button onClick={handleUserAccess}>
                                 Add Access
-                            </Button></div>
+                            </Button>
+                        </div>
+                    </div>
+
+                    <div className='grid grid-cols-1 gap-2'>
+                        <DialogTitle>Edit User Access</DialogTitle>
+                        <DialogDescription>
+                            Edit the way in which current users can access the Document.
+                        </DialogDescription>
+                        <div className='w-full flex gap-2'>
+                            <Select onValueChange={(value) => {
+                                setEditemailList([value]);
+                            }}>
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="Users" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        {users.map((ele, index) => (
+                                            <SelectItem key={index} value={ele}>
+                                                {ele}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+
+                            <Select onValueChange={(value) => {
+                                seteditAccessType(value as 'write' | 'read');
+                            }}>
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="Access" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectItem value="write">can edit</SelectItem>
+                                        <SelectItem value="read">can view</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+
+                            <Button onClick={editUserAccess}>
+                                Edit Access
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </DialogContent>
