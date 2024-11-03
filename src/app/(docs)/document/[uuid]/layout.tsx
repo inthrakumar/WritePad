@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { getRoomDetails } from '../../../../utils/RoomUtils';
+import { getOwnerRooms } from '../../../../utils/RoomUtils';
 import { useDispatch } from 'react-redux';
 import { setRoomDetails } from '../../../../store/slice/RoomSlice'
 export default function DocLayout({
@@ -15,11 +15,12 @@ export default function DocLayout({
     useEffect(() => {
         const roomId = uuid.toString();
         const FetchRoomDetails = async () => {
-            const roomDetails = await getRoomDetails({ roomId });
+            const roomDetails = await getOwnerRooms({ roomId });
             dispatch(setRoomDetails({
                 roomId: roomDetails.data[0].roomId,
                 roomConvexId: roomDetails.data[0]._id,
-                title: roomDetails.data[0].roomTitle
+                title: roomDetails.data[0].roomTitle,
+                owner: roomDetails.data[0].userid
             }));
         };
         FetchRoomDetails();

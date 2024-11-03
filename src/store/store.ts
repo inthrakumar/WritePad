@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import RoomSlice from './slice/RoomSlice';
+import LiveBlocksSlice from './slice/LiveBlocksRoomSlice';
 export const store = configureStore({
   reducer: {
     roomDetails: RoomSlice,
+    liveblocksDetails: LiveBlocksSlice,
   },
 });
 

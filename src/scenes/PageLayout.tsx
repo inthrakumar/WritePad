@@ -3,6 +3,8 @@
 import React from 'react'
 import Header from './Header'
 import { usePathname } from 'next/navigation'
+import { Toaster } from "@/components/ui/toaster"
+
 function Layout({ children }: {
     children: React.ReactNode;
 }) {
@@ -16,6 +18,7 @@ function Layout({ children }: {
             }
             <div className={`flex-grow  ${!isAuthPage ? 'mt-[76px]' : ''}`}>
                 {children}
+                <Toaster />
             </div>
         </div>
     )

@@ -7,14 +7,13 @@ import { useRoom, useSelf } from "@liveblocks/react/suspense";
 import { useEffect, useState } from "react";
 import RoomTitle from "./RoomTitle";
 import { TiptapEditor } from "./TextEditor";
+import ShareModal from "./ShareModal";
 
-// Collaborative text editor with simple rich text, live cursors, and live avatars
 export function CollaborativeEditor() {
     const room = useRoom();
     const [doc, setDoc] = useState<Y.Doc>();
     const [provider, setProvider] = useState<any>();
 
-    // Set up Liveblocks Yjs provider
     useEffect(() => {
         const yDoc = new Y.Doc();
         const yProvider = new LiveblocksYjsProvider(room, yDoc);
@@ -32,7 +31,10 @@ export function CollaborativeEditor() {
     }
 
     return <div className="flex flex-col items-center justify-center gap-3">
-        <RoomTitle />
+        <div className="flex items-center justify-around w-[70vw]">
+            <RoomTitle />
+            <ShareModal />
+        </div>
         <TiptapEditor doc={doc} provider={provider} />
     </div>;
 }

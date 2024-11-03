@@ -5,6 +5,7 @@ interface RoomState {
   roomId: string | null;
   roomConvexId: Id<'userRecords'> | null;
   title: string | null;
+  owner: string | null;
 }
 
 // Define the initial state using that type
@@ -12,6 +13,7 @@ const initialState: RoomState = {
   roomId: null,
   roomConvexId: null,
   title: null,
+  owner: null,
 };
 
 export const RoomSlice = createSlice({
@@ -22,6 +24,7 @@ export const RoomSlice = createSlice({
       state.roomId = action.payload.roomId;
       state.roomConvexId = action.payload.roomConvexId;
       state.title = action.payload.title;
+      state.owner = action.payload.owner;
     },
     setTitle: (state, action: PayloadAction<string>) => {
       state.title = action.payload;

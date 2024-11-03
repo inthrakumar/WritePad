@@ -2,17 +2,33 @@
 
 import Spinner from './Spinner';
 import React, { useState, useEffect } from 'react';
-import { CollaborativeEditor } from './CollabarativeEditor';
 import { ClientSideSuspense, RoomProvider } from '@liveblocks/react/suspense';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
-
+import { getRoom } from '@/utils/RoomUtils'
+import { useDispatch } from 'react-redux';
+import { getLiveBlocksRoom } from '@/store/slice/LiveBlocksRoomSlice'
 type Proptypes = {
     roomId: string
     children: React.ReactNode;
 };
 
 const DocRoom = ({ roomId, children }: Proptypes) => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        const roomUserDetails = async () => {
+            try {
+                const roomMetadata = await getRoom({ roomId });
+                if (roomMetadata) {
+                    dispatch(getLiveBlocksRoom(roomMetadata));
+                }
+            } catch (error) {
+                console.error("Error fetching room metadata:", error);
+            }
+        };
+
+        if (roomId) {
+            roomUserDetails();
+        }
+    }, [roomId, dispatch]);
 
 
     return (

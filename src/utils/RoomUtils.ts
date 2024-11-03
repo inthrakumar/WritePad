@@ -73,6 +73,7 @@ const UpdateTitleFn = async ({ roomId, id, title }: UpdateTitle) => {
         title: title,
       }
     );
+    console.log(updatedRoom);
     revalidatePath(`/`);
     return JSON.parse(JSON.stringify(updatedRoom));
   } catch (error) {
@@ -80,7 +81,7 @@ const UpdateTitleFn = async ({ roomId, id, title }: UpdateTitle) => {
   }
 };
 
-const getRoomDetails = async ({ roomId }: { roomId: string }) => {
+const getOwnerRooms = async ({ roomId }: { roomId: string }) => {
   auth().protect();
   try {
     const roomDetails = await convex_connection.query(api.rooms.getUserRooms, {
@@ -91,4 +92,15 @@ const getRoomDetails = async ({ roomId }: { roomId: string }) => {
     console.error(error);
   }
 };
-export { CreateRoom, UpdateTitleFn, getRoomDetails };
+
+const getRoom = async ({ roomId }: { roomId: string }) => {
+  auth().protect();
+  try {
+    const roomDetails = await liveblocks_connection.getRoom(roomId);
+    revalidatePath(`/`);
+    return JSON.parse(JSON.stringify(roomDetails));
+  } catch (error) {
+    console.error(error);
+  }
+};
+export { CreateRoom, UpdateTitleFn, getOwnerRooms, getRoom };
