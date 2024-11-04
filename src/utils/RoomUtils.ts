@@ -10,6 +10,7 @@ import {
 } from '@/config/serverconfig';
 import { api } from '../../convex/_generated/api';
 import { UpdateTitle } from '../types/types';
+import { metadata } from '../app/(auth)/sign-up/[[...sign-up]]/layout';
 const CreateRoom = async ({
   userId,
   email,
@@ -117,7 +118,6 @@ const updateUserAccess = async ({
 
   try {
     const roomDetails = await liveblocks_connection.getRoom(roomId);
-
     const usersAccesses = roomDetails.usersAccesses;
 
     emailList.forEach((email) => {
@@ -126,16 +126,60 @@ const updateUserAccess = async ({
           ? ['room:write']
           : ['room:read', 'room:presence:write'];
     });
-    await liveblocks_connection.updateRoom(roomId, {
-      usersAccesses,
-    });
-
+    await liveblocks_connection.updateRoom(roomId, { usersAccesses });
     revalidatePath(`/`);
+
+    await triggerNotifications(emailList, roomId, accessType);
 
     return usersAccesses;
   } catch (error) {
     console.error('Failed to update user access:', error);
     throw new Error('Error updating user access');
+  }
+};
+
+const triggerNotifications = async (
+  emailList: string[],
+  roomId: string,
+  accessType: 'write' | 'read'
+) => {
+  const notificationPromises = emailList.map((email) =>
+    liveblocks_connection.triggerInboxNotification({
+      userId: email,
+      kind:
+        accessType === 'write' ? '$writeAccessGranted' : '$readAccessGranted',
+      subjectId: roomId,
+      activityData: {
+        accessType,
+        timestamp: Date.now(),
+      },
+      roomId,
+    })
+  );
+
+  await Promise.all(notificationPromises);
+};
+
+const getSharedRooms = async (userId: string) => {
+  auth().protect();
+
+  try {
+    const {
+      data: sharedRooms,
+      nextCursor,
+      nextPage,
+    } = await liveblocks_connection.getRooms({
+      limit: 20,
+      userId,
+    });
+    const filteredsharedRooms = sharedRooms.filter((rooms) => {
+      return rooms.metadata.owner != userId;
+    });
+
+    return JSON.parse(JSON.stringify(filteredsharedRooms));
+  } catch (error) {
+    console.error('Error fetching shared rooms:', error);
+    throw new Error('Failed to fetch shared rooms');
   }
 };
 

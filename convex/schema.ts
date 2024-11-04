@@ -21,9 +21,4 @@ export default defineSchema({
     .index('user_id', ['userid'])
     .index('parent_url', ['parent'])
     .index('by_room_id', ['roomId']),
-
-  sharedRooms: defineTable({
-    userid: v.string(),
-    roomIds: v.array(v.string()),
-  }).index('user_id', ['userid']),
 });

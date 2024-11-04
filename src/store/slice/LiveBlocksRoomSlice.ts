@@ -27,9 +27,7 @@ export const RoomSlice = createSlice({
   },
 });
 
-// Export actions
 export const { setLiveBlocksRoom, setLiveBlocksRoomUserAccess } =
   RoomSlice.actions;
 
-// Export reducer
 export default RoomSlice.reducer;
