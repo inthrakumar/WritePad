@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import '@fontsource/poppins'
 import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
 import { useClerk } from "@clerk/clerk-react";
@@ -13,6 +13,7 @@ import { RiLoader5Line } from "react-icons/ri";
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { useUser } from "@clerk/clerk-react";
 import { getRandomAnonymousName } from "../utils/AnonymousUtils"
+
 import {
     Tooltip,
     TooltipContent,
@@ -23,6 +24,7 @@ import {
 
 function Header() {
     const user = useUser();
+
 
     let userName = user.user?.fullName || user.user?.firstName || user.user?.lastName;
     if (!user.isSignedIn)

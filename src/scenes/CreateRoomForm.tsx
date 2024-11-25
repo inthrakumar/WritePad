@@ -62,6 +62,7 @@ const CreateRoomForm = () => {
     const pathname = usePathname();
     const onSubmit: SubmitHandler<CreateRoomFormData> = async (values) => {
         let room = null;
+        console.log(pathname);
         if (userDetails?.user) {
             room = await CreateRoom({
                 userId: userDetails.user.id,
@@ -116,15 +117,21 @@ const CreateFolderForm = () => {
     const userDetails = useUser();
     const pathname = usePathname();
     const onSubmit: SubmitHandler<CreateFolderData> = async (values) => {
-        let room = null;
-        if (userDetails?.user) {
-            room = await CreateRoom({
-                userId: userDetails.user.id,
-                parent: pathname,
-                type: 'folder',
-                email: userDetails.user.emailAddresses[0].emailAddress,
-                title: values.foldername,
-            });
+        console.log("hit");
+        try {
+            let room = null;
+            if (userDetails?.user) {
+                room = await CreateRoom({
+                    userId: userDetails.user.id,
+                    parent: pathname,
+                    type: 'folder',
+                    email: userDetails.user.emailAddresses[0].emailAddress,
+                    title: values.foldername,
+                });
+            }
+        } catch (error) {
+            console.error(error);
+
         }
 
     };

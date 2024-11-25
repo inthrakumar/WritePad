@@ -11,4 +11,18 @@ type UpdateTitle = {
   id: Id<'userRecords'>;
   title: string;
 };
-export type { EditorProps, UpdateTitle };
+
+type folderContents = {
+  success: boolean;
+  data: {
+    _id: Id<'userRecords'>;
+    _creationTime: number;
+    userid: string;
+    type: string;
+    parent: string;
+    roomId: string;
+    roomTitle: string;
+    lastEdited: string;
+  }[];
+};
+export type { EditorProps, UpdateTitle, folderContents };

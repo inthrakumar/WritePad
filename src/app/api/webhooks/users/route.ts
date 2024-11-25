@@ -23,18 +23,16 @@ async function handler(request: Request) {
     const eventType: EventType = evt.type;
 
     if (eventType === 'user.created' || eventType === 'user.updated') {
-      console.log('came in');
       const { id, ...attributes } = evt.data;
       const userid = id.toString();
       const email = attributes.email_addresses[0].email_address;
       const username = attributes.first_name || attributes.username || 'guest';
 
-      const user = await convex_connection.mutation(api.users.addUsers, {
+      await convex_connection.mutation(api.users.addUsers, {
         username,
         userid,
         email,
       });
-      console.log(`User created: `);
       return NextResponse.json({ success: true }, { status: 200 });
     } else {
       return NextResponse.json(

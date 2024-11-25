@@ -161,6 +161,7 @@ const triggerNotifications = async (
 };
 
 const getSharedRooms = async (userId: string) => {
+  console.log(userId);
   auth().protect();
 
   try {
@@ -173,7 +174,7 @@ const getSharedRooms = async (userId: string) => {
       userId,
     });
     const filteredsharedRooms = sharedRooms.filter((rooms) => {
-      return rooms.metadata.owner != userId;
+      return rooms.metadata.email != userId;
     });
 
     return JSON.parse(JSON.stringify(filteredsharedRooms));
@@ -183,4 +184,11 @@ const getSharedRooms = async (userId: string) => {
   }
 };
 
-export { CreateRoom, UpdateTitleFn, getOwnerRooms, getRoom, updateUserAccess };
+export {
+  CreateRoom,
+  UpdateTitleFn,
+  getOwnerRooms,
+  getRoom,
+  updateUserAccess,
+  getSharedRooms,
+};
