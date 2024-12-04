@@ -161,9 +161,7 @@ const triggerNotifications = async (
 };
 
 const getSharedRooms = async (userId: string) => {
-  console.log(userId);
   auth().protect();
-
   try {
     const {
       data: sharedRooms,
@@ -174,8 +172,9 @@ const getSharedRooms = async (userId: string) => {
       userId,
     });
     const filteredsharedRooms = sharedRooms.filter((rooms) => {
-      return rooms.metadata.email != userId;
+      return rooms.metadata.userid != userId;
     });
+    console.log(filteredsharedRooms);
 
     return JSON.parse(JSON.stringify(filteredsharedRooms));
   } catch (error) {

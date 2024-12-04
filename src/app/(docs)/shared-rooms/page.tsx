@@ -10,7 +10,7 @@ const SharedRoomPage = () => {
             try {
                 if (user.isSignedIn && user.user) {
 
-                    const rooms = await getSharedRooms(user.user?.emailAddresses[0].emailAddress);
+                    const rooms = await getSharedRooms(user.user?.id);
 
 
                 }
