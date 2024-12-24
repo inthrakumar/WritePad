@@ -30,7 +30,7 @@ export function CollaborativeEditor() {
         return null;
     }
 
-    return <div className="flex flex-col items-center justify-center gap-3">
+    return <div className="flex p-6 flex-col items-center justify-center gap-3">
         <div className="flex items-center justify-around w-[70vw]">
             <RoomTitle />
             <ShareModal />

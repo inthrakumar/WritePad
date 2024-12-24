@@ -123,9 +123,8 @@ function ShareModal() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline" className="bg-red-500 group">
+                <Button>
                     Share
-                    <ArrowRight size={20} className="hidden group-hover:inline" />
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
