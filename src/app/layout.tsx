@@ -1,14 +1,13 @@
 import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
 import { ThemeProvider } from '@/providers/ThemeProvider';
-import { Toaster } from "@/components/ui/toaster"
-import { cn } from "@/lib/utils"
+import { Toaster } from '@/components/ui/toaster';
+import { cn } from '@/lib/utils';
 import Layout from '@/scenes/PageLayout';
 import './globals.css';
-
 const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
+  subsets: ['latin'],
+  variable: '--font-sans',
 });
 import React from 'react';
 import { ConvexClientProvider } from '@/providers/ClerkProvider';
@@ -24,26 +23,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(
-        "min-h-screen bg-background font-sans antialiased max-w-10xl",
-        fontSans.variable
-      )}>
+      <body
+        className={cn(
+          'min-h-screen bg-background font-sans antialiased max-w-10xl',
+          fontSans.variable
+        )}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
-          <ConvexClientProvider >
-
-            <Layout>
-              {children}
-            </Layout>
-            <Toaster />
-          </ConvexClientProvider>
-
-
-
+            <ConvexClientProvider>
+              <Layout>{children}</Layout>
+              <Toaster />
+            </ConvexClientProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -18,5 +18,4 @@ const getFolderContents = async (foldername: string) => {
     console.error(error);
   }
 };
-
-export { getFolderContents };
+export {  getFolderContents };

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Plus, File, Folder } from 'lucide-react'
 import {
@@ -172,7 +173,7 @@ const CreateFolderForm = () => {
 const NewCreation = () => {
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger className='!p-0  !h-fit'><span className='hover:bg-slate-100 p-2'><Plus size={20} color='red' /></span></DropdownMenuTrigger>
+            <DropdownMenuTrigger><Button className='flex gap-1 text-sm '>New <Plus/></Button></DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuLabel><CreateRoomForm /></DropdownMenuLabel>
                 <DropdownMenuLabel><CreateFolderForm /></DropdownMenuLabel>
