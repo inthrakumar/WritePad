@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button"
-import { Editor } from "@tiptap/react";
+import { Button } from '@/components/ui/button';
+import { Editor } from '@tiptap/react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +13,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu';
 const Redo = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -98,52 +98,75 @@ const HighlightIcon = () => (
     height="24"
     fill="currentColor"
   >
-<path d="M12 2a1 1 0 0 1 .9.56l1.36 2.72 3.01.44a1 1 0 0 1 .55 1.7l-2.18 2.13.51 2.97a1 1 0 0 1-1.45 1.05L12 12.9l-2.67 1.4a1 1 0 0 1-1.45-1.05l.51-2.97-2.18-2.13a1 1 0 0 1 .55-1.7l3.01-.44L11.1 2.56A1 1 0 0 1 12 2zm0 7.41L10.3 10.4l.37-2.13a1 1 0 0 1 .29-.56l1.46-1.43-2.13-.31a1 1 0 0 1-.56-.29L8.6 4.7l.31 2.13a1 1 0 0 1-.29.56L7.13 8.88l2.13.31a1 1 0 0 1 .56.29L12 10.59zM9 15h6v2H9v-2zm1 3h4v2h-4v-2z" />
+    <path d="M12 2a1 1 0 0 1 .9.56l1.36 2.72 3.01.44a1 1 0 0 1 .55 1.7l-2.18 2.13.51 2.97a1 1 0 0 1-1.45 1.05L12 12.9l-2.67 1.4a1 1 0 0 1-1.45-1.05l.51-2.97-2.18-2.13a1 1 0 0 1 .55-1.7l3.01-.44L11.1 2.56A1 1 0 0 1 12 2zm0 7.41L10.3 10.4l.37-2.13a1 1 0 0 1 .29-.56l1.46-1.43-2.13-.31a1 1 0 0 1-.56-.29L8.6 4.7l.31 2.13a1 1 0 0 1-.29.56L7.13 8.88l2.13.31a1 1 0 0 1 .56.29L12 10.59zM9 15h6v2H9v-2zm1 3h4v2h-4v-2z" />
   </svg>
 );
 
-const DividerLine = ({ color = "black", strokeWidth = 2, length = "75%" }) => (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={length}
-        height={strokeWidth}
-        viewBox="0 0 100 1"
-    >
-        <line x1="0" y1="0" x2="100" y2="0" stroke={color} strokeWidth={strokeWidth} />
-    </svg>
+const DividerLine = ({ color = 'black', strokeWidth = 2, length = '75%' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={length}
+    height={strokeWidth}
+    viewBox="0 0 100 1"
+  >
+    <line
+      x1="0"
+      y1="0"
+      x2="100"
+      y2="0"
+      stroke={color}
+      strokeWidth={strokeWidth}
+    />
+  </svg>
 );
 const EnterDownIcon = () => (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        width="24"
-        height="24"
-        fill="currentColor"
-    >
-        <path d="M12 2a1 1 0 0 1 1 1v12.59l3.29-3.29a1 1 0 0 1 1.42 1.42l-5 5a1 1 0 0 1-1.42 0l-5-5a1 1 0 0 1 1.42-1.42L11 15.59V3a1 1 0 0 1 1-1z" />
-    </svg>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width="24"
+    height="24"
+    fill="currentColor"
+  >
+    <path d="M12 2a1 1 0 0 1 1 1v12.59l3.29-3.29a1 1 0 0 1 1.42 1.42l-5 5a1 1 0 0 1-1.42 0l-5-5a1 1 0 0 1 1.42-1.42L11 15.59V3a1 1 0 0 1 1-1z" />
+  </svg>
 );
-function FontFamilyDropdown({editor}:{
-    editor:Editor
-}) {
+function FontFamilyDropdown({ editor }: { editor: Editor }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size={'sm'}>Font</Button>
+        <Button variant="outline" size={'sm'}>
+          Font
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-44">
         <DropdownMenuGroup>
           <DropdownMenuItem
             onClick={() => editor.chain().focus().setFontFamily('Inter').run()}
-            className={editor.isActive('textStyle', { fontFamily: 'Inter' }) ? 'is-active' : ''}
+            className={
+              editor.isActive('textStyle', { fontFamily: 'Inter' })
+                ? 'is-active'
+                : ''
+            }
             data-test-id="inter"
           >
             Inter
             <DropdownMenuShortcut>⇧⌘I</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => editor.chain().focus().setFontFamily('Comic Sans MS, Comic Sans').run()}
-            className={editor.isActive('textStyle', { fontFamily: 'Comic Sans MS, Comic Sans' }) ? 'is-active' : ''}
+            onClick={() =>
+              editor
+                .chain()
+                .focus()
+                .setFontFamily('Comic Sans MS, Comic Sans')
+                .run()
+            }
+            className={
+              editor.isActive('textStyle', {
+                fontFamily: 'Comic Sans MS, Comic Sans',
+              })
+                ? 'is-active'
+                : ''
+            }
             data-test-id="comic-sans"
           >
             Comic Sans
@@ -151,43 +174,76 @@ function FontFamilyDropdown({editor}:{
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => editor.chain().focus().setFontFamily('serif').run()}
-            className={editor.isActive('textStyle', { fontFamily: 'serif' }) ? 'is-active' : ''}
+            className={
+              editor.isActive('textStyle', { fontFamily: 'serif' })
+                ? 'is-active'
+                : ''
+            }
             data-test-id="serif"
           >
             Serif
             <DropdownMenuShortcut>⇧⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => editor.chain().focus().setFontFamily('monospace').run()}
-            className={editor.isActive('textStyle', { fontFamily: 'monospace' }) ? 'is-active' : ''}
+            onClick={() =>
+              editor.chain().focus().setFontFamily('monospace').run()
+            }
+            className={
+              editor.isActive('textStyle', { fontFamily: 'monospace' })
+                ? 'is-active'
+                : ''
+            }
             data-test-id="monospace"
           >
             Monospace
             <DropdownMenuShortcut>⇧⌘M</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => editor.chain().focus().setFontFamily('cursive').run()}
-            className={editor.isActive('textStyle', { fontFamily: 'cursive' }) ? 'is-active' : ''}
+            onClick={() =>
+              editor.chain().focus().setFontFamily('cursive').run()
+            }
+            className={
+              editor.isActive('textStyle', { fontFamily: 'cursive' })
+                ? 'is-active'
+                : ''
+            }
             data-test-id="cursive"
           >
             Cursive
             <DropdownMenuShortcut>⇧⌘U</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => editor.chain().focus().setFontFamily('var(--title-font-family)').run()}
-            className={editor.isActive('textStyle', { fontFamily: 'var(--title-font-family)' }) ? 'is-active' : ''}
+            onClick={() =>
+              editor
+                .chain()
+                .focus()
+                .setFontFamily('var(--title-font-family)')
+                .run()
+            }
+            className={
+              editor.isActive('textStyle', {
+                fontFamily: 'var(--title-font-family)',
+              })
+                ? 'is-active'
+                : ''
+            }
             data-test-id="css-variable"
           >
             CSS Variable
             <DropdownMenuShortcut>⇧⌘V</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => editor.chain().focus().setFontFamily('"Exo 2"').run()}
-            className={editor.isActive('textStyle', { fontFamily: '"Exo 2"' }) ? 'is-active' : ''}
+            onClick={() =>
+              editor.chain().focus().setFontFamily('"Exo 2"').run()
+            }
+            className={
+              editor.isActive('textStyle', { fontFamily: '"Exo 2"' })
+                ? 'is-active'
+                : ''
+            }
             data-test-id="exo2"
           >
-            Exo 2
-            <DropdownMenuShortcut>⇧⌘E</DropdownMenuShortcut>
+            Exo 2<DropdownMenuShortcut>⇧⌘E</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => editor.chain().focus().unsetFontFamily().run()}
@@ -199,7 +255,417 @@ function FontFamilyDropdown({editor}:{
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
+}
+const TableIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+    <line x1="3" y1="9" x2="21" y2="9" />
+    <line x1="9" y1="3" x2="9" y2="21" />
+    <line x1="15" y1="3" x2="15" y2="21" />
+    <line x1="3" y1="15" x2="21" y2="15" />
+  </svg>
+);
+
+export default TableIcon;
+
+function TableDropdown({ editor }: { editor: Editor }) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size={'sm'} aria-label="Table Options">
+          <TableIcon />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-44">
+        <DropdownMenuLabel>Table Options</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+
+        <DropdownMenuItem
+          onClick={() =>
+            editor
+              .chain()
+              .focus()
+              .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+              .run()
+          }
+        >
+          New Table
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().addColumnBefore().run()}
+          disabled={!editor.can().addColumnBefore()}
+        >
+          Add Column Before
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().addColumnAfter().run()}
+          disabled={!editor.can().addColumnAfter()}
+        >
+          Add Column After
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().deleteColumn().run()}
+          disabled={!editor.can().deleteColumn()}
+        >
+          Delete Column
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().addRowBefore().run()}
+          disabled={!editor.can().addRowBefore()}
+        >
+          Add Row Before
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().addRowAfter().run()}
+          disabled={!editor.can().addRowAfter()}
+        >
+          Add Row After
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().deleteRow().run()}
+          disabled={!editor.can().deleteRow()}
+        >
+          Delete Row
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().deleteTable().run()}
+          disabled={!editor.can().deleteTable()}
+        >
+          Delete Table
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+export function TextLeftIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      width="16px"
+      height="16px"
+    >
+      <path d="M3 5h18v2H3V5zm0 6h12v2H3v-2zm0 6h18v2H3v-2zm0-4h12v2H3v-2z" />
+    </svg>
+  );
+}
+export function TextJustifyIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      width="16px"
+      height="16px"
+    >
+      <path d="M3 5h18v2H3V5zm0 6h18v2H3v-2zm0 6h18v2H3v-2z" />
+    </svg>
+  );
 }
 
-export { FontFamilyDropdown,EnterDownIcon,HighlightIcon,DividerLine,Undo,Redo,BoldIcon,ItalicIcon,StrikethroughIcon}
+export function TextRightIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      width="16px"
+      height="16px"
+    >
+      <path d="M3 5h18v2H3V5zm6 6h12v2H9v-2zm-6 6h18v2H3v-2z" />
+    </svg>
+  );
+}
+export function TextCenterIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      width="16px"
+      height="16px"
+    >
+      <path d="M6 5h12v2H6V5zm-3 6h18v2H3v-2zm3 6h12v2H6v-2z" />
+    </svg>
+  );
+}
+export const ParagraphIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+  >
+    <path d="M10 2H2v1h8a2 2 0 0 1 0 4H8v7h1v-6h1a3 3 0 0 0 0-6z" />
+  </svg>
+);
+export const Heading5Icon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+  >
+    <path d="M3.5 12h1v-5h6v5h1V4h-1v5h-6V4h-1v8zm7.5-1.5v-2a.5.5 0 0 1 1 0v2a.5.5 0 1 1-1 0z" />
+  </svg>
+);
+export const Heading4Icon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+  >
+    <path d="M3.5 12h1v-5h6v5h1V4h-1v5h-6V4h-1v8zm7.5-1.5h-2a.5.5 0 0 1 0-1h2v-3a.5.5 0 0 1 1 0v3h2a.5.5 0 0 1 0 1h-2v1a.5.5 0 0 1-1 0v-1z" />
+  </svg>
+);
+export const Heading3Icon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+  >
+    <path d="M3.5 12h1v-5h6v5h1V4h-1v5h-6V4h-1v8zm7.5-1.5a.5.5 0 1 1 1 0v-3a.5.5 0 1 1-1 0v3z" />
+  </svg>
+);
+export const Heading2Icon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+  >
+    <path d="M3.5 12h1v-5h6v5h1V4h-1v5h-6V4h-1v8zm7.5-1.5v-3a.5.5 0 0 1 1 0v3a.5.5 0 1 1-1 0z" />
+  </svg>
+);
+export const Heading1Icon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+  >
+    <path d="M3.5 12h1v-5h6v5h1V4h-1v5h-6V4h-1v8zm7.5-1.5v-5a.5.5 0 1 1 1 0v5a.5.5 0 1 1-1 0z" />
+  </svg>
+);
+function BulletList() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+    >
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="4" y1="6" x2="20" y2="6" />
+        <line x1="4" y1="12" x2="20" y2="12" />
+        <line x1="4" y1="18" x2="20" y2="18" />
+        <circle cx="2" cy="6" r="1" />
+        <circle cx="2" cy="12" r="1" />
+        <circle cx="2" cy="18" r="1" />
+      </g>
+    </svg>
+  );
+}
+function HeadingDropdown({ editor }: { editor: Editor }) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button size="sm" variant={'outline'} aria-label="Heading Options">
+          Heading
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>Heading Options</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 1 }).run()
+          }
+          className={
+            editor.isActive('heading', { level: 1 }) ? 'is-active' : ''
+          }
+        >
+          <Heading1Icon />
+          Heading 1
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
+          }
+          className={
+            editor.isActive('heading', { level: 2 }) ? 'is-active' : ''
+          }
+        >
+          <Heading2Icon />
+          Heading 2
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 3 }).run()
+          }
+          className={
+            editor.isActive('heading', { level: 3 }) ? 'is-active' : ''
+          }
+        >
+          <Heading3Icon />
+          Heading 3
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 4 }).run()
+          }
+          className={
+            editor.isActive('heading', { level: 4 }) ? 'is-active' : ''
+          }
+        >
+          <Heading4Icon />
+          Heading 4
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 5 }).run()
+          }
+          className={
+            editor.isActive('heading', { level: 5 }) ? 'is-active' : ''
+          }
+        >
+          <Heading5Icon />
+          Heading 5
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().setParagraph().run()}
+          className={editor.isActive('paragraph') ? 'is-active' : ''}
+        >
+          Paragraph
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+export const DownArrowIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+  >
+    <path
+      fillRule="evenodd"
+      d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+    />
+  </svg>
+);
+
+function TextAlignMenu({ editor }: { editor: Editor }) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="sm" aria-label="Options">
+          <TextLeftIcon />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-32 icon-menu-drop">
+        <DropdownMenuGroup>
+          <DropdownMenuItem
+            onClick={() => editor.chain().focus().setTextAlign('left').run()}
+            className={
+              editor.isActive({ textAlign: 'left' }) ? 'is-active' : ''
+            }
+          >
+            <TextLeftIcon />
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => editor.chain().focus().setTextAlign('center').run()}
+            className={
+              editor.isActive({ textAlign: 'center' }) ? 'is-active' : ''
+            }
+          >
+            <TextCenterIcon />
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => editor.chain().focus().setTextAlign('right').run()}
+            className={
+              editor.isActive({ textAlign: 'right' }) ? 'is-active' : ''
+            }
+          >
+            <TextRightIcon />
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+            className={
+              editor.isActive({ textAlign: 'justify' }) ? 'is-active' : ''
+            }
+          >
+            <TextJustifyIcon />
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+function ImageIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+    >
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="18" height="14" rx="2" />
+        <path d="M3 3L12 12l3-3 6 6" />
+      </g>
+    </svg>
+  );
+}
+export {
+    ImageIcon,
+  TextAlignMenu,
+  TableDropdown,
+  FontFamilyDropdown,
+  EnterDownIcon,
+  HighlightIcon,
+  DividerLine,
+  Undo,
+  Redo,
+  BoldIcon,
+  ItalicIcon,
+  StrikethroughIcon,
+  HeadingDropdown,
+  BulletList,
+};

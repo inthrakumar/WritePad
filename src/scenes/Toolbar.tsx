@@ -1,14 +1,62 @@
 import { Editor } from '@tiptap/react';
 import styles from '../css/Toolbar.module.css';
-import {FontFamilyDropdown, Redo,Undo,HighlightIcon,StrikethroughIcon ,DividerLine,EnterDownIcon,ItalicIcon,BoldIcon} from './ToolBarComponents';
+import {
+  FontFamilyDropdown,
+  BulletList,
+  Redo,
+  Undo,
+  HighlightIcon,
+  TableDropdown,
+  StrikethroughIcon,
+  DividerLine,
+  EnterDownIcon,
+  ItalicIcon,
+  BoldIcon,
+  TextAlignMenu,
+  HeadingDropdown,
+} from './ToolBarComponents';
 type Props = {
   editor: Editor | null;
 };
+import { useCallback, useRef } from 'react';
+import { ImageIcon } from 'lucide-react';
 
 export function Toolbar({ editor }: Props) {
   if (!editor) {
     return null;
   }
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const inputFileRef = useRef<HTMLButtonElement | null>(null);
+
+  const handleClick = () => {
+    if (inputRef.current) {
+      inputRef.current.click();
+    }
+  };
+
+  const fileBlob = (data: File) => {
+    const blob = new Blob([data], { type: data.type });
+    return blob;
+  };
+
+  const addImage = useCallback(
+    (data: FileList | null) => {
+      if (data && data[0]) {
+        const file = data[0];
+        const url = fileBlob(file);
+        const reader = new FileReader();
+        reader.readAsDataURL(url);
+        reader.onloadend = function render() {
+          const base64data = reader.result;
+          if (base64data) {
+            editor.chain().focus().setImage({ src: base64data as string }).run();
+          }
+        };
+      }
+    },
+    [editor]
+  );
 
   return (
     <div className={styles.toolbar}>
@@ -21,6 +69,15 @@ export function Toolbar({ editor }: Props) {
         <Undo />
       </button>
       <button
+        aria-label="bullet list"
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+        disabled={!editor.can().chain().focus().toggleBulletList().run()}
+        className={`${editor.isActive('bulletList') ? 'is-active' : ''} ${styles.button}`}
+      >
+        <BulletList />
+      </button>
+
+      <button
         className={styles.button}
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editor.can().chain().focus().toggleBold().run()}
@@ -29,25 +86,28 @@ export function Toolbar({ editor }: Props) {
       >
         <BoldIcon />
       </button>
+
       <button
         className={styles.button}
         onClick={() => editor.chain().focus().setHorizontalRule().run()}
         disabled={!editor.can().chain().focus().setHorizontalRule().run()}
-        data-active={editor.isActive('highlight') ? 'is-active' : undefined}
-        aria-label="highlight"
+        aria-label="divider"
       >
         <DividerLine />
       </button>
-           <FontFamilyDropdown editor={editor}/> 
+
+      <FontFamilyDropdown editor={editor} />
       <button
         className={styles.button}
         onClick={() => editor.chain().focus().setHardBreak().run()}
         disabled={!editor.can().chain().focus().setHardBreak().run()}
-        data-active={editor.isActive('highlight') ? 'is-active' : undefined}
-        aria-label="highlight"
+        aria-label="hard break"
       >
         <EnterDownIcon />
       </button>
+
+      <HeadingDropdown editor={editor} />
+
       <button
         aria-label="redo"
         onClick={() => editor.chain().focus().redo().run()}
@@ -56,6 +116,8 @@ export function Toolbar({ editor }: Props) {
       >
         <Redo />
       </button>
+
+      <TextAlignMenu editor={editor} />
       <button
         className={styles.button}
         onClick={() => editor.chain().focus().toggleItalic().run()}
@@ -65,16 +127,17 @@ export function Toolbar({ editor }: Props) {
       >
         <ItalicIcon />
       </button>
-      
+
+      <TableDropdown editor={editor} />
       <button
         className={styles.button}
         onClick={() => editor.chain().focus().toggleHighlight().run()}
         disabled={!editor.can().chain().focus().toggleHighlight().run()}
-        data-active={editor.isActive('italic') ? 'is-active' : undefined}
-        aria-label="italic"
+        aria-label="highlight"
       >
         <HighlightIcon />
       </button>
+
       <button
         className={styles.button}
         onClick={() => editor.chain().focus().toggleStrike().run()}
@@ -84,8 +147,23 @@ export function Toolbar({ editor }: Props) {
       >
         <StrikethroughIcon />
       </button>
+
+      <button
+        ref={inputFileRef}
+        onClick={handleClick}
+        className={styles.button}
+        aria-label="insert image"
+      >
+        <ImageIcon />
+      </button>
+      <input
+        type="file"
+        onChange={(event) => addImage(event.target.files)}
+        ref={inputRef}
+        hidden
+        accept="image/jpeg,image/gif,image/png,image/x-eps"
+      />
     </div>
   );
 }
-
 
