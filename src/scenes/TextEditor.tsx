@@ -1,15 +1,24 @@
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Collaboration from "@tiptap/extension-collaboration";
-import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
-import { Toolbar } from "./Toolbar";
-import styles from "../css/Editor.module.css";
-import { useSelf } from "@liveblocks/react/suspense";
-import { EditorProps } from "@/types/types";
-
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Collaboration from '@tiptap/extension-collaboration';
+import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
+import { Toolbar } from './Toolbar';
+import styles from '../css/Editor.module.css';
+import { useSelf } from '@liveblocks/react/suspense';
+import { EditorProps } from '@/types/types';
+import TextAlign from '@tiptap/extension-text-align';
+import Highlight from '@tiptap/extension-highlight';
+import Document from '@tiptap/extension-document';
+import Table from '@tiptap/extension-table';
+import TableCell from '@tiptap/extension-table-cell';
+import TableHeader from '@tiptap/extension-table-header';
+import TableRow from '@tiptap/extension-table-row';
+import { Color } from '@tiptap/extension-color';
+import TextStyle from '@tiptap/extension-text-style';
+import Image from '@tiptap/extension-image';
 export function TiptapEditor({ doc, provider }: EditorProps) {
-    // Get user info from Liveblocks authentication endpoint
-    const userInfo = useSelf((me) => me.info);
+  // Get user info from Liveblocks authentication endpoint
+  const userInfo = useSelf((me) => me.info);
 
     // Set up editor with plugins, and place user info into Yjs awareness and cursors
     const editor = useEditor({
@@ -20,10 +29,24 @@ export function TiptapEditor({ doc, provider }: EditorProps) {
             },
         },
         extensions: [
-            StarterKit.configure({
-                // The Collaboration extension comes with its own history handling
-                history: false,
+            StarterKit,
+            TextAlign.configure({
+                types: ['heading', 'paragraph'],
             }),
+            Highlight,
+            TextStyle,
+            Color,
+            Document,
+            Table.configure({
+                resizable: false,
+            }),
+            Image.configure({
+                allowBase64: true,
+                inline: true,
+            }),
+            TableCell,
+            TableHeader,
+            TableRow,
             // Register the document with Tiptap
             Collaboration.configure({
                 document: doc,
@@ -34,15 +57,15 @@ export function TiptapEditor({ doc, provider }: EditorProps) {
                 user: userInfo,
             }),
         ],
-        immediatelyRender: false
+        immediatelyRender: false,
     });
 
-    return (
-        <div className={styles.container}>
-            <div className={styles.editorHeader}>
-                <Toolbar editor={editor} />
-            </div>
-            <EditorContent editor={editor} className={styles.editorContainer} />
-        </div>
-    );
+  return (
+    <div className={styles.container}>
+      <div className={styles.editorHeader}>
+        <Toolbar editor={editor} />
+      </div>
+      <EditorContent editor={editor} className={styles.editorContainer} />
+    </div>
+  );
 }
