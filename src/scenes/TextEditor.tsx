@@ -16,49 +16,54 @@ import TableRow from '@tiptap/extension-table-row';
 import { Color } from '@tiptap/extension-color';
 import TextStyle from '@tiptap/extension-text-style';
 import Image from '@tiptap/extension-image';
+import FontFamily from '@tiptap/extension-font-family';
 export function TiptapEditor({ doc, provider }: EditorProps) {
   // Get user info from Liveblocks authentication endpoint
   const userInfo = useSelf((me) => me.info);
 
-    // Set up editor with plugins, and place user info into Yjs awareness and cursors
-    const editor = useEditor({
-        editorProps: {
-            attributes: {
-                // Add styles to editor element
-                class: styles.editor,
-            },
-        },
-        extensions: [
-            StarterKit,
-            TextAlign.configure({
-                types: ['heading', 'paragraph'],
-            }),
-            Highlight,
-            TextStyle,
-            Color,
-            Document,
-            Table.configure({
-                resizable: false,
-            }),
-            Image.configure({
-                allowBase64: true,
-                inline: true,
-            }),
-            TableCell,
-            TableHeader,
-            TableRow,
-            // Register the document with Tiptap
-            Collaboration.configure({
-                document: doc,
-            }),
-            // Attach provider and user info
-            CollaborationCursor.configure({
-                provider: provider,
-                user: userInfo,
-            }),
-        ],
-        immediatelyRender: false,
-    });
+  // Set up editor with plugins, and place user info into Yjs awareness and cursors
+  const editor = useEditor({
+    editorProps: {
+      attributes: {
+        // Add styles to editor element
+        class: styles.editor,
+      },
+    },
+    extensions: [
+      StarterKit,
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
+      Highlight,
+      FontFamily,
+      TextStyle,
+      Color,
+      Document,
+      Table.configure({
+        resizable: false,
+      }),
+      FontFamily.configure({
+        types: ['textStyle'],
+      }),
+      Image.configure({
+        allowBase64: true,
+        inline: true,
+      }),
+      TableCell,
+      TableHeader,
+      TableRow,
+      // Register the document with Tiptap
+      Collaboration.configure({
+        document: doc,
+      }),
+      // Attach provider and user info
+      CollaborationCursor.configure({
+        provider: provider,
+        user: userInfo,
+      }),
+    ],
+    immediatelyRender: false,
+  });
 
   return (
     <div className={styles.container}>

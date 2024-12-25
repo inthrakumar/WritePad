@@ -1,3 +1,19 @@
+import { Button } from "@/components/ui/button"
+import { Editor } from "@tiptap/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 const Redo = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -86,17 +102,16 @@ const HighlightIcon = () => (
   </svg>
 );
 
-const DividerLine = () => (
+const DividerLine = ({ color = "black", strokeWidth = 2, length = "75%" }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="100%"
-        height="1"
+        width={length}
+        height={strokeWidth}
         viewBox="0 0 100 1"
     >
-        <line x1="0" y1="0" x2="100" y2="0" stroke="currentColor" strokeWidth="1" />
+        <line x1="0" y1="0" x2="100" y2="0" stroke={color} strokeWidth={strokeWidth} />
     </svg>
 );
-
 const EnterDownIcon = () => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -108,6 +123,83 @@ const EnterDownIcon = () => (
         <path d="M12 2a1 1 0 0 1 1 1v12.59l3.29-3.29a1 1 0 0 1 1.42 1.42l-5 5a1 1 0 0 1-1.42 0l-5-5a1 1 0 0 1 1.42-1.42L11 15.59V3a1 1 0 0 1 1-1z" />
     </svg>
 );
+function FontFamilyDropdown({editor}:{
+    editor:Editor
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size={'sm'}>Font</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-44">
+        <DropdownMenuGroup>
+          <DropdownMenuItem
+            onClick={() => editor.chain().focus().setFontFamily('Inter').run()}
+            className={editor.isActive('textStyle', { fontFamily: 'Inter' }) ? 'is-active' : ''}
+            data-test-id="inter"
+          >
+            Inter
+            <DropdownMenuShortcut>⇧⌘I</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => editor.chain().focus().setFontFamily('Comic Sans MS, Comic Sans').run()}
+            className={editor.isActive('textStyle', { fontFamily: 'Comic Sans MS, Comic Sans' }) ? 'is-active' : ''}
+            data-test-id="comic-sans"
+          >
+            Comic Sans
+            <DropdownMenuShortcut>⇧⌘C</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => editor.chain().focus().setFontFamily('serif').run()}
+            className={editor.isActive('textStyle', { fontFamily: 'serif' }) ? 'is-active' : ''}
+            data-test-id="serif"
+          >
+            Serif
+            <DropdownMenuShortcut>⇧⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => editor.chain().focus().setFontFamily('monospace').run()}
+            className={editor.isActive('textStyle', { fontFamily: 'monospace' }) ? 'is-active' : ''}
+            data-test-id="monospace"
+          >
+            Monospace
+            <DropdownMenuShortcut>⇧⌘M</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => editor.chain().focus().setFontFamily('cursive').run()}
+            className={editor.isActive('textStyle', { fontFamily: 'cursive' }) ? 'is-active' : ''}
+            data-test-id="cursive"
+          >
+            Cursive
+            <DropdownMenuShortcut>⇧⌘U</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => editor.chain().focus().setFontFamily('var(--title-font-family)').run()}
+            className={editor.isActive('textStyle', { fontFamily: 'var(--title-font-family)' }) ? 'is-active' : ''}
+            data-test-id="css-variable"
+          >
+            CSS Variable
+            <DropdownMenuShortcut>⇧⌘V</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => editor.chain().focus().setFontFamily('"Exo 2"').run()}
+            className={editor.isActive('textStyle', { fontFamily: '"Exo 2"' }) ? 'is-active' : ''}
+            data-test-id="exo2"
+          >
+            Exo 2
+            <DropdownMenuShortcut>⇧⌘E</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => editor.chain().focus().unsetFontFamily().run()}
+            data-test-id="unsetFontFamily"
+          >
+            Unset Font Family
+            <DropdownMenuShortcut>⇧⌘X</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
 
-
-export {EnterDownIcon,HighlightIcon,DividerLine,Undo,Redo,BoldIcon,ItalicIcon,StrikethroughIcon}
+export { FontFamilyDropdown,EnterDownIcon,HighlightIcon,DividerLine,Undo,Redo,BoldIcon,ItalicIcon,StrikethroughIcon}

@@ -1,6 +1,6 @@
 import { Editor } from '@tiptap/react';
 import styles from '../css/Toolbar.module.css';
-import { Redo,Undo,HighlightIcon,StrikethroughIcon ,DividerLine,EnterDownIcon,ItalicIcon,BoldIcon} from './ToolBarComponents';
+import {FontFamilyDropdown, Redo,Undo,HighlightIcon,StrikethroughIcon ,DividerLine,EnterDownIcon,ItalicIcon,BoldIcon} from './ToolBarComponents';
 type Props = {
   editor: Editor | null;
 };
@@ -38,7 +38,7 @@ export function Toolbar({ editor }: Props) {
       >
         <DividerLine />
       </button>
-            
+           <FontFamilyDropdown editor={editor}/> 
       <button
         className={styles.button}
         onClick={() => editor.chain().focus().setHardBreak().run()}
