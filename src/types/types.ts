@@ -11,6 +11,13 @@ type UpdateTitle = {
   id: Id<'userRecords'>;
   title: string;
 };
+type ColorProps = {
+  color: string;
+  x: number;
+  y: number;
+    name:string
+};
+
 
 type folderContents = {
   success: boolean;
@@ -25,4 +32,4 @@ type folderContents = {
     lastEdited: string;
   }[];
 };
-export type { EditorProps, UpdateTitle, folderContents };
+export type { ColorProps,EditorProps, UpdateTitle, folderContents };

@@ -19,7 +19,7 @@
     border-radius: 8px; /* Fixed border-radius */
     flex-grow: 1;
     width: 80vw;
-    max-height: 75vh;
+    max-height: 70vh;
     overflow-y: scroll;
     height: 100%;
     padding: 1rem;
