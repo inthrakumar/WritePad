@@ -19,10 +19,8 @@ import Image from '@tiptap/extension-image';
 import FontFamily from '@tiptap/extension-font-family';
 import LiveCursors from './cursor/LiveCursors';
 export function TiptapEditor({ doc, provider }: EditorProps) {
-  // Get user info from Liveblocks authentication endpoint
   const userInfo = useSelf((me) => me.info);
 
-  // Set up editor with plugins, and place user info into Yjs awareness and cursors
   const editor = useEditor({
     editorProps: {
       attributes: {
