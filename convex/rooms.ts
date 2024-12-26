@@ -53,3 +53,15 @@ export const UpdateTitle = mutation({
     return { success: true, data: updatedRoom };
   },
 });
+
+export const DeleteRoom = mutation({
+    args:{id:v.id('userRecords')},
+    handler:async (ctx,args)=>{
+        await ctx.db.delete(args.id);
+        return {
+            success:true
+        }
+    }
+})
+
+
