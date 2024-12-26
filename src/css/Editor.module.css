@@ -16,18 +16,27 @@
 }
 
 .editor {
-    border-radius: inherit;
+    border-radius: 8px; /* Fixed border-radius */
     flex-grow: 1;
-    width: 100%;
+    width: 80vw;
+    max-height: 75vh;
+    overflow-y: scroll;
     height: 100%;
     padding: 1rem;
+    border: 2px solid #cccccc; /* Light gray border */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+    background-color: #f9f9f9; /* Optional background color for contrast */
 }
-
+.editor:hover {
+    border-color: #007bff; /* Change border color to blue on hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow */
+}
 .editor:focus {
     outline: none;
 }
 
 .editorContainer {
+    width:80vw;
     position: relative;
     height: 100%;
 }

@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import RoomTitle from "./RoomTitle";
 import { TiptapEditor } from "./TextEditor";
 import ShareModal from "./ShareModal";
-
+import CollabaratorStack from "./CollabaratorStack";
 export function CollaborativeEditor() {
     const room = useRoom();
     const [doc, setDoc] = useState<Y.Doc>();
@@ -34,6 +34,7 @@ export function CollaborativeEditor() {
         <div className="flex items-center justify-around w-[70vw]">
             <RoomTitle />
             <ShareModal />
+            <CollabaratorStack/>
         </div>
         <TiptapEditor doc={doc} provider={provider} />
     </div>;
