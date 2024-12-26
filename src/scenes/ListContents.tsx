@@ -2,12 +2,12 @@ import { type ReactElement } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { folderContents } from '@/types/types';
 import Link from 'next/link';
-
 export default function ListContents({
     folderdata,
 }: {
     folderdata: folderContents | null;
 }): ReactElement {
+   
     if (!folderdata) {
         return (
             <div className="w-full flex flex-col items-center justify-center">
@@ -54,6 +54,7 @@ export default function ListContents({
                         </div>
                     </Link>
                 ))}
+
             </div>
         </div>
     );

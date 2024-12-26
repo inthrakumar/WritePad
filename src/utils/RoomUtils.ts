@@ -10,8 +10,6 @@ import {
 } from '@/config/serverconfig';
 import { api } from '../../convex/_generated/api';
 import { UpdateTitle } from '../types/types';
-import { metadata } from '../app/(auth)/sign-up/[[...sign-up]]/layout';
-import { isDeleted } from 'yjs';
 import { Id } from '../../convex/_generated/dataModel';
 const CreateRoom = async ({
     userId,
