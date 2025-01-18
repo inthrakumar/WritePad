@@ -9,8 +9,9 @@ import {
     convex_connection,
 } from '@/config/serverconfig';
 import { api } from '../../convex/_generated/api';
-import { UpdateTitle } from '../types/types';
+import { DeleteFile, DeleteFolder, UpdateTitle } from '../types/types';
 import { Id } from '../../convex/_generated/dataModel';
+import { isDeleted } from 'yjs';
 const CreateRoom = async ({
     userId,
     email,
@@ -182,25 +183,52 @@ const getSharedRooms = async (userId: string) => {
         throw new Error('Failed to fetch shared rooms');
     }
 };
-const  DeleteRoom = async (id: Id<'userRecords'>, roomId: string) => {
-    auth().protect()
 
+const DeleteRoom = async ({ roomId, id }: DeleteFile) => {
+    auth().protect();
     try {
-        await liveblocks_connection.updateRoom(roomId, {
+        const room = await liveblocks_connection.updateRoom(roomId, {
             metadata: {
-                isActive: "no"
-            }
-        })
-        await convex_connection.mutation(api.rooms.DeleteRoom,{
-            id:id
-        })
+                isAlive: 'false',
+            },
+        });
+        const deletedRoom = await convex_connection.mutation(api.rooms.DeleteFile, {
+            id,
+        });
+        if (deletedRoom.success) {
+            return JSON.parse(
+                JSON.stringify({
+                    success: true,
+                })
+            );
+        }
     } catch (error) {
-        console.log('Error in deleting rooms');
-
-
+        throw new Error('Error in deleting a file');
+    }
+};
+const DeleteFolderContents = async ({ id, url }: DeleteFolder) => {
+    auth().protect()
+    try {
+        const deletedRooms = await convex_connection.mutation(api.rooms.DeleteFolder, { id, url })
+        if (Array.isArray(deletedRooms.childIds)) {
+    await Promise.all(
+        deletedRooms.childIds.map((childId) =>
+            liveblocks_connection.updateRoom(childId, {
+                metadata: {
+                    isAlive: "false", // Assuming 'isAlive' should be a boolean
+                },
+            })
+        )
+    );
+}         return JSON.parse(JSON.stringify({
+            sucess: true
+        }))
+    } catch (error) {
+        throw new Error('Error in deleting the folder');
     }
 }
 export {
+    DeleteFolderContents,
     DeleteRoom,
     CreateRoom,
     UpdateTitleFn,

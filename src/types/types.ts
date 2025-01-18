@@ -18,7 +18,15 @@ type ColorProps = {
     name:string
 };
 
+type DeleteFile ={
+    roomId:string,
+    id:Id<'userRecords'>
+}
 
+type DeleteFolder ={
+    url:string,
+    id:Id<'userRecords'>
+}
 type folderContents = {
   success: boolean;
   data: {
@@ -32,4 +40,4 @@ type folderContents = {
     lastEdited: string;
   }[];
 };
-export type { ColorProps,EditorProps, UpdateTitle, folderContents };
+export type {DeleteFolder, ColorProps,EditorProps, UpdateTitle, folderContents, DeleteFile };
