@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { folderContents } from '@/types/types';
 import CreateRoomForm from '@/scenes/CreateRoomForm';
 import { BreadCrumbs } from '@/scenes/ContentBreadCrumbs';
-import ListContents from '@/scenes/ListContents';
 import { usePathname } from 'next/navigation';
+import { DriveExplorer } from '@/scenes/folder/drive';
 const DocPage = () => {
     function toTitleCase(str: string) {
         return str
@@ -57,7 +57,7 @@ const DocPage = () => {
                 <BreadCrumbs />
             </div>
             <div className="w-full">
-                <ListContents folderdata={data} />
+                <DriveExplorer data={data?.data} />
             </div>
         </div>
     );
