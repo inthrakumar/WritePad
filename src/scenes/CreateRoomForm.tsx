@@ -30,6 +30,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { DialogTitle } from '@radix-ui/react-dialog';
 
 const createRoomSchema = z.object({
     filename: z.string().min(2, {
@@ -83,6 +84,7 @@ const CreateRoomForm = () => {
                     <Button variant={'link'} className='flex gap-1'><File size={15} /> New File</Button>
                 </div>
             </DialogTrigger>
+            <DialogTitle>inthrakumar</DialogTitle>
             <DialogContent>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -144,6 +146,7 @@ const CreateFolderForm = () => {
                     <Button variant={'link'} className='flex gap-1'><Folder size={15} /> New Folder</Button>
                 </div>
             </DialogTrigger>
+              <DialogTitle>inthrakumar</DialogTitle>
             <DialogContent>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

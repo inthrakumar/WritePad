@@ -1,7 +1,6 @@
 .container {
     display: flex;
     flex-direction: column;
-    position: relative;
     border-radius: 12px;
     background: #fff;
     width: 100%;
@@ -21,7 +20,6 @@
     width: 80vw;
     max-height: 70vh;
     overflow-y: scroll;
-    height: 100%;
     padding: 1rem;
     border: 2px solid #cccccc; /* Light gray border */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
@@ -37,7 +35,6 @@
 
 .editorContainer {
     width:80vw;
-    position: relative;
     height: 100%;
 }
 

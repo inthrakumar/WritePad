@@ -19,7 +19,6 @@ const AvatarCircles = ({
     avatarUrls,
 }: AvatarCirclesProps) => {
     const isNumbers = typeof numPeople === 'number' && numPeople > 0; // Ensure numPeople is a valid number
-    console.log(isNumbers);
     return (
         <div className={cn('z-10 flex -space-x-4 rtl:space-x-reverse', className)}>
             {avatarUrls.map((url, index) => (

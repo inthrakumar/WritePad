@@ -26,7 +26,7 @@ export default function ListContents({
             {/* Dynamic Folder Data Section */}
             <div className="flex flex-col">
                 {folderdata.map((item) => (
-                    <Link href={`/document/${item.roomId}`}>
+                    <Link href={`/document/${item.roomId}`} key={item.roomId}>
                         <div
                             key={item._id.toString()}
                             className="flex items-center space-x-4 text-sm p-4 hover:cursor-pointer hover:bg-gray-100   rounded-md shadow-sm"
