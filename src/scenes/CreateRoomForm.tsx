@@ -1,188 +1,118 @@
-import React from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Plus, File, Folder } from 'lucide-react'
-import {
-    Dialog,
-    DialogContent,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { z } from "zod";
-import { useUser } from '@clerk/clerk-react';
-import { CreateRoom } from '@/utils/RoomUtils';
-import { usePathname } from 'next/navigation';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuLabel,
+import React from "react"
+import { useRouter, usePathname } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import { Plus, File, Folder } from "lucide-react"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm, type SubmitHandler } from "react-hook-form"
+import { z } from "zod"
+import { useUser } from "@clerk/clerk-react"
+import { CreateRoom } from "@/utils/RoomUtils"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { DialogTitle } from '@radix-ui/react-dialog';
+const createItemSchema = z.object({
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters.",
+  }),
+})
 
-const createRoomSchema = z.object({
-    filename: z.string().min(2, {
-        message: "Filename must be at least 2 characters.",
+type CreateItemFormData = z.infer<typeof createItemSchema>
 
-    }),
-
-});
-
-type CreateRoomFormData = z.infer<typeof createRoomSchema>;
-
-
-const createFolderSchema = z.object({
-    foldername: z.string().min(2, {
-        message: "Filename must be at least 2 characters.",
-
-    }),
-
-});
-
-type CreateFolderData = z.infer<typeof createFolderSchema>;
-
-const CreateRoomForm = () => {
-    const form = useForm<CreateRoomFormData>({
-        resolver: zodResolver(createRoomSchema),
-        defaultValues: {
-            filename: "Untitled",
-        },
-    });
-    const userDetails = useUser();
-    const pathname = usePathname();
-    const onSubmit: SubmitHandler<CreateRoomFormData> = async (values) => {
-        let room = null;
-        console.log(pathname);
-        if (userDetails?.user) {
-            room = await CreateRoom({
-                userId: userDetails.user.id,
-                parent: pathname,
-                type: 'file',
-                email: userDetails.user.emailAddresses[0].emailAddress,
-                title: values.filename,
-            });
-        }
-
-    };
-
-    return (
-        <Dialog>
-            <DialogTrigger className=''>
-                <div className='w-full flex flex-row-reverse'>
-                    <Button variant={'link'} className='flex gap-1'><File size={15} /> New File</Button>
-                </div>
-            </DialogTrigger>
-            <DialogTitle>inthrakumar</DialogTitle>
-            <DialogContent>
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                        <FormField
-                            control={form.control}
-                            name="filename"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Filename</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Untitled" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-
-                        <Button type="submit">Create</Button>
-                    </form>
-                </Form>
-            </DialogContent>
-        </Dialog>
-    );
-};
-const CreateFolderForm = () => {
-    const form = useForm<CreateFolderData>({
-        resolver: zodResolver(createFolderSchema),
-        defaultValues: {
-            foldername: "Untitled",
-        },
-    });
-    const userDetails = useUser();
-    const pathname = usePathname();
-    const onSubmit: SubmitHandler<CreateFolderData> = async (values) => {
-        console.log("hit");
-        try {
-            let room = null;
-            if (userDetails?.user) {
-                room = await CreateRoom({
-                    userId: userDetails.user.id,
-                    parent: pathname,
-                    type: 'folder',
-                    email: userDetails.user.emailAddresses[0].emailAddress,
-                    title: values.foldername,
-                });
-            }
-        } catch (error) {
-            console.error(error);
-
-        }
-
-    };
-
-    return (
-        <Dialog>
-            <DialogTrigger className=''>
-                <div className='w-full flex flex-row-reverse'>
-                    <Button variant={'link'} className='flex gap-1'><Folder size={15} /> New Folder</Button>
-                </div>
-            </DialogTrigger>
-              <DialogTitle>inthrakumar</DialogTitle>
-            <DialogContent>
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                        <FormField
-                            control={form.control}
-                            name="foldername"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Foldername</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Untitled" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-
-                        <Button type="submit">Create</Button>
-                    </form>
-                </Form>
-            </DialogContent>
-        </Dialog>
-    );
-};
-
-const NewCreation = () => {
-    return (
-        <DropdownMenu>
-            <DropdownMenuTrigger><Button className='flex gap-1 text-sm '>New <Plus/></Button></DropdownMenuTrigger>
-            <DropdownMenuContent>
-                <DropdownMenuLabel><CreateRoomForm /></DropdownMenuLabel>
-                <DropdownMenuLabel><CreateFolderForm /></DropdownMenuLabel>
-            </DropdownMenuContent>
-        </DropdownMenu>
-    )
-
+interface CreateItemFormProps {
+  type: "file" | "folder"
+  onClose: () => void
 }
-export default NewCreation;
+
+const CreateItemForm: React.FC<CreateItemFormProps> = ({ type, onClose }) => {
+  const form = useForm<CreateItemFormData>({
+    resolver: zodResolver(createItemSchema),
+    defaultValues: {
+      name: "Untitled",
+    },
+  })
+  const userDetails = useUser()
+  const pathname = usePathname()
+
+  const onSubmit: SubmitHandler<CreateItemFormData> = async (values) => {
+    try {
+      if (userDetails?.user) {
+        await CreateRoom({
+          userId: userDetails.user.id,
+          parent: pathname,
+          type: type,
+          email: userDetails.user.emailAddresses[0].emailAddress,
+          title: values.name,
+        })
+      }
+      onClose()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{type === "file" ? "Filename" : "Folder name"}</FormLabel>
+              <FormControl>
+                <Input placeholder="Untitled" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Create</Button>
+      </form>
+    </Form>
+  )
+}
+
+const NewCreation: React.FC = () => {
+  const [dialogOpen, setDialogOpen] = React.useState(false)
+  const [itemType, setItemType] = React.useState<"file" | "folder">("file")
+
+  const handleNewItem = (type: "file" | "folder") => {
+    setItemType(type)
+    setDialogOpen(true)
+  }
+
+  return (
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button className="flex gap-1 text-sm">
+            New <Plus />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onSelect={() => handleNewItem("file")}>
+            <File className="mr-2 h-4 w-4" />
+            <span>New File</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => handleNewItem("folder")}>
+            <Folder className="mr-2 h-4 w-4" />
+            <span>New Folder</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent>
+          <CreateItemForm type={itemType} onClose={() => setDialogOpen(false)} />
+        </DialogContent>
+      </Dialog>
+    </>
+  )
+}
+
+export default NewCreation
+
+

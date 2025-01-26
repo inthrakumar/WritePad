@@ -1,14 +1,13 @@
 import { type ReactElement } from 'react';
 import { Separator } from '@/components/ui/separator';
-import { folderContents } from '@/types/types';
+import { folderContents } from '@/types/types'; // Make sure folderContents is an array type
 import Link from 'next/link';
 export default function ListContents({
     folderdata,
 }: {
-    folderdata: folderContents | null;
+    folderdata: folderContents | null; // Ensure folderContents is an array type, e.g., Array<{ _id: string, ... }>
 }): ReactElement {
-   
-    if (!folderdata) {
+    if (!folderdata || !Array.isArray(folderdata)) {
         return (
             <div className="w-full flex flex-col items-center justify-center">
                 <p className="text-gray-500 text-center">No folder data available</p>
@@ -26,10 +25,9 @@ export default function ListContents({
             {/* Dynamic Folder Data Section */}
             <div className="flex flex-col">
                 {folderdata.map((item) => (
-                    <Link href={`/document/${item.roomId}`} key={item.roomId}>
+                    <Link key={item._id.toString()} href={`/document/${item.roomId}`}>
                         <div
-                            key={item._id.toString()}
-                            className="flex items-center space-x-4 text-sm p-4 hover:cursor-pointer hover:bg-gray-100   rounded-md shadow-sm"
+                            className="flex items-center space-x-4 text-sm p-4 hover:cursor-pointer hover:bg-gray-100 rounded-md shadow-sm"
                         >
                             <div className="flex-1">
                                 <h3 className="text-md font-semibold">{item.roomTitle}</h3>
@@ -42,14 +40,13 @@ export default function ListContents({
                             <div className="flex-1">
                                 <p>{item.userid}</p>
                             </div>
-
                             <Separator orientation="vertical" />
                             <div className="flex-1">
-                                <p> {item.roomId}</p>
+                                <p>{item.roomId}</p>
                             </div>
                             <Separator orientation="vertical" />
                             <div className="flex-1">
-                                <p> {new Date(item._creationTime).toLocaleString()}</p>
+                                <p>{new Date(item._creationTime).toLocaleString()}</p>
                             </div>
                         </div>
                     </Link>
@@ -59,3 +56,4 @@ export default function ListContents({
         </div>
     );
 }
+
