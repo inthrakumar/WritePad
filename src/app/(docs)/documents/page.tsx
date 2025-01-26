@@ -1,10 +1,10 @@
 'use client';
-import ListContents from '@/scenes/ListContents';
 import React, { useEffect, useState } from 'react';
 import CreateRoomForm from '@/scenes/CreateRoomForm';
 import { BreadCrumbs } from '@/scenes/ContentBreadCrumbs';
 import { usePathname } from 'next/navigation';
 import { folderContents } from '@/types/types';
+import { UserRecordsExplorer } from '@/scenes/folder/drive';
 function page() {
     const [data, setData] = useState<folderContents | null>(null);
 
@@ -55,7 +55,7 @@ function page() {
                 <BreadCrumbs />
             </div>
             <div className="w-full">
-                <ListContents folderdata={data} />
+                <UserRecordsExplorer data={data!} />
             </div>
         </div>
     );

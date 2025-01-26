@@ -482,7 +482,7 @@ function BulletList() {
       width="24"
       height="24"
     >
-      <g fill="none" stroke="currentColor" stroke-width="2">
+      <g fill="none" stroke="currentColor" strokeWidth="2">
         <line x1="4" y1="6" x2="20" y2="6" />
         <line x1="4" y1="12" x2="20" y2="12" />
         <line x1="4" y1="18" x2="20" y2="18" />
@@ -646,7 +646,7 @@ function ImageIcon() {
       width="24"
       height="24"
     >
-      <g fill="none" stroke="currentColor" stroke-width="2">
+      <g fill="none" stroke="currentColor" strokeWidth="2">
         <rect x="3" y="3" width="18" height="14" rx="2" />
         <path d="M3 3L12 12l3-3 6 6" />
       </g>
@@ -654,7 +654,7 @@ function ImageIcon() {
   );
 }
 export {
-    ImageIcon,
+  ImageIcon,
   TextAlignMenu,
   TableDropdown,
   FontFamilyDropdown,

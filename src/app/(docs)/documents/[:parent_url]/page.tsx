@@ -5,7 +5,7 @@ import { folderContents } from '@/types/types';
 import CreateRoomForm from '@/scenes/CreateRoomForm';
 import { BreadCrumbs } from '@/scenes/ContentBreadCrumbs';
 import { usePathname } from 'next/navigation';
-import { DriveExplorer } from '@/scenes/folder/drive';
+import { UserRecordsExplorer } from '@/scenes/folder/drive';
 const DocPage = () => {
     function toTitleCase(str: string) {
         return str
@@ -57,7 +57,7 @@ const DocPage = () => {
                 <BreadCrumbs />
             </div>
             <div className="w-full">
-                <DriveExplorer data={data?.data} />
+                <UserRecordsExplorer data={data!} />
             </div>
         </div>
     );

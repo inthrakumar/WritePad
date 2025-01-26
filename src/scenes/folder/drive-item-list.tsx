@@ -16,9 +16,16 @@ import {
 } from '@/components/ui/table'
 import { folderContents } from '@/types/types'
 
-
-export function UserRecordsList({ data }: folderContents) {
+type FolderExplorer = {
+  data: folderContents
+}
+export function UserRecordsList({ data }: FolderExplorer) {
+    if (!data) {
+        return null;
+    }
+ 
   return (
+
     <Table>
       <TableHeader>
         <TableRow>
@@ -30,7 +37,7 @@ export function UserRecordsList({ data }: folderContents) {
         </TableRow>
       </TableHeader>
       <TableBody>
-    {data.map((record) => (
+        {data.map((record) => (
           <TableRow key={record._id}>
             <TableCell className="font-medium">
               <div className="flex items-center space-x-2">
