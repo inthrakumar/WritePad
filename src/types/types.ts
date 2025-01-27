@@ -11,7 +11,22 @@ type UpdateTitle = {
   id: Id<'userRecords'>;
   title: string;
 };
+type ColorProps = {
+  color: string;
+  x: number;
+  y: number;
+    name:string
+};
 
+type DeleteFile ={
+    roomId:string,
+    id:Id<'userRecords'>
+}
+
+type DeleteFolder ={
+    url:string,
+    id:Id<'userRecords'>
+}
 type folderContents = {
   success: boolean;
   data: {
@@ -25,4 +40,4 @@ type folderContents = {
     lastEdited: string;
   }[];
 };
-export type { EditorProps, UpdateTitle, folderContents };
+export type {DeleteFolder, ColorProps,EditorProps, UpdateTitle, folderContents, DeleteFile };
