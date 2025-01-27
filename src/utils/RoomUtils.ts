@@ -51,7 +51,7 @@ const CreateRoom = async ({
             roomTitle: title,
             roomId,
             userid: userId,
-            type: 'file',
+            type: type,
         });
         revalidatePath(`/`);
         return JSON.parse(JSON.stringify(convexRoom));

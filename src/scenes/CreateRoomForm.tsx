@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -9,45 +11,55 @@ import { z } from "zod"
 import { useUser } from "@clerk/clerk-react"
 import { CreateRoom } from "@/utils/RoomUtils"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 
-const createItemSchema = z.object({
+const createFileSchema = z.object({
   name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
+    message: "Filename must be at least 2 characters.",
   }),
 })
 
-type CreateItemFormData = z.infer<typeof createItemSchema>
+const createFolderSchema = z.object({
+  name: z.string().min(2, {
+    message: "Folder name must be at least 2 characters.",
+  }),
+})
 
-interface CreateItemFormProps {
-  type: "file" | "folder"
+type CreateFileFormData = z.infer<typeof createFileSchema>
+type CreateFolderFormData = z.infer<typeof createFolderSchema>
+
+interface CreateFileFormProps {
   onClose: () => void
 }
 
-const CreateItemForm: React.FC<CreateItemFormProps> = ({ type, onClose }) => {
-  const form = useForm<CreateItemFormData>({
-    resolver: zodResolver(createItemSchema),
+interface CreateFolderFormProps {
+  onClose: () => void
+}
+
+const CreateFileForm: React.FC<CreateFileFormProps> = ({ onClose }) => {
+  const form = useForm<CreateFileFormData>({
+    resolver: zodResolver(createFileSchema),
     defaultValues: {
-      name: "Untitled",
+      name: "Untitled.md",
     },
   })
   const userDetails = useUser()
   const pathname = usePathname()
+  const router = useRouter()
 
-  const onSubmit: SubmitHandler<CreateItemFormData> = async (values) => {
+  const onSubmit: SubmitHandler<CreateFileFormData> = async (values) => {
     try {
       if (userDetails?.user) {
         await CreateRoom({
           userId: userDetails.user.id,
           parent: pathname,
-          type: type,
+          type: "file",
           email: userDetails.user.emailAddresses[0].emailAddress,
           title: values.name,
         })
       }
-      onClose()
+      router.push(pathname)
     } catch (error) {
       console.error(error)
     }
@@ -61,15 +73,66 @@ const CreateItemForm: React.FC<CreateItemFormProps> = ({ type, onClose }) => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{type === "file" ? "Filename" : "Folder name"}</FormLabel>
+              <FormLabel>Filename</FormLabel>
               <FormControl>
-                <Input placeholder="Untitled" {...field} />
+                <Input placeholder="Untitled.md" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Create</Button>
+        <Button type="submit">Create File</Button>
+      </form>
+    </Form>
+  )
+}
+
+const CreateFolderForm: React.FC<CreateFolderFormProps> = ({ onClose }) => {
+  const form = useForm<CreateFolderFormData>({
+    resolver: zodResolver(createFolderSchema),
+    defaultValues: {
+      name: "New Folder",
+    },
+  })
+  const userDetails = useUser()
+  const pathname = usePathname()
+  const router = useRouter()
+
+  const onSubmit: SubmitHandler<CreateFolderFormData> = async (values) => {
+    try {
+      if (userDetails?.user) {
+       const content =   await CreateRoom({
+          userId: userDetails.user.id,
+          parent: pathname,
+          type: "folder",
+          email: userDetails.user.emailAddresses[0].emailAddress,
+          title: values.name,
+        })
+      }
+      router.push(pathname);
+    
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Folder name</FormLabel>
+              <FormControl>
+                <Input placeholder="New Folder" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Create Folder</Button>
       </form>
     </Form>
   )
@@ -106,7 +169,11 @@ const NewCreation: React.FC = () => {
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
-          <CreateItemForm type={itemType} onClose={() => setDialogOpen(false)} />
+          {itemType === "file" ? (
+            <CreateFileForm onClose={() => setDialogOpen(false)} />
+          ) : (
+            <CreateFolderForm onClose={() => setDialogOpen(false)} />
+          )}
         </DialogContent>
       </Dialog>
     </>

@@ -1,11 +1,13 @@
-import { FolderIcon, FileIcon, MoreVertical } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { FolderIcon, FileIcon, MoreVertical } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@/components/ui/dropdown-menu';
 import {
   Table,
   TableBody,
@@ -13,19 +15,18 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
-import { folderContents } from '@/types/types'
+} from '@/components/ui/table';
+import { folderContents } from '@/types/types';
 
 type FolderExplorer = {
-  data: folderContents
-}
+  data: folderContents;
+};
 export function UserRecordsList({ data }: FolderExplorer) {
-    if (!data) {
-        return null;
-    }
- 
+  if (!data) {
+    return null;
+  }
+  const pathname = usePathname();
   return (
-
     <Table>
       <TableHeader>
         <TableRow>
@@ -46,12 +47,23 @@ export function UserRecordsList({ data }: FolderExplorer) {
                 ) : (
                   <FileIcon className="w-5 h-5 text-gray-500" />
                 )}
-                <span>{record.roomTitle}</span>
+                <Link
+                  key={record._id}
+                  href={
+                    record.type === 'folder'
+                      ? `${pathname}/${encodeURIComponent(record.roomTitle)}`
+                      : `/document/${record.roomId}`
+                  }
+                >
+                  <span className="cursor-pointer">{record.roomTitle}</span>
+                </Link>
               </div>
             </TableCell>
             <TableCell>{record.type}</TableCell>
             <TableCell>{record.roomId}</TableCell>
-            <TableCell>{new Date(record._creationTime).toLocaleString()}</TableCell>
+            <TableCell>
+              {new Date(record._creationTime).toLocaleString()}
+            </TableCell>
             <TableCell>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -70,7 +82,5 @@ export function UserRecordsList({ data }: FolderExplorer) {
         ))}
       </TableBody>
     </Table>
-  )
+  );
 }
-
-
