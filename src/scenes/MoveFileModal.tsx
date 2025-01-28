@@ -3,14 +3,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { FolderIcon, ChevronRight } from "lucide-react"
-import type { UserRecord } from "./user-records-explorer"
-
+import { folderContents,ContentType } from '@/types/types';
 type MoveFileModalProps = {
   isOpen: boolean
   onClose: () => void
   onConfirm: (destinationId: string) => void
-  records: UserRecord[]
-  currentRecord: UserRecord | null
+  records: folderContents
+  currentRecord: ContentType | null
 }
 
 export function MoveFileModal({ isOpen, onClose, onConfirm, records, currentRecord }: MoveFileModalProps) {

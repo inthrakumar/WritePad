@@ -50,5 +50,15 @@ type MoveFolder={
     newfileurl :string,
     oldfileurl:string
 }
-export type {DeleteFolder, MoveFile,MoveFolder, ColorProps,EditorProps, UpdateTitle, folderContents, DeleteFile };
+type ContentType ={
+    _id: Id<'userRecords'>;
+    _creationTime: number;
+    userid: string;
+    type: string;
+    parent: string;
+    roomId: string;
+    roomTitle: string;
+    lastEdited: string;
+  }
+export type {ContentType ,DeleteFolder, MoveFile,MoveFolder, ColorProps,EditorProps, UpdateTitle, folderContents, DeleteFile };
         
