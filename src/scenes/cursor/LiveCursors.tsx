@@ -1,15 +1,21 @@
-'use client'
-import { useOthers,useMyPresence } from "@liveblocks/react/suspense";
-import { type ReactElement } from "react"
-import Cursor from "./Cursor";
-import styles from '../../css/Cursor.module.css'
-import { numberToHexColor } from "@/utils/cursorutils";
-export default function LiveCursors(): ReactElement {
-    const [{cursor},updateMyPresence] = useMyPresence();
-    const others = useOthers()
-    return <div  className={styles.container}
+'use client';
+import type { ReactNode } from 'react';
+import { useOthers, useMyPresence } from '@liveblocks/react/suspense';
+import { Children, type ReactElement } from 'react';
+import Cursor from './Cursor';
+import styles from '../../css/Cursor.module.css';
+import { numberToHexColor } from '@/utils/cursorutils';
+export default function LiveCursorProvider({
+  children,
+}: {
+  children: ReactNode;
+}): ReactElement {
+  const [{ cursor }, updateMyPresence] = useMyPresence();
+  const others = useOthers();
+  return (
+    <div
+      className={styles.container}
       onPointerMove={(event) => {
-        // Update the user cursor position on every pointer move
         updateMyPresence({
           cursor: {
             x: Math.round(event.clientX),
@@ -18,16 +24,16 @@ export default function LiveCursors(): ReactElement {
         });
       }}
       onPointerLeave={() =>
-        // When the pointer goes out, set cursor to null
         updateMyPresence({
           cursor: null,
         })
-      }>
-         {
+      }
+    >
+      {
         /**
          * Iterate over other users and display a cursor based on their presence
          */
-        others.map(({info, connectionId, presence }) => {
+        others.map(({ info, connectionId, presence }) => {
           if (presence.cursor === null) {
             return null;
           }
@@ -44,6 +50,8 @@ export default function LiveCursors(): ReactElement {
             />
           );
         })
-      } 
+      }
+      {children}
     </div>
+  );
 }
