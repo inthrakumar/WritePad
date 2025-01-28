@@ -9,7 +9,13 @@ import {
     convex_connection,
 } from '@/config/serverconfig';
 import { api } from '../../convex/_generated/api';
-import { DeleteFile, DeleteFolder, UpdateTitle } from '../types/types';
+import {
+    MoveFile,
+    DeleteFile,
+    DeleteFolder,
+    UpdateTitle,
+    MoveFolder,
+} from '../types/types';
 import { Id } from '../../convex/_generated/dataModel';
 import { isDeleted } from 'yjs';
 const CreateRoom = async ({
@@ -207,27 +213,68 @@ const DeleteRoom = async ({ roomId, id }: DeleteFile) => {
     }
 };
 const DeleteFolderContents = async ({ id, url }: DeleteFolder) => {
-    auth().protect()
+    auth().protect();
     try {
-        const deletedRooms = await convex_connection.mutation(api.rooms.DeleteFolder, { id, url })
+        const deletedRooms = await convex_connection.mutation(
+            api.rooms.DeleteFolder,
+            { id, url }
+        );
         if (Array.isArray(deletedRooms.childIds)) {
-    await Promise.all(
-        deletedRooms.childIds.map((childId) =>
-            liveblocks_connection.updateRoom(childId, {
-                metadata: {
-                    isAlive: "false", // Assuming 'isAlive' should be a boolean
-                },
+            await Promise.all(
+                deletedRooms.childIds.map((childId) =>
+                    liveblocks_connection.updateRoom(childId, {
+                        metadata: {
+                            isAlive: 'false', // Assuming 'isAlive' should be a boolean
+                        },
+                    })
+                )
+            );
+        }
+        return JSON.parse(
+            JSON.stringify({
+                sucess: true,
             })
-        )
-    );
-}         return JSON.parse(JSON.stringify({
-            sucess: true
-        }))
+        );
     } catch (error) {
         throw new Error('Error in deleting the folder');
     }
-}
+};
+
+const MoveFileContents = async ({ id, parenturl }: MoveFile) => {
+    auth().protect();
+    try {
+        const movedRoom = await convex_connection.mutation(api.rooms.MoveFile, {
+            id,
+            parenturl,
+        });
+        revalidatePath('/');
+        return JSON.parse(JSON.stringify(movedRoom));
+    } catch (error) {
+        throw new Error('Error in moving the file');
+    }
+};
+const MoveFolderContents = async ({
+    id,
+    parenturl,
+    oldfileurl,
+    newfileurl,
+}: MoveFolder) => {
+    auth().protect();
+    try {
+        const movedFolder = await convex_connection.mutation(api.rooms.MoveFolder, {
+            id,
+            parenturl,
+            oldfileurl,
+            newfileurl,
+        });
+        revalidatePath('/');
+        return JSON.parse(JSON.stringify(movedFolder));
+    } catch (error) {
+        throw new Error('Error in moving the file');
+    }
+};
 export {
+    MoveFolderContents,
     DeleteFolderContents,
     DeleteRoom,
     CreateRoom,
@@ -236,4 +283,5 @@ export {
     getRoom,
     updateUserAccess,
     getSharedRooms,
+    MoveFileContents,
 };

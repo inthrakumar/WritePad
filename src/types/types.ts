@@ -40,4 +40,15 @@ type folderContents = {
     lastEdited: string;
   }[];
 };
-export type {DeleteFolder, ColorProps,EditorProps, UpdateTitle, folderContents, DeleteFile };
+type MoveFile={
+    parenturl:string,
+    id:Id<'userRecords'>
+}
+type MoveFolder={
+    parenturl:string,
+    id:Id<'userRecords'>
+    newfileurl :string,
+    oldfileurl:string
+}
+export type {DeleteFolder, MoveFile,MoveFolder, ColorProps,EditorProps, UpdateTitle, folderContents, DeleteFile };
+        
