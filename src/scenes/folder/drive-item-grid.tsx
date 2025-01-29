@@ -8,13 +8,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { folderContents } from '@/types/types';
+import { folderContents, ContentType } from '@/types/types';
 
 type FolderExplorer = {
-  data: folderContents;
+  data: ContentType[];
+  onMove: (record: ContentType) => void;
 };
 
-export function UserRecordsGrid({ data }: FolderExplorer) {
+export function UserRecordsGrid({ data, onMove }: FolderExplorer) {
   console.log(data);
   if (!data) {
     return null;
@@ -56,7 +57,9 @@ export function UserRecordsGrid({ data }: FolderExplorer) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem>Rename</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onMove(record)}>
+                  Move
+                </DropdownMenuItem>
                 <DropdownMenuItem>Delete</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -66,4 +69,3 @@ export function UserRecordsGrid({ data }: FolderExplorer) {
     </div>
   );
 }
-

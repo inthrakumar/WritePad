@@ -16,12 +16,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { folderContents } from '@/types/types';
+import { ContentType } from '@/types/types';
 
 type FolderExplorer = {
-  data: folderContents;
+  data: ContentType[];
+  onMove: (record: ContentType) => void;
 };
-export function UserRecordsList({ data }: FolderExplorer) {
+export function UserRecordsList({ data, onMove }: FolderExplorer) {
   if (!data) {
     return null;
   }
@@ -73,7 +74,7 @@ export function UserRecordsList({ data }: FolderExplorer) {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem>Rename</DropdownMenuItem>
+                  <DropdownMenuItem onClick={()=>onMove(record)}>Move</DropdownMenuItem>
                   <DropdownMenuItem>Delete</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

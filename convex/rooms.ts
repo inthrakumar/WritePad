@@ -26,11 +26,11 @@ export const createRoom = mutation({
 export const getUserRooms = query({
     args: { roomId: v.string() },
     handler: async (ctx, args) => {
-        const userRooms = await ctx.db
+        const folders = await ctx.db
             .query('userRecords')
             .withIndex('by_room_id', (q) => q.eq('roomId', args.roomId))
             .collect();
-        return { success: true, data: userRooms };
+        return { success: true, data: folders };
     },
 });
 
@@ -102,9 +102,7 @@ export const MoveFile = mutation({
         });
         return { success: true };
     },
-
 });
-
 
 export const MoveFolder = mutation({
     args: {
@@ -112,10 +110,9 @@ export const MoveFolder = mutation({
         parenturl: v.string(),
         oldfileurl: v.string(),
         newfileurl: v.string(),
-
     },
     handler: async (ctx, args) => {
-        const updatedRoom = await ctx.db.patch(args.id, {
+         await ctx.db.patch(args.id, {
             parent: args.parenturl,
         });
         const childRooms = await ctx.db
