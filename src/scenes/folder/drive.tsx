@@ -8,19 +8,46 @@ import { UserRecordsGrid } from './drive-item-grid';
 import { UserRecordsList } from './drive-item-list';
 import { MoveFileModal } from '../MoveFileModal';
 import { ContentType, folderContents } from '@/types/types';
-import { MoveFileContents, MoveFolderContents } from '@/utils/RoomUtils';
+import {
+  MoveFileContents,
+  MoveFolderContents,
+  DeleteRoom,
+  DeleteFolderContents,
+} from '@/utils/RoomUtils';
+import { DeleteModal } from '../DeleteModal';
 type FolderExplorer = {
   data: folderContents;
 };
 export function UserRecordsExplorer({ data }: FolderExplorer) {
   const [isGridView, setIsGridView] = useState(true);
   const [moveModalOpen, setMoveModalOpen] = useState(false);
-  const [selectedRecord, setSelectedRecord] = useState<ContentType | null>(
-    null
-  );
+  const [selectedRecord, setSelectedRecord] = useState<ContentType | null>(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const handleMove = (record: ContentType) => {
     setSelectedRecord(record);
     setMoveModalOpen(true);
+  };
+  const handleDelete = (record: ContentType) => {
+    setSelectedRecord(record);
+    setDeleteModalOpen(true);
+  };
+  const handleDeleteConfirm = async () => {
+    try {
+      if (!selectedRecord) setDeleteModalOpen(false);
+      if (selectedRecord?.type === 'folder') {
+        DeleteFolderContents({
+          id: selectedRecord._id!,
+          url: selectedRecord.parent+'/'+selectedRecord.roomTitle,
+        });
+      } else {
+        DeleteRoom({
+          id: selectedRecord?._id!,
+          roomId: selectedRecord?.roomId!,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleMoveConfirm = (parenturl: string) => {
@@ -66,9 +93,17 @@ export function UserRecordsExplorer({ data }: FolderExplorer) {
         </div>
       </div>
       {isGridView ? (
-        <UserRecordsGrid data={data.data} onMove={handleMove} />
+        <UserRecordsGrid
+          data={data.data}
+          onMove={handleMove}
+          onDelete={handleDelete}
+        />
       ) : (
-        <UserRecordsList data={data.data} onMove={handleMove} />
+        <UserRecordsList
+          data={data.data}
+          onMove={handleMove}
+          onDelete={handleDelete}
+        />
       )}
       <MoveFileModal
         isOpen={moveModalOpen}
@@ -76,6 +111,12 @@ export function UserRecordsExplorer({ data }: FolderExplorer) {
         onConfirm={handleMoveConfirm}
         records={data.data}
         currentRecord={selectedRecord}
+      />
+      <DeleteModal
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={handleDeleteConfirm}
+        content={selectedRecord}
       />
     </div>
   );

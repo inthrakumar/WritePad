@@ -13,9 +13,10 @@ import { folderContents, ContentType } from '@/types/types';
 type FolderExplorer = {
   data: ContentType[];
   onMove: (record: ContentType) => void;
+  onDelete: (record: ContentType) => void;
 };
 
-export function UserRecordsGrid({ data, onMove }: FolderExplorer) {
+export function UserRecordsGrid({ data, onMove, onDelete }: FolderExplorer) {
   console.log(data);
   if (!data) {
     return null;
@@ -60,7 +61,9 @@ export function UserRecordsGrid({ data, onMove }: FolderExplorer) {
                 <DropdownMenuItem onClick={() => onMove(record)}>
                   Move
                 </DropdownMenuItem>
-                <DropdownMenuItem>Delete</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onDelete(record)}>
+                  Delete
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

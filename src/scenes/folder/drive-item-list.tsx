@@ -21,8 +21,9 @@ import { ContentType } from '@/types/types';
 type FolderExplorer = {
   data: ContentType[];
   onMove: (record: ContentType) => void;
+  onDelete: (record: ContentType) => void;
 };
-export function UserRecordsList({ data, onMove }: FolderExplorer) {
+export function UserRecordsList({ data, onMove, onDelete }: FolderExplorer) {
   if (!data) {
     return null;
   }
@@ -74,8 +75,12 @@ export function UserRecordsList({ data, onMove }: FolderExplorer) {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={()=>onMove(record)}>Move</DropdownMenuItem>
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onMove(record)}>
+                    Move
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onDelete(record)}>
+                    Delete
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </TableCell>

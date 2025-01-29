@@ -97,7 +97,7 @@ export const MoveFile = mutation({
         parenturl: v.string(),
     },
     handler: async (ctx, args) => {
-        const updatedRoom = await ctx.db.patch(args.id, {
+        await ctx.db.patch(args.id, {
             parent: args.parenturl,
         });
         return { success: true };

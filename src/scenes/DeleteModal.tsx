@@ -19,7 +19,7 @@ type DeleteFolderModalProps = {
   content: ContentType | null;
 };
 
-export function DeleteFolderModal({
+export function DeleteModal({
   isOpen,
   onClose,
   onConfirm,
