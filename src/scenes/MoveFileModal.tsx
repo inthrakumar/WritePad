@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { FolderIcon, ChevronRight } from 'lucide-react';
+import { FolderIcon } from 'lucide-react';
 import { ContentType } from '@/types/types';
 type MoveFileModalProps = {
   isOpen: boolean;
