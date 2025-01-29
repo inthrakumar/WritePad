@@ -19,7 +19,7 @@ export function UserRecordsGrid({ data, onMove, onDelete }: Contents) {
     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
       {data.map((record) => (
        
-          <div className="relative bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 p-4 flex flex-col items-center">
+          <div key={record._id} className="relative bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 p-4 flex flex-col items-center">
             {record.type === 'folder' ? (
               <FolderIcon className="w-16 h-16 text-blue-500 mb-2" />
             ) : (

@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { FolderIcon } from 'lucide-react';
 import { MoveModalProps } from '@/types/types';
+import { DialogDescription } from '@radix-ui/react-dialog';
 
 export function MoveFileModal({
     isOpen,
@@ -42,6 +43,9 @@ export function MoveFileModal({
                 <DialogHeader>
                     <DialogTitle>Move {currentRecord?.roomTitle}</DialogTitle>
                 </DialogHeader>
+                <DialogDescription>
+                    Select a folder to move the file to
+                </DialogDescription>
                 <ScrollArea className="h-[300px] w-full pr-4 max-h-[300px]">
                     {folders.map((folder) => (
                         <Button

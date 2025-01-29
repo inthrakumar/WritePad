@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogDescription,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { DeleteModalProps } from '@/types/types';
@@ -32,7 +33,7 @@ export function DeleteModal({
   };
   if (!content) return null;
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog  aria-describedby="dialog-description" open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
@@ -59,10 +60,10 @@ export function DeleteModal({
               </p>
             </div>
           ) : (
-            <p>
+            <DialogDescription>
               Are you sure you want to delete the folder "{content?.roomTitle}"?
               This action cannot be undone.
-            </p>
+            </DialogDescription>
           )}
         </div>
         <DialogFooter>
