@@ -19,9 +19,6 @@ import {
 import { Contents } from '@/types/types';
 
 export function UserRecordsList({ data, onMove, onDelete }: Contents) {
-  if (!data) {
-    return null;
-  }
   const pathname = usePathname();
   return (
     <Table>

@@ -6,20 +6,18 @@ import CreateRoomForm from '@/scenes/CreateRoomForm';
 import { BreadCrumbs } from '@/scenes/ContentBreadCrumbs';
 import { usePathname } from 'next/navigation';
 import { UserRecordsExplorer } from '@/scenes/folder/drive';
+import { toTitleCase } from '@/utils/AnonymousUtils';
 const DocPage = () => {
-    function toTitleCase(str: string) {
-        return str
-            .toLowerCase()
-            .split(' ')
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ');
-    }
+
 
     const url = usePathname();
+
     const [data, setData] = useState<folderContents | null>(null);
+    const [isLoaded, setIsLoaded] = useState(false);
     const segments = url.split('/').filter(Boolean);
     useEffect(() => {
         const fetchData = async () => {
+
             try {
                 const fetchedData = await fetch(
                     `/api/foldercontents?folderName=${encodeURIComponent(url)}`,
@@ -34,6 +32,8 @@ const DocPage = () => {
                 if (fetchedData.ok) {
                     const data = await fetchedData.json();
                     setData(data);
+
+                    setIsLoaded(true);
                 } else {
                     console.error('Failed to fetch data');
                 }
@@ -43,7 +43,9 @@ const DocPage = () => {
         };
         fetchData();
     }, [url]);
-
+    if (!isLoaded) {
+        return <div>Loading...</div>;
+    }
     return (
         <div className="w-[100vw] flex gap-8 flex-col items-center justify-around p-5 pr-7">
             <div className="flex items-end w-full">

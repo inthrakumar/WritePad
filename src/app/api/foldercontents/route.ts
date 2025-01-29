@@ -5,9 +5,8 @@ async function handler(req: NextRequest) {
   const url = new URL(req.url);
   const folderName = url.searchParams.get('folderName');
   const folderContents = await getFolderContents(folderName!);
-
   if (folderContents.success) {
-    return NextResponse.json(folderContents.data);
+    return NextResponse.json(folderContents);
   } else {
     return NextResponse.json({ error: folderContents.error });
   }

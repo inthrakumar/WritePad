@@ -209,6 +209,7 @@ const DeleteRoom = async ({ roomId, id }: DeleteFile) => {
       );
     }
   } catch (error) {
+    console.error('Error in deleting the room:', error);
     throw new Error('Error in deleting a file');
   }
 };
@@ -273,6 +274,13 @@ const MoveFolderContents = async ({
     throw new Error('Error in moving the file');
   }
 };
+    function toTitleCase(str: string) {
+        return str
+            .toLowerCase()
+            .split(' ')
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    }
 export {
   MoveFolderContents,
   DeleteFolderContents,

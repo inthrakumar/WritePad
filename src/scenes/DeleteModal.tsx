@@ -11,8 +11,7 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import {DeleteModalProps  } from '@/types/types';
-
+import { DeleteModalProps } from '@/types/types';
 
 export function DeleteModal({
   isOpen,
@@ -31,7 +30,7 @@ export function DeleteModal({
       onClose();
     }
   };
-  if(!content) return null;
+  if (!content) return null;
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
