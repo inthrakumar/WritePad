@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { UserRecordsGrid } from './drive-item-grid';
 import { UserRecordsList } from './drive-item-list';
 import { MoveFileModal } from '../MoveFileModal';
-import { ContentType, folderContents } from '@/types/types';
+import { ContentType, FolderExplorer } from '@/types/types';
 import {
   MoveFileContents,
   MoveFolderContents,
@@ -15,13 +15,12 @@ import {
   DeleteFolderContents,
 } from '@/utils/RoomUtils';
 import { DeleteModal } from '../DeleteModal';
-type FolderExplorer = {
-  data: folderContents;
-};
 export function UserRecordsExplorer({ data }: FolderExplorer) {
   const [isGridView, setIsGridView] = useState(true);
   const [moveModalOpen, setMoveModalOpen] = useState(false);
-  const [selectedRecord, setSelectedRecord] = useState<ContentType | null>(null);
+  const [selectedRecord, setSelectedRecord] = useState<ContentType | null>(
+    null
+  );
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const handleMove = (record: ContentType) => {
     setSelectedRecord(record);
@@ -37,7 +36,7 @@ export function UserRecordsExplorer({ data }: FolderExplorer) {
       if (selectedRecord?.type === 'folder') {
         DeleteFolderContents({
           id: selectedRecord._id!,
-          url: selectedRecord.parent+'/'+selectedRecord.roomTitle,
+          url: selectedRecord.parent + '/' + selectedRecord.roomTitle,
         });
       } else {
         DeleteRoom({

@@ -9,14 +9,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { FolderIcon } from 'lucide-react';
-import { ContentType } from '@/types/types';
-type MoveFileModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  onConfirm: (destinationId: string) => void;
-  records: ContentType[];
-  currentRecord: ContentType | null;
-};
+import { MoveModalProps } from '@/types/types';
+
 
 export function MoveFileModal({
   isOpen,
@@ -24,7 +18,7 @@ export function MoveFileModal({
   onConfirm,
   records,
   currentRecord,
-}: MoveFileModalProps) {
+}: MoveModalProps) {
   const [selectedFolder, setSelectedFolder] = useState<string>('');
   const [isWarn, setWarn] = useState<boolean>(false);
   const folders = records.filter(

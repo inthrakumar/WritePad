@@ -27,6 +27,16 @@ type DeleteFolder ={
     url:string,
     id:Id<'userRecords'>
 }
+
+type FolderExplorer = {
+  data: folderContents;
+};
+
+type Contents = {
+  data: ContentType[];
+  onMove: (record: ContentType) => void;
+  onDelete: (record: ContentType) => void;
+};
 type folderContents = {
   success: boolean;
   data: {
@@ -60,5 +70,18 @@ type ContentType ={
     roomTitle: string;
     lastEdited: string;
   }
-export type {ContentType ,DeleteFolder, MoveFile,MoveFolder, ColorProps,EditorProps, UpdateTitle, folderContents, DeleteFile };
+type DeleteModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => Promise<void>;
+  content: ContentType | null;
+};
+type MoveModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: (destinationId: string) => void;
+  records: ContentType[];
+  currentRecord: ContentType | null;
+};
+export type {MoveModalProps, DeleteModalProps, FolderExplorer , Contents ,ContentType ,DeleteFolder, MoveFile,MoveFolder, ColorProps,EditorProps, UpdateTitle, folderContents, DeleteFile };
         

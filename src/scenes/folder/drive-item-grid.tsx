@@ -8,15 +8,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { folderContents, ContentType } from '@/types/types';
+import { Contents,  folderContents, ContentType } from '@/types/types';
 
-type FolderExplorer = {
-  data: ContentType[];
-  onMove: (record: ContentType) => void;
-  onDelete: (record: ContentType) => void;
-};
 
-export function UserRecordsGrid({ data, onMove, onDelete }: FolderExplorer) {
+export function UserRecordsGrid({ data, onMove, onDelete }: Contents) {
   console.log(data);
   if (!data) {
     return null;

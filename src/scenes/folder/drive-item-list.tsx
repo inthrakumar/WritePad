@@ -16,14 +16,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { ContentType } from '@/types/types';
+import { Contents } from '@/types/types';
 
-type FolderExplorer = {
-  data: ContentType[];
-  onMove: (record: ContentType) => void;
-  onDelete: (record: ContentType) => void;
-};
-export function UserRecordsList({ data, onMove, onDelete }: FolderExplorer) {
+export function UserRecordsList({ data, onMove, onDelete }: Contents) {
   if (!data) {
     return null;
   }

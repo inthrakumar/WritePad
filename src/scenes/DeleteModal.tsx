@@ -11,20 +11,15 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { ContentType } from '@/types/types';
-type DeleteFolderModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  onConfirm: () => Promise<void>;
-  content: ContentType | null;
-};
+import {DeleteModalProps  } from '@/types/types';
+
 
 export function DeleteModal({
   isOpen,
   onClose,
   onConfirm,
   content,
-}: DeleteFolderModalProps) {
+}: DeleteModalProps) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleConfirm = async () => {
