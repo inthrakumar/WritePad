@@ -33,7 +33,7 @@ export function UserRecordsGrid({ data, onMove, onDelete }: Contents) {
               : `/document/${record.roomId}`
           }
         >
-            <span className="text-sm text-center truncate w-full">
+            <span className="text-sm text-center truncate p-1 w-full">
               {record.roomTitle}
             </span>
             </Link>
