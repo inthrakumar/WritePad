@@ -4,7 +4,7 @@ import { useOthers, useMyPresence } from '@liveblocks/react/suspense';
 import { Children, type ReactElement } from 'react';
 import Cursor from './Cursor';
 import styles from '../../css/Cursor.module.css';
-import { numberToHexColor } from '@/utils/cursorutils';
+import { nameToHex } from '@/utils/cursorutils';
 export default function LiveCursorProvider({
   children,
 }: {
@@ -44,7 +44,7 @@ export default function LiveCursorProvider({
               name={info.username}
               // connectionId is an integer that is incremented at every new connections
               // Assigning a color with a modulo makes sure that a specific user has the same colors on every clients
-              color={numberToHexColor(connectionId)}
+              color={nameToHex(info.email+String(connectionId))}
               x={presence.cursor.x}
               y={presence.cursor.y}
             />

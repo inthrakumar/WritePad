@@ -1,13 +1,13 @@
-function numberToHexColor(num: number) {
-  // Normalize the number to a range (e.g., 0 to 16777215)
-  const maxColorValue = 0xffffff; // 16777215 in decimal
-  const normalizedNum = num % (maxColorValue + 1);
-
-  // Convert to a hex string and pad with zeros if necessary
-  const hexColor = normalizedNum.toString(16).padStart(6, '0');
-
-  // Return the formatted color code
-  return `#${hexColor}`;
+export function nameToHex(input:string) {
+    let name = String(input); // Convert numbers to string
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    let color = "#";
+    for (let i = 0; i < 3; i++) {
+        let value = (hash >> (i * 8)) & 0xFF;
+        color += value.toString(16).padStart(2, "0");
+    }
+    return color;
 }
-
-export { numberToHexColor };
