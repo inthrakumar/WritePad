@@ -8,6 +8,8 @@ import { UserRecordsGrid } from './drive-item-grid';
 import { UserRecordsList } from './drive-item-list';
 import { MoveFileModal } from '../MoveFileModal';
 import { ContentType, FolderExplorer } from '@/types/types';
+import { SearchBar } from '../SearchBar';
+import { useRouter } from 'next/navigation';
 import {
     MoveFileContents,
     MoveFolderContents,
@@ -26,6 +28,7 @@ export function UserRecordsExplorer({ data }: FolderExplorer) {
         setSelectedRecord(record);
         setMoveModalOpen(true);
     };
+    const router = useRouter();
     const handleDelete = (record: ContentType) => {
         setSelectedRecord(record);
         setDeleteModalOpen(true);
@@ -71,9 +74,23 @@ export function UserRecordsExplorer({ data }: FolderExplorer) {
             console.error(error);
         }
     };
+    const onNavigate = (record: ContentType) => {
+        try {
+
+            if (!record) return null;
+            if (record.type === 'file') {
+                router.push(`/document/${record.roomId}`);
+            }
+            if (record.type === 'folder') {
+                router.push(`${record.parent}` + '/' + `${record.roomTitle}`);
+            }
+        } catch {
+            return null;
+        }
+    };
     return (
         <div className="p-4">
-            <div className="flex justify-between items-end w-3/4 mb-4">
+            <div className="flex justify-between items-center w-[90vw] mb-4">
                 <div className="flex items-center space-x-2">
                     <Label htmlFor="view-toggle" className="sr-only">
                         Toggle view
@@ -90,6 +107,7 @@ export function UserRecordsExplorer({ data }: FolderExplorer) {
                         className={`w-5 h-5 ${isGridView ? 'text-primary' : 'text-muted-foreground'}`}
                     />
                 </div>
+                <SearchBar data={data.data} onNavigate={onNavigate} />
             </div>
             {isGridView ? (
                 <UserRecordsGrid

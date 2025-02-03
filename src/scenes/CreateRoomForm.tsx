@@ -41,7 +41,7 @@ const CreateFileForm: React.FC<CreateFileFormProps> = ({ onClose }) => {
   const form = useForm<CreateFileFormData>({
     resolver: zodResolver(createFileSchema),
     defaultValues: {
-      name: "Untitled.md",
+      name: "Untitled",
     },
   })
   const userDetails = useUser()
