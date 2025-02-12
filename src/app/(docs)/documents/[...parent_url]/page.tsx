@@ -58,7 +58,7 @@ const DocPage = () => {
                 <BreadCrumbs />
             </div>
             <div className="w-full">
-                <UserRecordsExplorer data={data!} />
+                <UserRecordsExplorer isShared={true} data={data!} />
             </div>
         </div>
     );

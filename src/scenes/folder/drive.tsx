@@ -19,7 +19,7 @@ import {
   getRoom,
 } from '@/utils/RoomUtils';
 import { DeleteModal } from '../DeleteModal';
-export function UserRecordsExplorer({ data }: FolderExplorer) {
+export function UserRecordsExplorer({isShared, data }: FolderExplorer) {
   const [isGridView, setIsGridView] = useState(true);
   const [moveModalOpen, setMoveModalOpen] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState<ContentType | null>(
@@ -128,6 +128,7 @@ export function UserRecordsExplorer({ data }: FolderExplorer) {
           onMove={handleMove}
           onDelete={handleDelete}
           onShare={onShare}
+          isShared ={isShared}
         />
       ) : (
         <UserRecordsList
@@ -135,6 +136,7 @@ export function UserRecordsExplorer({ data }: FolderExplorer) {
           onMove={handleMove}
           onDelete={handleDelete}
           onShare={onShare}
+          isShared ={isShared}
         />
       )}
       <MoveFileModal

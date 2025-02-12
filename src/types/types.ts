@@ -30,10 +30,12 @@ type DeleteFolder = {
 };
 
 type FolderExplorer = {
+  isShared : boolean;
   data: folderContents;
 };
 
 type Contents = {
+  isShared :boolean ;
   data: ContentType[];
   onMove: (record: ContentType) => void;
   onDelete: (record: ContentType) => void;
