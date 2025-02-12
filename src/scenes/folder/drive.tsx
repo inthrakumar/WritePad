@@ -11,6 +11,7 @@ import { SearchBar } from '../SearchBar';
 import { useRouter } from 'next/navigation';
 import { RoomData } from '@liveblocks/node';
 import ShareModal from '../ShareModal';
+import SharedPagination from './sharedPagePagination';
 import {
   MoveFileContents,
   MoveFolderContents,
@@ -19,7 +20,7 @@ import {
   getRoom,
 } from '@/utils/RoomUtils';
 import { DeleteModal } from '../DeleteModal';
-export function UserRecordsExplorer({isShared, data }: FolderExplorer) {
+export function UserRecordsExplorer({setPage ,page,isShared, data, totalpages }: FolderExplorer) {
   const [isGridView, setIsGridView] = useState(true);
   const [moveModalOpen, setMoveModalOpen] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState<ContentType | null>(
@@ -103,7 +104,7 @@ export function UserRecordsExplorer({isShared, data }: FolderExplorer) {
   };
   return (
     <div className="p-4">
-      <div className="flex justify-between items-center w-[90vw] mb-4">
+      <div className="flex justify-between space-y-5 items-center w-[90vw] mb-4">
         <div className="flex items-center space-x-2">
           <Label htmlFor="view-toggle" className="sr-only">
             Toggle view
@@ -139,6 +140,7 @@ export function UserRecordsExplorer({isShared, data }: FolderExplorer) {
           isShared ={isShared}
         />
       )}
+            {isShared &&(<SharedPagination page={page} setPage={setPage} totalpages={totalpages}/>)}
       <MoveFileModal
         isOpen={moveModalOpen}
         onClose={() => setMoveModalOpen(false)}

@@ -8,8 +8,6 @@ import { usePathname } from 'next/navigation';
 import { UserRecordsExplorer } from '@/scenes/folder/drive';
 import { toTitleCase } from '@/utils/AnonymousUtils';
 const DocPage = () => {
-
-
     const url = usePathname();
 
     const [data, setData] = useState<folderContents | null>(null);
@@ -17,7 +15,6 @@ const DocPage = () => {
     const segments = url.split('/').filter(Boolean);
     useEffect(() => {
         const fetchData = async () => {
-
             try {
                 const fetchedData = await fetch(
                     `/api/foldercontents?folderName=${encodeURIComponent(url)}`,
@@ -58,7 +55,13 @@ const DocPage = () => {
                 <BreadCrumbs />
             </div>
             <div className="w-full">
-                <UserRecordsExplorer isShared={true} data={data!} />
+                <UserRecordsExplorer
+                    isShared={false}
+                    totalpages={1}
+                    page={0}
+                     setPage={(page:number) => { }}
+                    data={data!}
+                />
             </div>
         </div>
     );

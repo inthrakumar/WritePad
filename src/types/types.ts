@@ -28,8 +28,15 @@ type DeleteFolder = {
   url: string;
   id: Id<'userRecords'>;
 };
-
+type PaginationProps ={
+    page:number ;
+    setPage:(page:number)=>void ;
+    totalpages:number;
+}
 type FolderExplorer = {
+  page:number;
+  totalpages:number ;
+  setPage :(page:number)=>void ;
   isShared : boolean;
   data: folderContents;
 };
@@ -106,4 +113,5 @@ export type {
   UpdateTitle,
   folderContents,
   DeleteFile,
+  PaginationProps
 };
