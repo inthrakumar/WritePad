@@ -72,10 +72,12 @@ export function UserRecordsList({ data, onShare, onMove, onDelete }: Contents) {
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => onDelete(record)}>
                     Delete
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onShare(record.roomId)}>
-                    Share
-                  </DropdownMenuItem>
+                  </DropdownMenuItem>{' '}
+                  {record.type == 'file' && (
+                    <DropdownMenuItem onClick={() => onShare(record.roomId)}>
+                      Share
+                    </DropdownMenuItem>
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
             </TableCell>
