@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/table';
 import { Contents } from '@/types/types';
 
-export function UserRecordsList({ data, onMove, onDelete }: Contents) {
+export function UserRecordsList({ data, onShare, onMove, onDelete }: Contents) {
   const pathname = usePathname();
   return (
     <Table>
@@ -72,6 +72,9 @@ export function UserRecordsList({ data, onMove, onDelete }: Contents) {
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => onDelete(record)}>
                     Delete
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onShare(record.roomId)}>
+                    Share
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

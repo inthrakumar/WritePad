@@ -11,7 +11,7 @@ import {
 import { Contents,  folderContents, ContentType } from '@/types/types';
 
 
-export function UserRecordsGrid({ data, onMove, onDelete }: Contents) {
+export function UserRecordsGrid({ data, onMove,onShare, onDelete }: Contents) {
 
   const pathname = usePathname();
 
@@ -56,6 +56,10 @@ export function UserRecordsGrid({ data, onMove, onDelete }: Contents) {
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => onDelete(record)}>
                   Delete
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem onClick={() => onShare(record.roomId)}>
+                  Share
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

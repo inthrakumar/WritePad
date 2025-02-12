@@ -2,6 +2,7 @@ import { LiveblocksYjsProvider } from '@liveblocks/yjs';
 import * as Y from 'yjs';
 import { UpdateTitle } from '../../convex/rooms';
 import { Id } from '../../convex/_generated/dataModel';
+import { RoomData } from '@liveblocks/node';
 type EditorProps = {
   doc: Y.Doc;
   provider: LiveblocksYjsProvider;
@@ -15,18 +16,18 @@ type ColorProps = {
   color: string;
   x: number;
   y: number;
-    name:string
+  name: string;
 };
 
-type DeleteFile ={
-    roomId:string,
-    id:Id<'userRecords'>
-}
+type DeleteFile = {
+  roomId: string;
+  id: Id<'userRecords'>;
+};
 
-type DeleteFolder ={
-    url:string,
-    id:Id<'userRecords'>
-}
+type DeleteFolder = {
+  url: string;
+  id: Id<'userRecords'>;
+};
 
 type FolderExplorer = {
   data: folderContents;
@@ -36,6 +37,7 @@ type Contents = {
   data: ContentType[];
   onMove: (record: ContentType) => void;
   onDelete: (record: ContentType) => void;
+  onShare :(roomId:string) =>void;
 };
 type folderContents = {
   success: boolean;
@@ -50,26 +52,26 @@ type folderContents = {
     lastEdited: string;
   }[];
 };
-type MoveFile={
-    parenturl:string,
-    id:Id<'userRecords'>
-}
-type MoveFolder={
-    parenturl:string,
-    id:Id<'userRecords'>
-    newfileurl :string,
-    oldfileurl:string
-}
-type ContentType ={
-    _id: Id<'userRecords'>;
-    _creationTime: number;
-    userid: string;
-    type: string;
-    parent: string;
-    roomId: string;
-    roomTitle: string;
-    lastEdited: string;
-  }
+type MoveFile = {
+  parenturl: string;
+  id: Id<'userRecords'>;
+};
+type MoveFolder = {
+  parenturl: string;
+  id: Id<'userRecords'>;
+  newfileurl: string;
+  oldfileurl: string;
+};
+type ContentType = {
+  _id: Id<'userRecords'>;
+  _creationTime: number;
+  userid: string;
+  type: string;
+  parent: string;
+  roomId: string;
+  roomTitle: string;
+  lastEdited: string;
+};
 type DeleteModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -83,5 +85,23 @@ type MoveModalProps = {
   records: ContentType[];
   currentRecord: ContentType | null;
 };
-export type {MoveModalProps, DeleteModalProps, FolderExplorer , Contents ,ContentType ,DeleteFolder, MoveFile,MoveFolder, ColorProps,EditorProps, UpdateTitle, folderContents, DeleteFile };
-        
+type ShareModalProps = {
+  isOpen: boolean;
+  roomData: RoomData | null;
+};
+export type {
+  MoveModalProps,
+  ShareModalProps,
+  DeleteModalProps,
+  FolderExplorer,
+  Contents,
+  ContentType,
+  DeleteFolder,
+  MoveFile,
+  MoveFolder,
+  ColorProps,
+  EditorProps,
+  UpdateTitle,
+  folderContents,
+  DeleteFile,
+};
