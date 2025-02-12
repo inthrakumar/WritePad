@@ -127,7 +127,7 @@ const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
                     Share
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] z-[1900000]">
                 <DialogHeader>
                     <DialogTitle>Add Users</DialogTitle>
                     <DialogDescription>

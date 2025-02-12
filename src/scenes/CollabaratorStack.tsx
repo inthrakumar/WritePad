@@ -15,7 +15,7 @@ export default function CollabaratorStack(): ReactElement {
 
     return (
         <AvatarCircles
-            numPeople={profiles.length + 1}
+            numPeople={profiles.length -3}
             avatarUrls={[...profiles, { imageUrl: user.info.avatarUrl }]}
         />
     );
