@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { Webhook, WebhookRequiredHeaders } from 'svix';
 const webhookSecret = process.env.WEBHOOK_SECRET || '';
 import { api } from '../../../../../convex/_generated/api';
+import { Event,EventType } from '@/types/types';
 import { convex_connection } from '@/config/serverconfig';
 async function handler(request: Request) {
   try {
@@ -46,13 +47,7 @@ async function handler(request: Request) {
   }
 }
 
-type EventType = 'user.created' | 'user.updated' | '*';
 
-type Event = {
-  data: Record<string, any>;
-  object: 'event';
-  type: EventType;
-};
 
 export const GET = handler;
 export const POST = handler;

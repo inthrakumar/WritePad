@@ -18,7 +18,13 @@ type ColorProps = {
   y: number;
   name: string;
 };
+type EventType = 'user.created' | 'user.updated' | '*';
 
+type Event = {
+  data: Record<string, any>;
+  object: 'event';
+  type: EventType;
+};
 type DeleteFile = {
   roomId: string;
   id: Id<'userRecords'>;
@@ -28,25 +34,25 @@ type DeleteFolder = {
   url: string;
   id: Id<'userRecords'>;
 };
-type PaginationProps ={
-    page:number ;
-    setPage:(page:number)=>void ;
-    totalpages:number;
-}
+type PaginationProps = {
+  page: number;
+  setPage: (page: number) => void;
+  totalpages: number;
+};
 type FolderExplorer = {
-  page:number;
-  totalpages:number ;
-  setPage :(page:number)=>void ;
-  isShared : boolean;
+  page: number;
+  totalpages: number;
+  setPage: (page: number) => void;
+  isShared: boolean;
   data: folderContents;
 };
 
 type Contents = {
-  isShared :boolean ;
+  isShared: boolean;
   data: ContentType[];
   onMove: (record: ContentType) => void;
   onDelete: (record: ContentType) => void;
-  onShare :(roomId:string) =>void;
+  onShare: (roomId: string) => void;
 };
 type folderContents = {
   success: boolean;
@@ -99,6 +105,8 @@ type ShareModalProps = {
   roomData: RoomData | null;
 };
 export type {
+  Event,
+  EventType,
   MoveModalProps,
   ShareModalProps,
   DeleteModalProps,
@@ -113,5 +121,5 @@ export type {
   UpdateTitle,
   folderContents,
   DeleteFile,
-  PaginationProps
+  PaginationProps,
 };
