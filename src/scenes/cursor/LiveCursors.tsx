@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { useOthers, useMyPresence } from '@liveblocks/react/suspense';
 import { Children, type ReactElement } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import Cursor from './Cursor';
+import {FollowPointer as Cursor} from './Cursor';
 import styles from '../../css/Cursor.module.css';
 import { nameToHex } from '@/utils/cursorutils';
 export default function LiveCursorProvider({
