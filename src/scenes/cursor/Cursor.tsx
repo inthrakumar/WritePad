@@ -1,51 +1,70 @@
 "use client"
 import { motion } from "framer-motion"
 import type { ColorProps } from "@/types/types"
+export const FollowPointer = ({
+  x,
+  y,
+  name,
+  color
+}: ColorProps) => {
 
-export default function Cursor({ name, color, x, y }: ColorProps) {
   return (
     <motion.div
+      className="h-4 w-4 rounded-full absolute z-50"
       style={{
-        position: "absolute",
-        left: 0,
-        top: 0,
-        zIndex:9999
+        top: y,
+        left: x,
+        pointerEvents: "none",
       }}
-      animate={{ x, y }}
-      transition={{
-        type: "spring",
-        damping: 30,
-        stiffness: 200,
-        mass: 0.5,
+      initial={{
+        scale: 1,
+        opacity: 1,
+      }}
+      animate={{
+        scale: 1,
+        opacity: 1,
+      }}
+      exit={{
+        scale: 0,
+        opacity: 0,
       }}
     >
-      <svg width="24" height="36" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M5.65376 12.3673H5.46026L5.31717 12.4976L0.500002 16.8829L0.500002 1.19841L11.7841 12.3673H5.65376Z"
-          fill={color}
-        />
+      <svg
+        stroke="currentColor"
+        fill="currentColor"
+        strokeWidth="1"
+        viewBox="0 0 16 16"
+        className="h-6 w-6 text-sky-500 transform -rotate-[70deg] -translate-x-[12px] -translate-y-[10px] stroke-sky-600"
+        height="1em"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z"></path>
       </svg>
       <motion.div
         style={{
-          position: "absolute",
-          top: "20px",
-          left: "10px",
-          backgroundColor: color,
-          borderRadius: "4px",
-          padding: "2px 6px",
-          fontSize: "12px",
-          color: "white",
-          whiteSpace: "nowrap",
-
+          backgroundColor:color 
         }}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+        initial={{
+          scale: 0.5,
+          opacity: 0,
+        }}
+        animate={{
+          scale: 1,
+          opacity: 1,
+        }}
+        exit={{
+          scale: 0.5,
+          opacity: 0,
+        }}
+        className={
+          "px-2 py-2 bg-neutral-200 text-white whitespace-nowrap min-w-max text-xs rounded-full"
+        }
       >
-        {name.toLowerCase()}
+        {name || `Doc User`}
       </motion.div>
     </motion.div>
-  )
-}
+  );
+};
 
 
