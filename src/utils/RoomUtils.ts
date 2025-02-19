@@ -82,7 +82,6 @@ const UpdateTitleFn = async ({ roomId, id, title }: UpdateTitle) => {
                 title: title,
             }
         );
-        console.log(updatedRoom);
         revalidatePath(`/`);
         return JSON.parse(JSON.stringify(updatedRoom));
     } catch (error) {
@@ -148,9 +147,9 @@ const updateUserAccess = async ({
                     message: 'Error in updating the user accesses',
                 })
             );
+        console.log(response);
         revalidatePath(`/`);
 
-        await triggerNotifications(emailList, roomId, accessType);
 
         return usersAccesses;
     } catch (error) {
@@ -159,27 +158,6 @@ const updateUserAccess = async ({
     }
 };
 
-const triggerNotifications = async (
-    emailList: string[],
-    roomId: string,
-    accessType: 'write' | 'read'
-) => {
-    const notificationPromises = emailList.map((email) =>
-        liveblocks_connection.triggerInboxNotification({
-            userId: email,
-            kind:
-                accessType === 'write' ? '$writeAccessGranted' : '$readAccessGranted',
-            subjectId: roomId,
-            activityData: {
-                accessType,
-                timestamp: Date.now(),
-            },
-            roomId,
-        })
-    );
-
-    await Promise.all(notificationPromises);
-};
 const getSharedRooms = async (userId: string, page: number) => {
     auth().protect();
     try {

@@ -101,6 +101,7 @@ type MoveModalProps = {
   currentRecord: ContentType | null;
 };
 type ShareModalProps = {
+  onClose :()=>void;
   isOpen: boolean;
   roomData: RoomData | null;
 };

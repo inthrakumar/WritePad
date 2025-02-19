@@ -16,8 +16,7 @@ import { ShareModalProps } from '@/types/types';
 import { RoomData } from '@liveblocks/node';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-const ShareModal = ({ isOpen, roomData }: ShareModalProps) => {
-    console.log(isOpen, roomData);
+const ShareModal = ({ onClose ,isOpen, roomData }: ShareModalProps) => {
     return roomData == null ? (
         <Dialog open={isOpen}>
             <DialogContent aria-describedby="modal">
@@ -25,30 +24,26 @@ const ShareModal = ({ isOpen, roomData }: ShareModalProps) => {
             </DialogContent>
         </Dialog>
     ) : (
-        <RoomShareModal roomData={roomData!} isOpen={isOpen} />
+        <RoomShareModal onClose={onClose} roomData={roomData!} isOpen={isOpen} />
     );
 };
 function RoomShareModal({
+    onClose, 
     isOpen,
     roomData,
 }: {
+    onClose : ()=>void ;
     isOpen: boolean;
     roomData: RoomData;
 }) {
     const [emailList, setEmailList] = useState<string[]>([]);
-    const [editemailList, setEditemailList] = useState<string[]>([]);
-    const [editaccessType, seteditAccessType] = useState<'write' | 'read'>(
-        'read'
-    );
+    const [isLoading, setLoading] = useState(false);
+    const [isError,setError] = useState<string | null>(null);
     const emailSchema = z.string().email();
-    const [accessType, setAccessType] = useState<'write' | 'read' | null>(null);
+    const [accessType, setAccessType] = useState<'write' | 'read'>('read');
     const ref = useRef<HTMLInputElement>(null);
     const toast = useToast();
-    const users = roomData?.usersAccesses
-        ? Object.keys(roomData.usersAccesses)
-        : [];
-
-    const addEmailToList = () => {
+      const addEmailToList = () => {
         const email = ref.current?.value;
         if (email && emailSchema.safeParse(email).success) {
             setEmailList((prevState) => [...prevState, email]);
@@ -74,23 +69,29 @@ function RoomShareModal({
     }, []);
 
     async function handleUserAccess(): Promise<void> {
-        console.log("started")
-        if (!accessType || emailList.length === 0 || !roomData) {
-            toast.toast({
-                title: 'Please select access type and add at least one email.',
-            });
-            return;
+        setLoading(true);
+      if (!accessType || emailList.length === 0 || !roomData) {
+        toast.toast({
+            title: 'Please select access type and add at least one email.',
+        });
+        setLoading(false); // Ensure loading is reset
+        return;
+    }
+        
+        if(emailList.length==0){
+            setError("Add Emails properly")
         }
-
+        if(emailList.length>3){
+            setError("Max 3 emails allowed")
+        }
         try {
             await updateUserAccess({
                 emailList,
                 roomId: roomData.id!,
                 accessType,
             });
-
             setEmailList([]);
-            setEditemailList([]);
+            onClose();
             toast.toast({
                 title: 'User Access Updated Successfully',
             });
@@ -100,49 +101,18 @@ function RoomShareModal({
                 title: 'Error updating user access.',
                 description: (error as Error).message,
             });
+        }finally{
+            setLoading(false);
         }
     }
-    async function editUserAccess(): Promise<void> {
-        if (!editaccessType || editemailList.length === 0 || !roomData) {
-            toast.toast({
-                title: 'Please select access type and add at least one email.',
-            });
-            return;
-        }
-
-        try {
-            if (emailList.length > 3) {
-                toast.toast({
-                    title: 'At a time only 3 emails can be updated',
-                });
-                return;
-            }
-            await updateUserAccess({
-                emailList: editemailList,
-                roomId: roomData.id!,
-                accessType: editaccessType,
-            });
-
-            setEmailList([]);
-            setEditemailList([]);
-            toast.toast({
-                title: 'User Access Updated Successfully',
-            });
-        } catch (error) {
-            toast.toast({
-                title: 'Error updating user access.',
-                description: (error as Error).message,
-            });
-        }
-    }
-    return (
-        <Dialog open={isOpen}>
+   return (
+         <Dialog open={isOpen}>
             <DialogContent
                 aria-describedby="main-modal"
                 className="sm:max-w-[425px] z-[1900000]"
             >
                 <DialogHeader>
-                    <DialogTitle>Add Users</DialogTitle>
+                    <DialogTitle>Add or Edit Users</DialogTitle>
                     <DialogDescription>
                         Share this room with your team members to allow them to collaborate
                         and view the document.
@@ -198,7 +168,9 @@ function RoomShareModal({
                                 </div>
                             </RadioGroup>
 
-                            <Button onClick={handleUserAccess}>Add Access</Button>
+                            <Button disabled={isLoading} onClick={handleUserAccess}>{
+                                isLoading ? 'Loading ...' :'Modify Access'
+                            }</Button>
                         </div>
                         ;{' '}
                     </div>

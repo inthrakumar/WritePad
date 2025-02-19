@@ -8,7 +8,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Contents, folderContents, ContentType } from '@/types/types';
+import { Contents } from '@/types/types';
 
 export function UserRecordsGrid({
     isShared,

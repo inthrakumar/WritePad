@@ -155,6 +155,7 @@ export function UserRecordsExplorer({setPage ,page,isShared, data, totalpages }:
         content={selectedRecord}
       />
       <ShareModal
+        onClose ={ ()=> setShareModal(false)}
         isOpen={isShareModal}
         roomData={roomDetails}
       />
