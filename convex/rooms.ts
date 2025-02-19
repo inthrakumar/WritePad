@@ -139,7 +139,7 @@ export const AddSharedRooms = mutation({
                 .query('sharedRooms')
                 .withIndex('user_id', (q) => q.eq('userId', id))
                 .collect();
-            if (!sharedfiles) {
+            if (sharedfiles.length==0) {
                 await ctx.db.insert('sharedRooms', {
                     userId: id,
                     sharedRooms: [args.roomId],

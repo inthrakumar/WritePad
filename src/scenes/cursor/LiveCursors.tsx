@@ -31,9 +31,6 @@ export default function LiveCursorProvider({
             }
         >
             {
-                /**
-                 * Iterate over other users and display a cursor based on their presence
-                 */
                 others.map(({ info, connectionId, presence }) => {
                     if (presence.cursor === null) {
                         return null;
@@ -44,8 +41,6 @@ export default function LiveCursorProvider({
                             <Cursor
                                 key={`cursor-${connectionId}`}
                                 name={info.username}
-                                // connectionId is an integer that is incremented at every new connections
-                                // Assigning a color with a modulo makes sure that a specific user has the same colors on every clients
                                 color={nameToHex(info.email + String(connectionId))}
                                 x={presence.cursor.x}
                                 y={presence.cursor.y}

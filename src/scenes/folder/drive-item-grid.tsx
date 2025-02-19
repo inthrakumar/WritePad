@@ -46,7 +46,7 @@ export function UserRecordsGrid({
                     <span className="text-xs text-muted-foreground truncate w-full">
                         {new Date(record.lastEdited).toLocaleDateString()}
                     </span>
-                    {isShared && (
+                    {!isShared && (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button

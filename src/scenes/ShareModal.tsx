@@ -11,17 +11,11 @@ import { Input } from '@/components/ui/input';
 import { X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { updateUserAccess } from '@/utils/RoomUtils';
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
+import * as z from 'zod';
 import { ShareModalProps } from '@/types/types';
 import { RoomData } from '@liveblocks/node';
-
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
 const ShareModal = ({ isOpen, roomData }: ShareModalProps) => {
     console.log(isOpen, roomData);
     return roomData == null ? (
@@ -41,13 +35,12 @@ function RoomShareModal({
     isOpen: boolean;
     roomData: RoomData;
 }) {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const [emailList, setEmailList] = useState<string[]>([]);
     const [editemailList, setEditemailList] = useState<string[]>([]);
     const [editaccessType, seteditAccessType] = useState<'write' | 'read'>(
         'read'
     );
-
+    const emailSchema = z.string().email();
     const [accessType, setAccessType] = useState<'write' | 'read' | null>(null);
     const ref = useRef<HTMLInputElement>(null);
     const toast = useToast();
@@ -57,7 +50,7 @@ function RoomShareModal({
 
     const addEmailToList = () => {
         const email = ref.current?.value;
-        if (email && emailRegex.test(email)) {
+        if (email && emailSchema.safeParse(email).success) {
             setEmailList((prevState) => [...prevState, email]);
             ref.current.value = '';
         } else {
@@ -81,6 +74,7 @@ function RoomShareModal({
     }, []);
 
     async function handleUserAccess(): Promise<void> {
+        console.log("started")
         if (!accessType || emailList.length === 0 || !roomData) {
             toast.toast({
                 title: 'Please select access type and add at least one email.',
@@ -101,6 +95,7 @@ function RoomShareModal({
                 title: 'User Access Updated Successfully',
             });
         } catch (error) {
+            console.log(error);
             toast.toast({
                 title: 'Error updating user access.',
                 description: (error as Error).message,
@@ -183,72 +178,29 @@ function RoomShareModal({
                             ref={ref}
                             className="mb-2"
                             required
-                            pattern={emailRegex.source}
                             placeholder="Enter email address"
                         />
                         <div className="flex gap-3 items-center justify-center">
-                            <Select
-                                onValueChange={(value) => {
-                                    setAccessType(value as 'write' | 'read');
-                                }}
+                            <RadioGroup
+                                defaultValue="read"
+                                onValueChange={(value) =>
+                                    setAccessType(value as 'write' | 'read')
+                                }
+                                className="flex gap-4"
                             >
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Access" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectItem value="write">can edit</SelectItem>
-                                        <SelectItem value="read">can view</SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
+                                <div className="flex items-center gap-2">
+                                    <RadioGroupItem value="write" id="write" />
+                                    <Label htmlFor="write">Can edit</Label>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <RadioGroupItem value="read" id="read" />
+                                    <Label htmlFor="read">Can view</Label>
+                                </div>
+                            </RadioGroup>
 
                             <Button onClick={handleUserAccess}>Add Access</Button>
                         </div>
-                    </div>
-                    <div className="grid grid-cols-1 gap-2">
-                        <DialogTitle>Edit User Access</DialogTitle>
-                        <DialogDescription>
-                            Edit the way in which current users can access the Document.
-                        </DialogDescription>
-                        <div className="w-full flex gap-2">
-                            <Select
-                                onValueChange={(value) => {
-                                    setEditemailList([value]);
-                                }}
-                            >
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Users" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        {users.map((ele, index) => (
-                                            <SelectItem key={index} value={ele}>
-                                                {ele}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-
-                            <Select
-                                onValueChange={(value) => {
-                                    seteditAccessType(value as 'write' | 'read');
-                                }}
-                            >
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Access" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectItem value="write">can edit</SelectItem>
-                                        <SelectItem value="read">can view</SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-
-                            <Button onClick={editUserAccess}>Edit Access</Button>
-                        </div>
+                        ;{' '}
                     </div>
                 </div>
             </DialogContent>

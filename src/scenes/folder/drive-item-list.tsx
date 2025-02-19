@@ -64,7 +64,7 @@ export function UserRecordsList({
                         <TableCell>
                             {new Date(record._creationTime).toLocaleString()}
                         </TableCell>
-                        {isShared && (
+                        {!isShared && (
                             <TableCell>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
