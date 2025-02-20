@@ -320,5 +320,5 @@ export {
   updateUserAccess,
   getSharedRooms,
   MoveFileContents,
-    removeUserAccess
+  removeUserAccess,
 };

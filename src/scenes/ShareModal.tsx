@@ -6,6 +6,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { X } from 'lucide-react';
@@ -15,6 +16,7 @@ import * as z from 'zod';
 import { ShareModalProps } from '@/types/types';
 import { RoomData } from '@liveblocks/node';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import Link from 'next/link';
 import { Label } from '@/components/ui/label';
 const ShareModal = ({ onClose, isOpen, roomData }: ShareModalProps) => {
   return roomData == null ? (
@@ -69,22 +71,15 @@ function RoomShareModal({
   }, []);
 
   async function handleUserAccess(): Promise<void> {
-    setLoading(true);
-    if (!accessType || emailList.length === 0 || !roomData) {
-      toast.toast({
-        title: 'Please select access type and add at least one email.',
-      });
-      setLoading(false);
-      return;
-    }
-
     if (emailList.length == 0) {
       setError('Add Emails properly');
+      return;
     }
     if (emailList.length > 3) {
       setError('Max 3 emails allowed');
     }
     try {
+      setLoading(true);
       await updateUserAccess({
         emailList,
         roomId: roomData.id!,
@@ -105,12 +100,10 @@ function RoomShareModal({
       setLoading(false);
     }
   }
+  const router = useRouter();
   return (
     <Dialog open={isOpen}>
-      <DialogContent
-        aria-describedby="main-modal"
-        className="sm:max-w-[425px] z-[1900000]"
-      >
+      <DialogContent aria-describedby="main-modal" className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add or Edit Users</DialogTitle>
           <DialogDescription>
@@ -172,7 +165,15 @@ function RoomShareModal({
                 {isLoading ? 'Loading ...' : 'Modify Access'}
               </Button>
             </div>
-            ;{' '}
+          </div>
+          <div
+            className="flex flex-col items-center justify-center
+                         w-full"
+          >
+            {isError && <p className=" text-sm text-red-500">{isError}</p>}
+            <Button variant={'link'} className="text-xs" onClick={() => {router.push(`/edit-users/${roomData.id}`)}}>
+              Remove Users
+            </Button>
           </div>
         </div>
       </DialogContent>
