@@ -19,7 +19,9 @@ type ColorProps = {
   name: string;
 };
 type EventType = 'user.created' | 'user.updated' | '*';
-
+type roomDetails ={
+    roomData:RoomData
+}
 type Event = {
   data: Record<string, any>;
   object: 'event';
@@ -105,7 +107,9 @@ type ShareModalProps = {
   isOpen: boolean;
   roomData: RoomData | null;
 };
+type UserAccesses =[string, ('room:write' | 'room:read' | 'room:presence:write')[]][];
 export type {
+    UserAccesses,
   Event,
   EventType,
   MoveModalProps,
@@ -123,4 +127,5 @@ export type {
   folderContents,
   DeleteFile,
   PaginationProps,
+    roomDetails
 };
