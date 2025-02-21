@@ -148,7 +148,7 @@ export const AddSharedRooms = mutation({
         const roomIds = sharedfiles[0].sharedRooms;
         if (!roomIds.includes(args.roomId)) {
           await ctx.db.patch(sharedfiles[0]._id, {
-            sharedRooms: [id, ...roomIds],
+            sharedRooms: [args.roomId, ...roomIds],
           });
         }
       }
@@ -169,7 +169,6 @@ export const GetSharedRooms = query({
       .query('sharedRooms')
       .withIndex('user_id', (q) => q.eq('userId', args.userId))
       .collect();
-
     if (sharedfiles.length === 0) {
       return {
         status: false,
@@ -180,14 +179,13 @@ export const GetSharedRooms = query({
     const rooms = sharedfiles[0].sharedRooms;
     const indx = (args.page - 1) * 10;
     const paginatedRooms = rooms.slice(indx, indx + 10);
-
     const roomDetails = await Promise.all(
       paginatedRooms.map(async (roomId) => {
         const room = await ctx.db
           .query('userRecords')
           .withIndex('by_room_id', (q) => q.eq('roomId', roomId))
           .collect();
-        return room;
+        return room[0];
       })
     );
 

@@ -9,7 +9,6 @@ export default function CollabaratorStack(): ReactElement {
     const others = useOthers();
 
     useEffect(() => {
-        console.log(others);
         setProfiles(others.map((ele) => ({ imageUrl: ele.info.avatarUrl }))); 
     }, [others]);
 

@@ -32,7 +32,6 @@ function page() {
 
                 if (fetchedData.ok) {
                     const data = await fetchedData.json();
-                    console.log(data);
                     setData(data);
                 } else {
                     console.error('Failed to fetch data');

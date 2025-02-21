@@ -21,6 +21,7 @@ import {
 } from '@/utils/RoomUtils';
 import { DeleteModal } from '../DeleteModal';
 export function UserRecordsExplorer({setPage ,page,isShared, data, totalpages }: FolderExplorer) {
+    if(!data) return ;
   const [isGridView, setIsGridView] = useState(true);
   const [moveModalOpen, setMoveModalOpen] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState<ContentType | null>(

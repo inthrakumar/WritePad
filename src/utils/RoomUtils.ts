@@ -147,9 +147,7 @@ const updateUserAccess = async ({
           message: 'Error in updating the user accesses',
         })
       );
-    console.log(response);
     revalidatePath(`/`);
-
     return usersAccesses;
   } catch (error) {
     console.error('Failed to update user access:', error);
@@ -196,7 +194,6 @@ const removeUserAccess = async ({
 };
 const getSharedRooms = async (userId: string, page: number) => {
   auth().protect();
-  console.log(userId,page);
   try {
     const response = await convex_connection.query(api.rooms.GetSharedRooms, {
       userId,
