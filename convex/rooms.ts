@@ -169,23 +169,35 @@ export const GetSharedRooms = query({
       .query('sharedRooms')
       .withIndex('user_id', (q) => q.eq('userId', args.userId))
       .collect();
-    if (sharedfiles.length == 0) {
+
+    if (sharedfiles.length === 0) {
       return {
         status: false,
         message: 'No Shared Rooms for the user',
       };
     }
+
     const rooms = sharedfiles[0].sharedRooms;
     const indx = (args.page - 1) * 10;
-    const paginatedRooms = rooms.slice(indx, indx + 11);
+    const paginatedRooms = rooms.slice(indx, indx + 10);
+
+    const roomDetails = await Promise.all(
+      paginatedRooms.map(async (roomId) => {
+        const room = await ctx.db
+          .query('userRecords')
+          .withIndex('by_room_id', (q) => q.eq('roomId', roomId))
+          .collect();
+        return room;
+      })
+    );
+
     return {
       status: true,
-      rooms: paginatedRooms,
-      totalPages: rooms.length,
+      rooms: roomDetails,
+      totalPages: Math.ceil(rooms.length / 10),
     };
   },
 });
-
 export const RemoveSharedUsers = mutation({
   args: {
     userId: v.string(),

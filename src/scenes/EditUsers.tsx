@@ -73,7 +73,7 @@ export default function UserAccessList({ roomData }: roomDetails) {
           className="p-4 border border-border rounded-xl shadow-md"
         >
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 gap-4">
               <Avatar className="w-10 h-10">
                 <AvatarImage
                   src={'https://api.dicebear.com/9.x/adventurer/svg'}

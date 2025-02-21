@@ -196,6 +196,7 @@ const removeUserAccess = async ({
 };
 const getSharedRooms = async (userId: string, page: number) => {
   auth().protect();
+  console.log(userId,page);
   try {
     const response = await convex_connection.query(api.rooms.GetSharedRooms, {
       userId,
