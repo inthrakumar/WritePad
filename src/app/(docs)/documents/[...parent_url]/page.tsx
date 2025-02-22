@@ -15,8 +15,10 @@ const DocPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                const path = encodeURIComponent(url);
+                console.log(path);
                 const fetchedData = await fetch(
-                    `/api/foldercontents?folderName=${encodeURIComponent(url)}`,
+                    `/api/foldercontents?folderName=${decodeURIComponent(url)}`,
                     {
                         method: 'GET',
                         headers: {

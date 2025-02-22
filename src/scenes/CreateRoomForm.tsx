@@ -65,7 +65,7 @@ const CreateFileForm: React.FC<CreateFileFormProps> = ({ onClose }) => {
             if (userDetails?.user) {
                 const response = await CreateRoom({
                     userId: userDetails.user.id,
-                    parent: pathname,
+                    parent: decodeURIComponent(pathname),
                     type: 'file',
                     email: userDetails.user.emailAddresses[0].emailAddress,
                     title: values.name,
