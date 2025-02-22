@@ -87,7 +87,7 @@ export function SearchBar({ data, onNavigate }: SearchBarProps) {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed left-[40%] top-[40%] z-50 w-full max-w-lg translate-x-[-50%] border bg-background shadow-lg sm:rounded-lg"
+              className="fixed left-[40%] top-[30%] z-50 w-full max-w-lg translate-x-[-50%] border bg-background shadow-lg sm:rounded-lg"
               onClick={(e) => e.stopPropagation()}
             >
               <form onSubmit={handleSubmit}>
@@ -112,7 +112,7 @@ export function SearchBar({ data, onNavigate }: SearchBarProps) {
                   </Button>
                 </div>
               </form>
-              <ScrollArea className="max-h-[50vh]">
+              <ScrollArea className="max-h-[50vh] overflow-scroll">
                 <div className="p-4">
                   {filteredItems.map((item) => (
                     <Button

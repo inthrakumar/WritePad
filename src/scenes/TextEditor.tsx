@@ -1,7 +1,6 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Collaboration from '@tiptap/extension-collaboration';
-import LiveCursors from './cursor/LiveCursors';
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
 import { Toolbar } from './Toolbar';
 import styles from '../css/Editor.module.css';
@@ -24,7 +23,6 @@ export function TiptapEditor({ doc, provider }: EditorProps) {
   const editor = useEditor({
     editorProps: {
       attributes: {
-        // Add styles to editor element
         class: styles.editor,
       },
     },
@@ -51,11 +49,9 @@ export function TiptapEditor({ doc, provider }: EditorProps) {
       TableCell,
       TableHeader,
       TableRow,
-      // Register the document with Tiptap
       Collaboration.configure({
         document: doc,
       }),
-      // Attach provider and user info
       CollaborationCursor.configure({
         provider: provider,
         user: userInfo,

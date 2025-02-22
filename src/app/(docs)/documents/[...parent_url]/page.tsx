@@ -9,7 +9,6 @@ import { UserRecordsExplorer } from '@/scenes/folder/drive';
 import { toTitleCase } from '@/utils/AnonymousUtils';
 const DocPage = () => {
     const url = usePathname();
-
     const [data, setData] = useState<folderContents | null>(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const segments = url.split('/').filter(Boolean);
@@ -59,7 +58,7 @@ const DocPage = () => {
                     isShared={false}
                     totalpages={1}
                     page={0}
-                     setPage={(page:number) => { }}
+                    setPage={(page: number) => { }}
                     data={data!}
                 />
             </div>

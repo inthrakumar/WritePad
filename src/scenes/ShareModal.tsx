@@ -16,12 +16,12 @@ import * as z from 'zod';
 import { ShareModalProps } from '@/types/types';
 import { RoomData } from '@liveblocks/node';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import Link from 'next/link';
 import { Label } from '@/components/ui/label';
 const ShareModal = ({ onClose, isOpen, roomData }: ShareModalProps) => {
   return roomData == null ? (
     <Dialog open={isOpen}>
       <DialogContent aria-describedby="modal">
+        <DialogDescription>Check</DialogDescription>
         <DialogTitle>Loading .....</DialogTitle>
       </DialogContent>
     </Dialog>
