@@ -52,7 +52,6 @@ const CreateRoom = async ({
                 metadata: data,
             });
         }
-
         const convexRoom = await convex_connection.mutation(api.rooms.createRoom, {
             parent: parent,
             roomTitle: title,
@@ -69,6 +68,7 @@ const CreateRoom = async ({
                 })
             );
         } else if (type == 'folder') {
+            console.log(`path ${parent}/${title}`);
             return JSON.parse(
                 JSON.stringify({
                     status: true,

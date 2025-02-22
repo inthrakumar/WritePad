@@ -107,7 +107,6 @@ export function SearchBar({ data, onNavigate }: SearchBarProps) {
                     className="absolute right-3 top-3 h-8 px-2 text-muted-foreground"
                     onClick={() => setIsOpen(false)}
                   >
-                    <span className="text-xs mr-1">ESC</span>
                     <X className="h-4 w-4" />
                   </Button>
                 </div>

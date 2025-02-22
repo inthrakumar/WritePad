@@ -126,7 +126,7 @@ const CreateFolderForm: React.FC<CreateFolderFormProps> = ({ onClose }) => {
                     title: values.name,
                 });
                 if (content.status) {
-                    onClose(content.path);
+                    onClose(encodeURI(content.path));
                 }
             }
         } catch (error) {
@@ -206,7 +206,6 @@ const NewCreation: React.FC = () => {
                     )}
                 </DialogContent>
             </Dialog>
-            ;
         </>
     );
 };

@@ -27,7 +27,7 @@ const ITEMS_TO_DISPLAY = 3
 export function BreadCrumbs() {
   const router = useRouter()
   const pathname = usePathname()
-  const segments = pathname.split("/").filter(Boolean)
+  const segments = decodeURIComponent(pathname).split("/").filter(Boolean)
   const items = segments.map((segment, index) => ({
     href: `/${segments.slice(0, index + 1).join("/")}`,
     label: segment.charAt(0).toUpperCase() + segment.slice(1),

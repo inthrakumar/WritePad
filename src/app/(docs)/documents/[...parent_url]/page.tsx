@@ -11,7 +11,7 @@ const DocPage = () => {
     const url = usePathname();
     const [data, setData] = useState<folderContents | null>(null);
     const [isLoaded, setIsLoaded] = useState(false);
-    const segments = url.split('/').filter(Boolean);
+    const segments = decodeURIComponent(url).split('/').filter(Boolean);
     useEffect(() => {
         const fetchData = async () => {
             try {
