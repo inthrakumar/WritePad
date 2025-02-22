@@ -120,7 +120,7 @@ const CreateFolderForm: React.FC<CreateFolderFormProps> = ({ onClose }) => {
             if (userDetails?.user) {
                 const content = await CreateRoom({
                     userId: userDetails.user.id,
-                    parent: pathname,
+                    parent: decodeURIComponent(pathname),
                     type: 'folder',
                     email: userDetails.user.emailAddresses[0].emailAddress,
                     title: values.name,
