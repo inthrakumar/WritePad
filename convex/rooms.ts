@@ -173,6 +173,7 @@ export const GetSharedRooms = query({
       return {
         status: false,
         message: 'No Shared Rooms for the user',
+        rooms:[]
       };
     }
 

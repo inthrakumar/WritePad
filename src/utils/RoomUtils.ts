@@ -221,8 +221,9 @@ const getSharedRooms = async (userId: string, page: number) => {
         if (response.message) {
             return JSON.parse(
                 JSON.stringify({
-                    status: false,
+                    status: true,
                     message: 'There is no shared rooms for the user',
+                    sharedRooms:[]
                 })
             );
         }
