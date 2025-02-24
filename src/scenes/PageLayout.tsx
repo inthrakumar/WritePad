@@ -3,7 +3,7 @@ import React from 'react'
 import Header from './Header'
 import { usePathname } from 'next/navigation'
 import { Toaster } from "@/components/ui/toaster"
-
+import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 function Layout({ children }: {
     children: React.ReactNode;
 }) {
