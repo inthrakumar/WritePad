@@ -225,45 +225,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="border-t bg-white py-12">
         <div className="container mx-auto px-4">
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            <div>
-              <h3 className="mb-4 text-sm font-semibold uppercase">Product</h3>
-              <ul className="space-y-2 text-sm text-neutral-600">
-                <li>Features</li>
-                <li>Pricing</li>
-                <li>Security</li>
-                <li>Enterprise</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="mb-4 text-sm font-semibold uppercase">Company</h3>
-              <ul className="space-y-2 text-sm text-neutral-600">
-                <li>About</li>
-                <li>Blog</li>
-                <li>Careers</li>
-                <li>Contact</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="mb-4 text-sm font-semibold uppercase">Resources</h3>
-              <ul className="space-y-2 text-sm text-neutral-600">
-                <li>Documentation</li>
-                <li>Help Center</li>
-                <li>Community</li>
-                <li>Templates</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="mb-4 text-sm font-semibold uppercase">Legal</h3>
-              <ul className="space-y-2 text-sm text-neutral-600">
-                <li>Privacy</li>
-                <li>Terms</li>
-                <li>Security</li>
-                <li>Status</li>
-              </ul>
-            </div>
-          </div>
-          <div className="mt-12 text-center text-sm text-neutral-600">
+         <div className="mt-12 text-center text-sm text-neutral-600">
             © {new Date().getFullYear()} Write Pad. All rights reserved.
           </div>
         </div>
