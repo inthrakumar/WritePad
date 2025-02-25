@@ -9,6 +9,7 @@ import { UserRecordsExplorer } from '@/scenes/folder/drive';
 import { toTitleCase } from '@/utils/AnonymousUtils';
 import EmptyState from '@/scenes/NullComponent';
 import Spinner from '@/scenes/Spinner';
+import { getFolderContents } from '@/utils/DocumentsUtils';
 const DocPage = () => {
   const url = usePathname();
   const [data, setData] = useState<folderContents | null>(null);
@@ -18,21 +19,9 @@ const DocPage = () => {
     const fetchData = async () => {
       try {
         const path = encodeURIComponent(url);
-        console.log(path);
-        const fetchedData = await fetch(
-          `/api/foldercontents?folderName=${encodeURIComponent(url)}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-
-        if (fetchedData.ok) {
-          const data = await fetchedData.json();
-          setData(data);
-
+        const response = await getFolderContents(path);
+        if (response.status) {
+          setData(response.data);
           setIsLoaded(true);
         } else {
           console.error('Failed to fetch data');
