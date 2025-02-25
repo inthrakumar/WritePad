@@ -7,6 +7,7 @@ import { UserRecordsExplorer } from '@/scenes/folder/drive';
 import { getSharedRooms } from '@/utils/RoomUtils';
 import { useUser } from '@clerk/clerk-react';
 import EmptyState from '@/scenes/NullComponent';
+import Spinner from '@/scenes/Spinner';
 const DocPage = () => {
     const userId = useUser().user?.emailAddresses[0].emailAddress;
     const [data, setData] = useState<folderContents | null>(null);
@@ -38,7 +39,7 @@ const DocPage = () => {
             <div className="flex w-full items-center gap-8 flex-col justify-center">
                 <div className="text-3xl">Shared Rooms</div>
             </div>
-            {!isLoaded && !data && <div>Loading...</div>}
+            {!isLoaded && !data && <Spinner/>}
             {isLoaded && data?.data.length!=0 ? (
                 <div className="w-full">
                     <UserRecordsExplorer

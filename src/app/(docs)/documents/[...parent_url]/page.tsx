@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation';
 import { UserRecordsExplorer } from '@/scenes/folder/drive';
 import { toTitleCase } from '@/utils/AnonymousUtils';
 import EmptyState from '@/scenes/NullComponent';
+import Spinner from '@/scenes/Spinner';
 const DocPage = () => {
   const url = usePathname();
   const [data, setData] = useState<folderContents | null>(null);
@@ -43,7 +44,7 @@ const DocPage = () => {
     fetchData();
   }, [url]);
   if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <Spinner/>;
   }
 
   return (
