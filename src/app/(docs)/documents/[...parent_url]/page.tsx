@@ -14,12 +14,16 @@ const DocPage = () => {
   const url = usePathname();
   const [data, setData] = useState<folderContents | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isAvailable, setisAvailable] = useState(true);
   const segments = decodeURIComponent(url).split('/').filter(Boolean);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getFolderContents(url);
         if (response.status) {
+          if (response.isDeleted) {
+            setisAvailable(false);
+          }
           setData(response.data);
           setIsLoaded(true);
         } else {
@@ -32,9 +36,9 @@ const DocPage = () => {
     fetchData();
   }, [url]);
   if (!isLoaded) {
-    return <Spinner/>;
+    return <Spinner />;
   }
-
+  if(!isAvailable) return <div>Not Available</div>
   return (
     <div className="w-[100vw] flex gap-8 flex-col items-center justify-around p-5 pr-7">
       <div className="flex items-end w-full">
