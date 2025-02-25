@@ -18,8 +18,7 @@ const DocPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const path = encodeURIComponent(url);
-        const response = await getFolderContents(path);
+        const response = await getFolderContents(url);
         if (response.status) {
           setData(response.data);
           setIsLoaded(true);

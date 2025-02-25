@@ -1,5 +1,4 @@
 'use server';
-
 import { RoomAccesses } from '@liveblocks/node';
 import { nanoid } from 'nanoid';
 import { revalidatePath } from 'next/cache';
@@ -65,7 +64,6 @@ const CreateRoom = async ({
         })
       );
     } else if (type == 'folder') {
-    console.log(`${parent}/${encodeURIComponent(title)}`);
       return JSON.parse(
         JSON.stringify({
           status: true,

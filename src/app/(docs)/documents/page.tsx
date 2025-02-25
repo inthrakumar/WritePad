@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useEffect, useState } from 'react';
 import { folderContents } from '@/types/types';
 import CreateRoomForm from '@/scenes/CreateRoomForm';
@@ -18,8 +17,7 @@ const DocPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const path = encodeURIComponent(url);
-        const response = await getFolderContents(path);
+        const response = await getFolderContents(url);
         if (response.status) {
           setData(response.data);
           setIsLoaded(true);
@@ -35,7 +33,6 @@ const DocPage = () => {
     if (!isLoaded) {
     return <Spinner/>;
   }
-
   return (
     <div className="w-[100vw] flex gap-8 flex-col items-center justify-around p-5 pr-7">
       <div className="flex items-end w-full">

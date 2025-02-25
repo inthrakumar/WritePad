@@ -65,7 +65,7 @@ const CreateFileForm: React.FC<CreateFileFormProps> = ({ onClose }) => {
             if (userDetails?.user) {
                 const response = await CreateRoom({
                     userId: userDetails.user.id,
-                    parent: encodeURIComponent(pathname),
+                    parent: pathname,
                     type: 'file',
                     email: userDetails.user.emailAddresses[0].emailAddress,
                     title: values.name,
@@ -120,7 +120,7 @@ const CreateFolderForm: React.FC<CreateFolderFormProps> = ({ onClose }) => {
             if (userDetails?.user) {
                 const content = await CreateRoom({
                     userId: userDetails.user.id,
-                    parent: encodeURIComponent(pathname),
+                    parent:pathname,
                     type: 'folder',
                     email: userDetails.user.emailAddresses[0].emailAddress,
                     title: values.name,

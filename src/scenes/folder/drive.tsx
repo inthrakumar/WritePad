@@ -55,7 +55,7 @@ export function UserRecordsExplorer({setPage ,page,isShared, data, totalpages }:
       if (selectedRecord?.type === 'folder') {
         DeleteFolderContents({
           id: selectedRecord._id!,
-          url: selectedRecord.parent + '/' + selectedRecord.roomTitle,
+          url: `${selectedRecord.parent}/${encodeURIComponent(selectedRecord.roomTitle)}`
         });
       } else {
         DeleteRoom({
@@ -67,7 +67,6 @@ export function UserRecordsExplorer({setPage ,page,isShared, data, totalpages }:
       console.error(error);
     }
   };
-
   const handleMoveConfirm = (parenturl: string) => {
     try {
       if (selectedRecord === null) setMoveModalOpen(false);
@@ -75,8 +74,8 @@ export function UserRecordsExplorer({setPage ,page,isShared, data, totalpages }:
         MoveFolderContents({
           id: selectedRecord._id!,
           parenturl,
-          oldfileurl: selectedRecord?.parent + '/' + selectedRecord.roomTitle,
-          newfileurl: parenturl + '/' + selectedRecord.roomTitle,
+          oldfileurl: `${selectedRecord.parent}/${encodeURIComponent(selectedRecord.roomTitle)}`,
+          newfileurl: `${parenturl}/${encodeURIComponent(selectedRecord.roomTitle)}`
         });
       } else {
         MoveFileContents({

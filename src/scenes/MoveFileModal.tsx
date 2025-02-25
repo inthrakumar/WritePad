@@ -26,7 +26,7 @@ export function MoveFileModal({ isOpen, onClose, onConfirm, records, currentReco
   const handleConfirm = () => {
     setWarn(false)
     if (selectedFolder !== "") {
-      onConfirm(pathname + "/" + encodeURIComponent(selectedFolder))
+      onConfirm(`${pathname}/${encodeURIComponent(selectedFolder)}`)
     } else {
       setWarn(true)
     }

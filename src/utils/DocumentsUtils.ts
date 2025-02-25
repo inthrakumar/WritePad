@@ -7,7 +7,7 @@ import { auth } from '@clerk/nextjs/server';
 const getFolderContents = async (foldername: string) => {
   try {
     auth().protect();
-    console.log(foldername);
+
     const folderContents = await convex_connection.query(
       api.documents.getFolderContents,
       {

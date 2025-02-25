@@ -53,7 +53,6 @@ export const UpdateTitle = mutation({
     return { success: true, data: updatedRoom };
   },
 });
-
 export const DeleteFolder = mutation({
   args: {
     id: v.id('userRecords'),
@@ -61,7 +60,6 @@ export const DeleteFolder = mutation({
   },
   handler: async (ctx, args) => {
     await ctx.db.delete(args.id);
-
     const childRooms = await ctx.db
       .query('userRecords')
       .filter((q) => q.eq(q.field('parent'), args.url))
