@@ -21,13 +21,13 @@
     height:100%;
     overflow-y: scroll;
     padding: 1rem;
-    border: 2px solid #cccccc; /* Light gray border */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
-    background-color: #f9f9f9; /* Optional background color for contrast */
+    border: 2px solid #cccccc;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
 }
 .editor:hover {
-    border-color: #007bff; /* Change border color to blue on hover */
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow */
+    border-color: #007bff;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 .editor:focus {
     outline: none;

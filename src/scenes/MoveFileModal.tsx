@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { FolderIcon, X } from "lucide-react"
 import type { MoveModalProps } from "@/types/types"
-
 export function MoveFileModal({ isOpen, onClose, onConfirm, records, currentRecord }: MoveModalProps) {
   const pathname = usePathname()
   const [selectedFolder, setSelectedFolder] = useState<string>("")

@@ -29,7 +29,6 @@ export const checkRoom = query({
       .query('userRecords')
       .withIndex('by_room_id', (q) => q.eq('roomId', args.roomId))
       .collect();
-    console.log(isRoom);
     const success = isRoom.length == 0 ? false : true;
     if (success) {
       return {
@@ -69,6 +68,10 @@ export const DeleteFolder = mutation({
     url: v.string(),
   },
   handler: async (ctx, args) => {
+    const folderExists = await ctx.db.get(args.id);
+    if (!folderExists) {
+      return { status: false, message: 'Folder does not exist.' };
+    }
     await ctx.db.delete(args.id);
     const childRooms = await ctx.db
       .query('userRecords')
@@ -80,15 +83,19 @@ export const DeleteFolder = mutation({
     ) {
       for (const child of childRecords) {
         if (child.type === 'folder') {
+          const updatedurl = `${url}/${encodeURIComponent(child.roomTitle)}`;
           await deleteChildRecords(
             await ctx.db
               .query('userRecords')
               .filter((q) => q.eq(q.field('parent'), url))
               .collect(),
-            `${url}/${child.roomTitle}`
+            updatedurl
           );
         }
-        await ctx.db.delete(child._id);
+        const existingDoc = await ctx.db.get(child._id);
+        if (existingDoc) {
+          await ctx.db.delete(child._id);
+        }
       }
     }
     await deleteChildRecords(childRooms, args.url);
@@ -135,16 +142,13 @@ export const MoveFolder = mutation({
     await ctx.db.patch(args.id, { parent: args.parenturl });
 
     async function moveChildRecords(oldPath: string, newPath: string) {
-      console.log(oldPath, newPath);
       const children = await ctx.db
         .query('userRecords')
         .filter((q) => q.eq(q.field('parent'), oldPath))
         .collect();
 
       for (const child of children) {
-        console.log(child.roomTitle);
         const updatedPath = `${newPath}/${encodeURIComponent(child.roomTitle)}`;
-        console.log(updatedPath);
         await ctx.db.patch(child._id, { parent: newPath });
 
         if (child.type === 'folder') {

@@ -11,7 +11,7 @@ const getFolderContents = query({
       const parenturl =
         urlsplit.length == 3
           ? '/documents'
-          : '/documents/' + encodeURIComponent(urlsplit.slice(2, -1).join('/'));
+          : '/documents/' +  urlsplit.slice(2, -1).map(encodeURIComponent).join('/');
       const result = await ctx.db
         .query('userRecords')
         .filter((q) =>
