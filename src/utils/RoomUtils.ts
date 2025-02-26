@@ -103,29 +103,32 @@ const UpdateTitleFn = async ({ roomId, id, title }: UpdateTitle) => {
   }
 };
 
-const getOwnerRooms = async ({ roomId }: { roomId: string }) => {
-  auth().protect();
-  try {
-    const roomDetails = await convex_connection.query(api.rooms.getUserRooms, {
-      roomId: roomId,
-    });
-    return JSON.parse(JSON.stringify(roomDetails));
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 const getRoom = async ({ roomId }: { roomId: string }) => {
   auth().protect();
   try {
     const roomDetails = await liveblocks_connection.getRoom(roomId);
+
     revalidatePath(`/`);
-    return JSON.parse(JSON.stringify(roomDetails));
+    return JSON.parse(
+      JSON.stringify({
+        success: true,
+        roomDetails,
+      })
+    );
   } catch (error) {
     console.error(error);
   }
 };
-
+const checkRoom = async ({ roomId }: { roomId: string }) => {
+  try {
+    const response = await convex_connection.query(api.rooms.checkRoom, {
+      roomId,
+    });
+    return JSON.parse(JSON.stringify(response));
+  } catch (error) {
+    console.error(error);
+  }
+};
 const updateUserAccess = async ({
   emailList,
   roomId,
@@ -267,22 +270,13 @@ const DeleteFolderContents = async ({ id, url }: DeleteFolder) => {
       api.rooms.DeleteFolder,
       { id, url }
     );
-    if (Array.isArray(deletedRooms.childIds)) {
-      await Promise.all(
-        deletedRooms.childIds.map((childId) =>
-          liveblocks_connection.updateRoom(childId, {
-            metadata: {
-              isAlive: 'false',
-            },
-          })
-        )
+    if (deletedRooms.status) {
+      return JSON.parse(
+        JSON.stringify({
+          sucess: true,
+        })
       );
     }
-    return JSON.parse(
-      JSON.stringify({
-        sucess: true,
-      })
-    );
   } catch (error) {
     console.error('Error in deleting the folder:', error);
     throw new Error('Error in deleting the folder');
@@ -328,10 +322,10 @@ export {
   DeleteRoom,
   CreateRoom,
   UpdateTitleFn,
-  getOwnerRooms,
   getRoom,
   updateUserAccess,
   getSharedRooms,
   MoveFileContents,
   removeUserAccess,
+  checkRoom,
 };

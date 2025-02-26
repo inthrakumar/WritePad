@@ -13,13 +13,16 @@ type Proptypes = {
 };
 
 const DocRoom = ({ roomId, children }: Proptypes) => {
+  const [isAvailable, setisAvailable] = useState<boolean | null>(null);
   const dispatch = useDispatch();
   useEffect(() => {
     const roomUserDetails = async () => {
       try {
         const roomMetadata = await getRoom({ roomId });
-        if (roomMetadata) {
-          dispatch(setLiveBlocksRoom(roomMetadata));
+        if (!roomMetadata.success) {
+          setisAvailable(false);
+        } else {
+          dispatch(setLiveBlocksRoom(roomMetadata.roomDetails));
         }
       } catch (error) {
         console.error('Error fetching room metadata:', error);
@@ -30,7 +33,9 @@ const DocRoom = ({ roomId, children }: Proptypes) => {
       roomUserDetails();
     }
   }, [roomId, dispatch]);
-
+  if (isAvailable == false) {
+    <div>This file is not available</div>;
+  }
   return (
     <RoomProvider
       id={roomId!}
