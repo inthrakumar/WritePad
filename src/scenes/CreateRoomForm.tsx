@@ -126,7 +126,6 @@ const CreateFolderForm: React.FC<CreateFolderFormProps> = ({ onClose }) => {
                     title: values.name,
                 });
                 if (content.status) {
-                    console.log(content.path);
                     onClose(content.path);
                 }
             }
