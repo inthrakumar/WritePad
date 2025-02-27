@@ -38,8 +38,8 @@ const DocPage = () => {
   if (!isLoaded) {
     return <Spinner />;
   }
-  if(!isAvailable) return <div>Not Available</div>
-  return (
+  if(!isAvailable) return <EmptyState message='This folder is not available' sidemessage='The folder was deleted or not present'/>  
+    return (
     <div className="w-[100vw] flex gap-8 flex-col items-center justify-around p-5 pr-7">
       <div className="flex items-end w-full">
         <CreateRoomForm />
