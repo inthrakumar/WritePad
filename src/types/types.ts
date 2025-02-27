@@ -45,6 +45,7 @@ type FolderExplorer = {
   page: number;
   totalpages: number;
   setPage: (page: number) => void;
+  setEmpty :()=>void;
   isShared: boolean;
   data: folderContents;
 };

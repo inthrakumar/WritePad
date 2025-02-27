@@ -1,42 +1,43 @@
 import { cn } from "@/lib/utils";
-import { Marquee } from "@/registry/magicui/marquee";
+import { Marquee } from "@/components/magicui/marquee";
 
 const reviews = [
   {
     name: "Jack",
     username: "@jack",
     body: "I've never seen anything like this before. It's amazing. I love it.",
-    img: "https://avatar.vercel.sh/jack",
+    img: "https://api.dicebear.com/9.x/adventurer/svg?seed=Destiny",
   },
   {
     name: "Jill",
     username: "@jill",
     body: "I don't know what to say. I'm speechless. This is amazing.",
-    img: "https://avatar.vercel.sh/jill",
+    img: "https://api.dicebear.com/9.x/adventurer/svg?seed=Aiden",
+
   },
   {
     name: "John",
     username: "@john",
     body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://avatar.vercel.sh/john",
+    img: "https://api.dicebear.com/9.x/adventurer/svg?seed=Luis",
   },
   {
     name: "Jane",
     username: "@jane",
     body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://avatar.vercel.sh/jane",
+    img: "https://api.dicebear.com/9.x/adventurer/svg?seed=Jocelyn",
   },
   {
     name: "Jenny",
     username: "@jenny",
     body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://avatar.vercel.sh/jenny",
+    img: "https://api.dicebear.com/9.x/adventurer/svg?seed=Liam",
   },
   {
     name: "James",
     username: "@james",
     body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://avatar.vercel.sh/james",
+    img: "https://api.dicebear.com/9.x/bottts/svg?seed=Jocelyn",
   },
 ];
 
@@ -59,9 +60,9 @@ const ReviewCard = ({
       className={cn(
         "relative h-full w-64 cursor-pointer overflow-hidden rounded-xl border p-4",
         // light styles
-        "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
+        "border-orange-950/[.1] bg-orange-950/[.01] hover:bg-orange-950/[.05]",
         // dark styles
-        "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]",
+        "dark:border-orange-50/[.1] dark:bg-orange-50/[.10] dark:hover:bg-orange-50/[.15]",
       )}
     >
       <div className="flex flex-row items-center gap-2">
@@ -78,7 +79,7 @@ const ReviewCard = ({
   );
 };
 
-export function MarqueeDemo() {
+ export default function MarqueeSection() {
   return (
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
       <Marquee pauseOnHover className="[--duration:20s]">

@@ -26,6 +26,7 @@ export function UserRecordsExplorer({
     isShared,
     data,
     totalpages,
+    setEmpty
 }: FolderExplorer) {
     if (!data) return;
     const [isGridView, setIsGridView] = useState(true);
@@ -73,6 +74,9 @@ export function UserRecordsExplorer({
             setdriveData((prev) =>
                 prev.filter((ele) => ele._id != selectedRecord?._id)
             );
+            if(driveData.length==0){
+                setEmpty();
+            }
             setSelectedRecord(null);
         } catch (error) {
             console.error(error);

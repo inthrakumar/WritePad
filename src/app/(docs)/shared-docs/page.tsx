@@ -14,12 +14,22 @@ const DocPage = () => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [page, setPage] = useState<number>(1);
     const [totalpages, setTotalPages] = useState<number>(1);
+    const [isEmpty, setisEmpty] = useState(false);
+    const handleEmpty = ()=>{
+        setisEmpty(true);
+    }
+    const handlePage = (page:number)=>{
+        setPage(page);    
+    }
     useEffect(() => {
         const fetchData = async () => {
             try {
                 if (!userId) return;
                 const response = await getSharedRooms(userId!, page);
                 if (response.status) {
+                    if(response.sharedRooms.length==0){
+                        setisEmpty(true);
+                    }
                     setData({
                         success: true,
                         data: response.sharedRooms,
@@ -40,14 +50,15 @@ const DocPage = () => {
                 <div className="text-3xl">Shared Rooms</div>
             </div>
             {!isLoaded && !data && <Spinner/>}
-            {isLoaded && data?.data.length!=0 ? (
+            {isLoaded && isEmpty ? (
                 <div className="w-full">
                     <UserRecordsExplorer
                         page={page}
                         totalpages={totalpages}
-                        setPage={(page) => setPage(page)}
                         isShared={true}
                         data={data!}
+                        setEmpty={handleEmpty}
+                        setPage={handlePage}
                     />
                 </div>
             ):<EmptyState message='No Shared Files As Of Now' sidemessage='Ask the Owner Of The File To Grant Permission'/>}
